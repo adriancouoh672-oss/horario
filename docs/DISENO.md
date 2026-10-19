@@ -254,6 +254,18 @@ Abrir `docs/prototipos/tiempo-en-orden-bocetos.html`. Los controles externos cam
 
 `TAREAS.md` registraba E1-T03 como revisión con el responsable, dependiente de E1-T02, con cierre cuando el flujo de creación/corrección resulte comprensible y existan comentarios. El encargo actual autoriza los ajustes y la comprobación del prototipo. No equivale a aprobación final: la tarea queda en curso hasta recibir comentarios del responsable y la etapa 1 no se marca como terminada.
 
+### Evidencia y estado de la revisión
+
+| Categoría | Estado | Alcance exacto |
+| --- | --- | --- |
+| Revisión documental | Realizada | Se contrastaron REQ-A-001 a REQ-A-009, DEC-0011 a DEC-0017 y la especificación visual sin cambiar identificadores. |
+| Diseño revisado mediante capturas | Realizada | Se revisaron `semana-movil-corregida-e1-t03.png`, `semana-escritorio-corregida-e1-t03.png` y `formulario-actualizado-e1-t03.png`. |
+| Pruebas de interacción | Reportadas por Codex | Recorridos simulados en el prototipo HTML dentro de un navegador; no prueban lógica de producto ni una aplicación MAUI. |
+| Aprobación del responsable | Pendiente | No se han atribuido las propuestas ni los resultados a una aprobación del responsable. |
+| Validación en teléfono real | Pendiente de implementación | Requiere una versión ejecutable cuando se autorice la implementación; no puede inferirse de las capturas ni del navegador. |
+
+DEC-0011 a DEC-0017 quedan integradas como propuestas técnicamente revisadas. No se encontraron contradicciones con los requisitos vigentes. La formulación anterior que consideraba “resuelta” la presentación de zona horaria se corrige porque describía una solución visual, no una aprobación.
+
 ### Ajustes implementados
 
 - La muestra usa `09:20`, saludo de mañana y próxima cita a las `10:00`; el resumen indica `3 compromisos pendientes` y no afirma que el sistema haya comprobado que todo está en orden.
@@ -292,7 +304,7 @@ Las seis capturas de la primera revisión fueron sustituidas por las tres captur
 - Confirmar si la jerarquía de Inicio prioriza correctamente próxima cita, acciones y agenda del día.
 - Confirmar si preparación y limpieza se comprenden como tiempo ocupado separado del servicio.
 - Confirmar si la semana móvil y el mensaje de conflicto son suficientemente claros en un teléfono real.
-- Confirmar o ajustar las decisiones provisionales DEC-0011 a DEC-0017.
+- Aprobar, rechazar o ajustar las propuestas técnicamente revisadas DEC-0011 a DEC-0017.
 - Resolver las preguntas funcionales todavía abiertas: motivo de cancelación, reactivación de archivados y representación de citas entre fechas.
 
 ### Segunda revisión de capturas E1-T03
@@ -322,5 +334,5 @@ La revisión del responsable continúa pendiente y la etapa 2 permanece sin inic
 6. ¿Debe pedirse motivo de cancelación?
 7. ¿Se permitirá reactivar clientes y servicios archivados?
 8. ¿Cómo se mostrará una cita que comienza un día y termina al siguiente en la semana?
-9. Resuelta en esta revisión: mostrar ciudad comprensible e identificador interno (`Ciudad de México` y `America/Mexico_City`).
+9. Propuesta técnica documentada; aprobación del responsable pendiente: mostrar ciudad comprensible e identificador interno (`Ciudad de México` y `America/Mexico_City`).
 10. ¿La densidad visual y tamaño de controles son adecuados en el teléfono real disponible?

@@ -81,10 +81,18 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Motivo: una sugerencia es una opción, no autorización para reorganizar la agenda.
 - Consecuencia: ante conflictos o cambios de horario, el sistema informa y espera una decisión.
 
+## Revisión técnica asistida de DEC-0011 a DEC-0017
+
+- Fecha de registro: 2026-10-19
+- Resultado: las propuestas fueron contrastadas documentalmente con REQ-A-001 a REQ-A-009, revisadas en las tres capturas vigentes y recorridas mediante interacciones simuladas reportadas por Codex.
+- Alcance de la evidencia: revisión técnica asistida del prototipo en navegador; no es aprobación del responsable, prueba con usuarios ni validación física en Android o Windows.
+- Contradicciones: no se encontraron contradicciones entre DEC-0011 a DEC-0017 y los requisitos vigentes. Se corrigió únicamente una formulación en `docs/DISENO.md` que llamaba “resuelta” a la presentación de zona horaria; debe entenderse como propuesta técnica pendiente de aprobación.
+- Estado común: las siete decisiones continúan como propuestas. La aprobación del responsable y la validación en teléfono real después de implementar una versión ejecutable siguen pendientes.
+
 ## DEC-0011. Datos mínimos de clientes y servicios
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: cliente con nombre obligatorio y teléfono/notas opcionales. Servicio con nombre, duración, precio, moneda, preparación y limpieza.
 - Motivo: reducir captura innecesaria sin perder la información requerida por citas, precios y disponibilidad.
 - Consecuencia: los formularios distinguen campos obligatorios y opcionales; no se inventan más datos personales.
@@ -92,7 +100,7 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0012. Tareas sin horario
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: una tarea sin fecha y hora no ocupa disponibilidad.
 - Motivo: un pendiente no representa por sí mismo un intervalo reservado.
 - Consecuencia: las tareas sin horario aparecen en una lista de pendientes, no dentro de los cálculos de conflicto.
@@ -100,7 +108,7 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0013. Parámetros iniciales de sugerencias
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: buscar hasta tres opciones en intervalos de 15 minutos y con horizonte inicial de 14 días.
 - Aclaración: la granularidad se aplica a la búsqueda automática; no impide registrar manualmente una hora válida distinta.
 - Consecuencia: el diseño explica el periodo de búsqueda y permite ampliar el horizonte en una evolución posterior si se aprueba.
@@ -108,7 +116,7 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0014. Presentación de la agenda
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: semana desde lunes, configurable; canceladas ocultas por defecto con filtro; preparación y limpieza visibles y diferenciadas.
 - Motivo: reducir ruido sin ocultar historial y hacer comprensible la ocupación real.
 - Consecuencia: la semana móvil usa selector horizontal de días y detalle del día seleccionado; el escritorio aprovecha una cuadrícula semanal.
@@ -116,7 +124,7 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0015. Zona horaria y compromisos entre fechas
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: proponer la zona horaria del dispositivo y pedir confirmación. Inicio y fin conservan fecha para admitir medianoche.
 - Motivo: evitar ambigüedad temporal y permitir compromisos que terminen al día siguiente.
 - Consecuencia: Ajustes muestra la zona confirmada y Nueva cita enseña fecha de fin cuando cambia el día.
@@ -124,7 +132,7 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0016. Archivo sin pérdida de historial
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: archivar conserva el historial y oculta clientes o servicios de las selecciones nuevas por defecto.
 - Motivo: impedir pérdida de referencias históricas sin saturar los formularios.
 - Consecuencia: Clientes y Servicios ofrecen filtro para archivados; la reactivación queda pendiente de confirmar.
@@ -132,7 +140,7 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0017. Lenguaje visual adaptable
 
 - Fecha: 2026-10-18
-- Estado: provisional; revisar en E1-T03
+- Estado: propuesta revisada técnicamente en E1-T03; aprobación del responsable pendiente
 - Decisión: compartir jerarquía, colores semánticos, componentes y vocabulario entre Android y Windows, adaptando navegación y densidad a cada plataforma.
 - Motivo: mantener coherencia sin forzar una interfaz idéntica en teléfono y escritorio.
 - Consecuencia: Android usa navegación compacta y objetivos táctiles; Windows usa navegación lateral y mayor espacio para la agenda.

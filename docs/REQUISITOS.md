@@ -31,6 +31,22 @@ Estado: requisitos de la entrega A refinados en E1-T01. Describen comportamiento
 7. Los intervalos son contiguos, pero no se cruzan, cuando el fin de uno coincide exactamente con el inicio del otro.
 8. La vista semanal de la agenda pertenece al producto. Lo que se pospone es inventar un cronograma semanal de desarrollo sin fecha ni rúbrica.
 
+## Integración de propuestas técnicas de E1-T03
+
+DEC-0011 a DEC-0017 se contrastaron con estos requisitos como resultado de una revisión técnica asistida. No se modificaron identificadores ni se detectaron contradicciones funcionales. Su estado es de propuesta técnicamente revisada: todavía no representan aprobación del responsable ni validación del producto implementado.
+
+| Decisión | Requisitos relacionados | Alcance integrado |
+| --- | --- | --- |
+| DEC-0011 | REQ-A-001, REQ-A-002, REQ-A-003 | Datos mínimos de cliente y servicio usados por el formulario de cita. |
+| DEC-0012 | REQ-A-004 | Las tareas sin horario no reservan disponibilidad. |
+| DEC-0013 | REQ-A-007 | Hasta tres sugerencias, búsqueda cada 15 minutos y horizonte inicial de 14 días, sin limitar el registro manual. |
+| DEC-0014 | REQ-A-006, REQ-A-008 | Semana desde lunes configurable, canceladas ocultas por defecto y márgenes diferenciados. |
+| DEC-0015 | REQ-A-001, REQ-A-008, REQ-A-009 | Zona horaria propuesta por el dispositivo y confirmada; inicio y fin conservan fecha. |
+| DEC-0016 | REQ-A-002, REQ-A-003, REQ-A-009 | Archivar conserva historial y excluye el registro de nuevas selecciones por defecto. |
+| DEC-0017 | REQ-A-004, REQ-A-008 | Lenguaje visual compartido con adaptación a Android y Windows. |
+
+Evidencia disponible en E1-T03: revisión documental realizada, diseño revisado mediante las tres capturas vigentes y pruebas de interacción del prototipo en navegador reportadas por Codex. Permanecen pendientes la aprobación del responsable y la validación en un teléfono real, que requiere una versión ejecutable después de autorizar la implementación.
+
 ## Requisitos funcionales de la entrega A
 
 ### REQ-A-001. Gestionar citas

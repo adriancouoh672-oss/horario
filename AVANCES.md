@@ -357,3 +357,50 @@ La revisión del responsable continúa pendiente. No se agregó lógica de negoc
 ### SIGUIENTE TAREA
 
 Mantener E1-T03 pendiente hasta recibir comentarios reales del responsable sobre estas tres capturas y sobre DEC-0011 a DEC-0017. No iniciar E2-T01.
+
+## 2026-10-19 — E1-T03: registro de revisión técnica asistida
+
+### ETAPA Y TAREA
+
+Continuación documental de E1-T03. Se registraron DEC-0011 a DEC-0017 como propuestas resultantes de revisión técnica asistida, sin atribuirlas a una aprobación del responsable. No se inició la etapa 2.
+
+### RESULTADO
+
+- Revisión documental realizada: se contrastaron requisitos, decisiones y diseño sin cambiar identificadores.
+- Diseño revisado mediante las tres capturas vigentes de E1-T03.
+- Pruebas de interacción reportadas por Codex: recorridos simulados del prototipo HTML en navegador, no pruebas de una aplicación implementada.
+- Aprobación del responsable pendiente.
+- Validación en teléfono real pendiente de una versión ejecutable posterior a la autorización de implementación.
+- No se regeneraron ni modificaron bocetos o capturas.
+
+### ARCHIVOS
+
+- `docs/REQUISITOS.md`
+- `docs/DECISIONES.md`
+- `docs/DISENO.md`
+- `AVANCES.md`
+
+### VALIDACIÓN
+
+- Se verificó la conservación de los identificadores de requisitos y decisiones.
+- Se comprobó la relación explícita de DEC-0011 a DEC-0017 con los requisitos de la entrega A.
+- Se revisó que los cambios de esta continuación sean únicamente documentales.
+- No se ejecutaron pruebas físicas de Android o Windows ni se declaró validación en teléfono real.
+
+### PROBLEMAS E INCONSISTENCIAS
+
+- No se encontraron contradicciones entre DEC-0011 a DEC-0017 y los requisitos vigentes.
+- `docs/DISENO.md` calificaba como “resuelta” la presentación comprensible de la zona horaria. Esa redacción podía confundirse con aprobación; se corrigió a propuesta técnica documentada con aprobación pendiente.
+
+### DECISIONES
+
+- DEC-0011 a DEC-0017 conservan contenido e identificadores y pasan a describirse como propuestas revisadas técnicamente en E1-T03.
+- La revisión técnica asistida, la aprobación del responsable y la validación física se registran como evidencias diferentes.
+
+### PRUEBA MANUAL PROPUESTA
+
+El responsable puede revisar la tabla de trazabilidad en `docs/REQUISITOS.md`, el texto íntegro de DEC-0011 a DEC-0017 y la matriz de evidencia en `docs/DISENO.md`, y después registrar aprobación, rechazo o ajustes sin inferirlos de esta revisión.
+
+### SIGUIENTE TAREA
+
+Continuar E1-T03 únicamente al recibir comentarios reales del responsable. Criterio de cierre: registrar su aprobación o correcciones y mantener separada la futura validación en teléfono real. E2-T01 permanece bloqueada.
