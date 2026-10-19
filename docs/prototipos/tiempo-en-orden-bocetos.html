@@ -1,0 +1,638 @@
+<div id="teo-prototype" class="teo-preview" data-platform="mobile" data-screen="inicio" data-appointment-state="conflicto">
+  <style>
+    #teo-prototype {
+      color-scheme: light dark;
+      --teo-bg: light-dark(#edf2f3, #10181d);
+      --teo-surface: light-dark(#ffffff, #182329);
+      --teo-surface-2: light-dark(#f4f7f7, #213038);
+      --teo-text: light-dark(#17272f, #edf5f5);
+      --teo-muted: light-dark(#5d7079, #afc0c5);
+      --teo-line: light-dark(#d6e0e2, #36474e);
+      --teo-primary: light-dark(#0b6668, #5fc7c2);
+      --teo-primary-ink: light-dark(#ffffff, #082728);
+      --teo-business: light-dark(#235ea7, #73aef0);
+      --teo-personal: light-dark(#7046a2, #bd93e7);
+      --teo-margin: light-dark(#9a5b00, #efb65c);
+      --teo-danger: light-dark(#a12b2b, #ff938d);
+      --teo-danger-bg: light-dark(#fff1f0, #3b2020);
+      --teo-success: light-dark(#157348, #70d6a3);
+      --teo-success-bg: light-dark(#eaf8f0, #153326);
+      --teo-focus: light-dark(#f08a24, #ffd166);
+      font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+      color: var(--teo-text);
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    #teo-prototype * { box-sizing: border-box; }
+    #teo-prototype button,
+    #teo-prototype input,
+    #teo-prototype select,
+    #teo-prototype textarea { font: inherit; }
+    #teo-prototype button { cursor: default; }
+    #teo-prototype :focus-visible {
+      outline: 3px solid var(--teo-focus);
+      outline-offset: 2px;
+    }
+    #teo-prototype.is-large-text { font-size: 118%; }
+    #teo-prototype .review-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: end;
+      margin: 0 0 14px;
+    }
+    #teo-prototype .review-title { display: grid; gap: 3px; }
+    #teo-prototype .eyebrow {
+      color: var(--teo-primary);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    #teo-prototype .review-title strong { font-size: 20px; }
+    #teo-prototype .review-title span:last-child { color: var(--teo-muted); font-size: 13px; }
+    #teo-prototype .review-controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    #teo-prototype .simulation-controls {
+      flex-basis: 100%;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid var(--teo-line);
+    }
+    #teo-prototype .simulation-label { color: var(--teo-muted); font-size: 13px; font-weight: 700; margin-right: 4px; }
+    #teo-prototype .review-button,
+    #teo-prototype .seg-button,
+    #teo-prototype .state-button {
+      min-height: 40px;
+      padding: 8px 13px;
+      border: 1px solid var(--teo-line);
+      border-radius: 10px;
+      background: var(--teo-surface);
+      color: var(--teo-text);
+    }
+    #teo-prototype button[aria-pressed="true"] {
+      color: var(--teo-primary-ink);
+      background: var(--teo-primary);
+      border-color: var(--teo-primary);
+    }
+    #teo-prototype .prototype-stage {
+      padding: 22px;
+      background: var(--teo-bg);
+      border-radius: 24px;
+      min-height: 720px;
+    }
+    #teo-prototype .app-window {
+      margin: 0 auto;
+      background: var(--teo-surface);
+      color: var(--teo-text);
+      border: 1px solid var(--teo-line);
+      overflow: hidden;
+      box-shadow: 0 22px 60px light-dark(rgba(26, 55, 62, .14), rgba(0, 0, 0, .32));
+    }
+    #teo-prototype[data-platform="mobile"] .app-window {
+      width: min(390px, 100%);
+      border-radius: 30px;
+      min-height: 690px;
+    }
+    #teo-prototype[data-platform="desktop"] .app-window {
+      width: 100%;
+      border-radius: 18px;
+      min-height: 680px;
+      display: grid;
+      grid-template-columns: 232px minmax(0, 1fr);
+    }
+    #teo-prototype .app-sidebar {
+      background: light-dark(#0e3742, #0b252d);
+      color: #f4ffff;
+      padding: 22px 16px;
+    }
+    #teo-prototype[data-platform="mobile"] .app-sidebar { display: none; }
+    #teo-prototype .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; margin-bottom: 26px; }
+    #teo-prototype .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #7ed3cd; color: #0b3036; font-weight: 800; }
+    #teo-prototype .side-nav { display: grid; gap: 6px; }
+    #teo-prototype .side-nav button {
+      min-height: 44px;
+      padding: 10px 12px;
+      text-align: left;
+      color: #dcebed;
+      background: transparent;
+      border: 0;
+      border-radius: 10px;
+    }
+    #teo-prototype .side-nav button.is-active { background: rgba(255,255,255,.14); color: #ffffff; font-weight: 700; }
+    #teo-prototype .side-primary { margin-top: 18px; width: 100%; min-height: 44px; border: 0; border-radius: 10px; background: #7ed3cd; color: #0b3036; font-weight: 700; }
+    #teo-prototype .app-main { min-width: 0; display: flex; flex-direction: column; }
+    #teo-prototype .mobile-top {
+      padding: 18px 18px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--teo-line);
+    }
+    #teo-prototype[data-platform="desktop"] .mobile-top,
+    #teo-prototype[data-platform="desktop"] .bottom-nav { display: none; }
+    #teo-prototype .mobile-top .brand { margin: 0; }
+    #teo-prototype .prototype-chip { font-size: 11px; border: 1px solid var(--teo-line); border-radius: 999px; padding: 5px 8px; color: var(--teo-muted); }
+    #teo-prototype .content { padding: 22px; flex: 1; }
+    #teo-prototype[data-platform="mobile"] .content { padding: 18px 16px 88px; }
+    #teo-prototype .screen { display: none; }
+    #teo-prototype .screen.is-active { display: block; }
+    #teo-prototype .screen-header { display: flex; justify-content: space-between; align-items: start; gap: 14px; margin-bottom: 18px; }
+    #teo-prototype .screen-header h2 { font-size: 28px; line-height: 1.2; margin: 0 0 4px; }
+    #teo-prototype[data-platform="mobile"] .screen-header h2 { font-size: 24px; }
+    #teo-prototype .screen-header p { margin: 0; color: var(--teo-muted); }
+    #teo-prototype .primary-action,
+    #teo-prototype .secondary-action,
+    #teo-prototype .danger-action {
+      min-height: 44px;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-weight: 700;
+    }
+    #teo-prototype .primary-action { border: 1px solid var(--teo-primary); background: var(--teo-primary); color: var(--teo-primary-ink); }
+    #teo-prototype .secondary-action { border: 1px solid var(--teo-line); background: var(--teo-surface); color: var(--teo-text); }
+    #teo-prototype .danger-action { border: 1px solid var(--teo-danger); background: transparent; color: var(--teo-danger); }
+    #teo-prototype .home-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 18px; align-items: start; }
+    #teo-prototype[data-platform="mobile"] .home-grid { grid-template-columns: 1fr; }
+    #teo-prototype .panel {
+      border: 1px solid var(--teo-line);
+      border-radius: 14px;
+      background: var(--teo-surface);
+      padding: 16px;
+    }
+    #teo-prototype .panel h3 { font-size: 17px; margin: 0 0 12px; }
+    #teo-prototype .next-card { align-self: start; background: linear-gradient(145deg, light-dark(#e5f5f4, #173a3b), var(--teo-surface)); }
+    #teo-prototype .big-time { font-size: 30px; font-weight: 800; margin: 8px 0 2px; }
+    #teo-prototype .muted { color: var(--teo-muted); }
+    #teo-prototype .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    #teo-prototype .tag { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 4px 9px; border-radius: 999px; background: var(--teo-surface-2); font-size: 12px; }
+    #teo-prototype .tag-business { color: var(--teo-business); }
+    #teo-prototype .tag-personal { color: var(--teo-personal); }
+    #teo-prototype .tag-margin { color: var(--teo-margin); }
+    #teo-prototype .tag svg { width: 16px; height: 16px; flex: 0 0 auto; }
+    #teo-prototype .header-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+    #teo-prototype .timeline { display: grid; gap: 10px; }
+    #teo-prototype .timeline-item { display: grid; grid-template-columns: 60px 1fr; gap: 10px; align-items: stretch; }
+    #teo-prototype .timeline-time { font-weight: 700; padding-top: 10px; }
+    #teo-prototype .event-block { border-left: 4px solid var(--teo-business); border-radius: 8px; background: var(--teo-surface-2); padding: 10px 12px; }
+    #teo-prototype .event-block.personal { border-color: var(--teo-personal); }
+    #teo-prototype .event-block.is-past { opacity: .72; border-color: var(--teo-muted); }
+    #teo-prototype .event-state { display: inline-flex; margin-top: 6px; color: var(--teo-muted); font-size: 12px; font-weight: 700; }
+    #teo-prototype .margin-parts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    #teo-prototype .margin-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    #teo-prototype .margin-chip.prepare { color: light-dark(#734600, #ffd18a); background: light-dark(#fff2d8, #3a2b18); }
+    #teo-prototype .margin-chip.clean { color: light-dark(#315f72, #a9d8e8); background: light-dark(#e4f3f8, #18323d); }
+    #teo-prototype .task-row { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--teo-line); }
+    #teo-prototype .task-check { width: 20px; height: 20px; border: 2px solid var(--teo-muted); border-radius: 6px; }
+    #teo-prototype .bottom-nav { position: absolute; }
+    #teo-prototype[data-platform="mobile"] .app-window { position: relative; }
+    #teo-prototype[data-platform="mobile"] .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--teo-surface);
+      border-top: 1px solid var(--teo-line);
+      padding: 8px 8px 12px;
+    }
+    #teo-prototype .bottom-nav button { min-height: 48px; border: 0; background: transparent; color: var(--teo-muted); border-radius: 10px; }
+    #teo-prototype .bottom-nav button.is-active { color: var(--teo-primary); background: var(--teo-surface-2); font-weight: 700; }
+    #teo-prototype .toolbar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    #teo-prototype .segments { display: flex; gap: 6px; flex-wrap: wrap; }
+    #teo-prototype .week-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 14px; }
+    #teo-prototype .day-pill { min-width: 0; border: 1px solid var(--teo-line); border-radius: 10px; background: var(--teo-surface); color: var(--teo-text); padding: 8px 2px; text-align: center; }
+    #teo-prototype .day-pill strong, #teo-prototype .day-pill span { display: block; }
+    #teo-prototype .day-pill span { font-size: 12px; color: var(--teo-muted); }
+    #teo-prototype .day-pill.is-selected { background: var(--teo-primary); color: var(--teo-primary-ink); border-color: var(--teo-primary); }
+    #teo-prototype .day-pill.is-selected span { color: inherit; }
+    #teo-prototype .week-selected-detail { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 10px; color: var(--teo-muted); font-size: 12px; }
+    #teo-prototype .week-scale { border: 1px solid var(--teo-line); border-radius: 12px; overflow: hidden; }
+    #teo-prototype .week-scale-head { display: grid; grid-template-columns: 54px repeat(7, minmax(0, 1fr)); background: var(--teo-surface-2); }
+    #teo-prototype .week-scale-head > div { min-height: 42px; padding: 10px 6px; border-right: 1px solid var(--teo-line); font-size: 12px; font-weight: 700; text-align: center; }
+    #teo-prototype .week-scale-body { display: grid; grid-template-columns: 54px repeat(7, minmax(0, 1fr)); height: 660px; }
+    #teo-prototype .time-axis,
+    #teo-prototype .day-lane { position: relative; height: 660px; background-image: repeating-linear-gradient(to bottom, transparent 0 59px, var(--teo-line) 59px 60px); }
+    #teo-prototype .time-axis { border-right: 1px solid var(--teo-line); }
+    #teo-prototype .time-axis span { position: absolute; left: 7px; top: calc(var(--minute) * 1px); transform: translateY(-50%); font-size: 11px; color: var(--teo-muted); }
+    #teo-prototype .time-axis span:first-child { transform: none; }
+    #teo-prototype .time-axis span:last-child { transform: translateY(-100%); }
+    #teo-prototype .day-lane { border-right: 1px solid var(--teo-line); }
+    #teo-prototype .week-block { position: absolute; left: 5px; right: 5px; top: calc(var(--start) * 1px); height: calc(var(--minutes) * 1px); min-height: 4px; border-left: 3px solid var(--teo-business); border-radius: 6px; overflow: hidden; background: color-mix(in srgb, var(--teo-business) 16%, var(--teo-surface)); color: var(--teo-text); font-size: 11px; }
+    #teo-prototype .week-block.personal { padding: 6px; border-color: var(--teo-personal); background: color-mix(in srgb, var(--teo-personal) 16%, var(--teo-surface)); }
+    #teo-prototype .week-appointment { display: grid; grid-template-rows: 10fr 45fr 5fr; }
+    #teo-prototype .week-segment { display: grid; align-items: center; min-height: 0; padding: 0 5px; overflow: hidden; }
+    #teo-prototype .week-segment.prepare { background: light-dark(#fff2d8, #3a2b18); color: light-dark(#734600, #ffd18a); }
+    #teo-prototype .week-segment.service { background: color-mix(in srgb, var(--teo-business) 18%, var(--teo-surface)); color: var(--teo-business); }
+    #teo-prototype .week-segment.clean { background: light-dark(#e4f3f8, #18323d); color: light-dark(#315f72, #a9d8e8); }
+    #teo-prototype .agenda-day-view,
+    #teo-prototype .agenda-week-view { display: none; }
+    #teo-prototype[data-agenda="day"] .agenda-day-view,
+    #teo-prototype[data-agenda="week"] .agenda-week-view { display: block; }
+    #teo-prototype[data-platform="mobile"] .desktop-week { display: none !important; }
+    #teo-prototype[data-platform="desktop"] .mobile-week { display: none !important; }
+    #teo-prototype .form-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 18px; }
+    #teo-prototype[data-platform="mobile"] .form-layout { grid-template-columns: 1fr; }
+    #teo-prototype .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    #teo-prototype[data-platform="mobile"] .field-grid { grid-template-columns: 1fr; }
+    #teo-prototype .field { display: grid; gap: 6px; }
+    #teo-prototype .field.full { grid-column: 1 / -1; }
+    #teo-prototype .field label { font-size: 13px; font-weight: 700; }
+    #teo-prototype .field input,
+    #teo-prototype .field select,
+    #teo-prototype .field textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--teo-line);
+      border-radius: 10px;
+      background: var(--teo-surface);
+      color: var(--teo-text);
+      padding: 9px 11px;
+    }
+    #teo-prototype .field-error { display: none; color: var(--teo-danger); font-size: 12px; }
+    #teo-prototype[data-appointment-state="invalido"] .field-error { display: block; }
+    #teo-prototype[data-appointment-state="invalido"] .invalid-field { border-color: var(--teo-danger); }
+    #teo-prototype .inline-create { margin-top: 6px; border: 0; background: transparent; color: var(--teo-primary); padding: 4px 0; text-align: left; font-weight: 700; }
+    #teo-prototype .context-panel { display: none; margin: 0 0 14px; border-left: 4px solid var(--teo-primary); }
+    #teo-prototype .context-panel.is-open { display: block; }
+    #teo-prototype .context-panel-header { display: flex; justify-content: space-between; align-items: start; gap: 10px; margin-bottom: 12px; }
+    #teo-prototype .context-panel-header h3 { margin: 0; }
+    #teo-prototype .occupancy { display: grid; grid-template-columns: 1fr 3fr 1fr; gap: 3px; margin: 12px 0; }
+    #teo-prototype .occupancy span { padding: 8px 5px; text-align: center; border-radius: 7px; font-size: 12px; background: var(--teo-surface-2); }
+    #teo-prototype .occupancy .service { background: color-mix(in srgb, var(--teo-business) 18%, var(--teo-surface)); color: var(--teo-business); }
+    #teo-prototype .occupancy .prepare { background: light-dark(#fff2d8, #3a2b18); color: light-dark(#734600, #ffd18a); }
+    #teo-prototype .occupancy .clean { background: light-dark(#e4f3f8, #18323d); color: light-dark(#315f72, #a9d8e8); }
+    #teo-prototype .notice { display: none; padding: 13px; border-radius: 10px; margin: 14px 0; border: 1px solid var(--teo-line); }
+    #teo-prototype[data-appointment-state="conflicto"] .notice-conflict,
+    #teo-prototype[data-appointment-state="resuelto"] .notice-applied,
+    #teo-prototype[data-appointment-state="fallo"] .notice-failure,
+    #teo-prototype[data-appointment-state="completado"] .notice-success,
+    #teo-prototype[data-appointment-state="invalido"] .notice-invalid { display: block; }
+    #teo-prototype .notice-conflict,
+    #teo-prototype .notice-failure,
+    #teo-prototype .notice-invalid { color: var(--teo-danger); background: var(--teo-danger-bg); border-color: color-mix(in srgb, var(--teo-danger) 45%, var(--teo-line)); }
+    #teo-prototype .notice-success { color: var(--teo-success); background: var(--teo-success-bg); border-color: color-mix(in srgb, var(--teo-success) 45%, var(--teo-line)); }
+    #teo-prototype .notice-applied { color: var(--teo-success); background: var(--teo-success-bg); border-color: color-mix(in srgb, var(--teo-success) 45%, var(--teo-line)); }
+    #teo-prototype .discard-confirmation.is-visible { display: block; }
+    #teo-prototype .discard-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    #teo-prototype .timezone-display { display: grid; gap: 2px; padding: 9px 11px; border-radius: 10px; background: var(--teo-surface-2); }
+    #teo-prototype .timezone-display span { font-size: 12px; }
+    #teo-prototype .suggestions { display: none; gap: 8px; margin-top: 10px; }
+    #teo-prototype[data-appointment-state="conflicto"] .suggestions { display: grid; }
+    #teo-prototype .suggestion { min-height: 48px; text-align: left; border: 1px solid var(--teo-line); background: var(--teo-surface); color: var(--teo-text); border-radius: 10px; padding: 9px 11px; }
+    #teo-prototype .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+    #teo-prototype[data-platform="mobile"] .form-actions { display: grid; grid-template-columns: 1fr 1fr; }
+    #teo-prototype .secondary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #teo-prototype[data-platform="mobile"] .secondary-grid { grid-template-columns: 1fr; }
+    #teo-prototype .list-row { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid var(--teo-line); }
+    #teo-prototype .list-row:first-of-type { border-top: 0; }
+    #teo-prototype .status-text { font-size: 12px; color: var(--teo-success); }
+    #teo-prototype .status-text.archived { color: var(--teo-muted); }
+    #teo-prototype .settings-row { display: grid; gap: 3px; padding: 10px 0; border-top: 1px solid var(--teo-line); }
+    #teo-prototype .settings-row strong { font-size: 14px; }
+    #teo-prototype .state-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    #teo-prototype[data-platform="mobile"] .state-grid { grid-template-columns: 1fr; }
+    #teo-prototype .state-sample { border: 1px solid var(--teo-line); border-radius: 12px; padding: 14px; background: var(--teo-surface); }
+    #teo-prototype .state-sample strong { display: block; margin-bottom: 5px; }
+    #teo-prototype .empty-illustration { width: 44px; height: 44px; border: 2px dashed var(--teo-muted); border-radius: 14px; display: grid; place-items: center; margin-bottom: 9px; color: var(--teo-muted); }
+    #teo-prototype .prototype-note { margin-top: 12px; color: var(--teo-muted); font-size: 12px; text-align: center; }
+    #teo-prototype .personal-form { max-width: 680px; }
+    @media (max-width: 700px) {
+      #teo-prototype .prototype-stage { padding: 12px; }
+      #teo-prototype .review-controls { width: 100%; }
+      #teo-prototype .review-button { flex: 1; }
+      #teo-prototype .seg-button,
+      #teo-prototype .state-button { min-height: 44px; }
+      #teo-prototype .review-controls { justify-content: stretch; }
+      #teo-prototype .simulation-controls { align-items: stretch; }
+      #teo-prototype .simulation-label { flex-basis: 100%; }
+    }
+    @media (max-width: 430px) {
+      #teo-prototype .screen-header { flex-direction: column; }
+      #teo-prototype .header-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+      #teo-prototype .header-actions button { width: 100%; }
+      #teo-prototype .week-strip { gap: 3px; }
+      #teo-prototype .day-pill { padding: 8px 1px; }
+      #teo-prototype .timeline-item { grid-template-columns: 52px minmax(0, 1fr); gap: 7px; }
+      #teo-prototype .segments { width: 100%; }
+      #teo-prototype .seg-button { flex: 1 1 auto; }
+    }
+  </style>
+
+  <div class="review-bar">
+    <div class="review-title">
+      <span class="eyebrow">Prototipo visual · Entrega A</span>
+      <strong>Tiempo en Orden</strong>
+      <span>Datos ficticios · Sin funciones implementadas</span>
+    </div>
+    <div class="review-controls" aria-label="Controles de revisión del prototipo">
+      <button class="review-button" type="button" data-platform-button="mobile" aria-pressed="true">Android</button>
+      <button class="review-button" type="button" data-platform-button="desktop" aria-pressed="false">Windows</button>
+      <button class="review-button" type="button" data-review-screen="estados">Revisar estados</button>
+      <button class="review-button" type="button" data-text-size aria-pressed="false">Texto +</button>
+    </div>
+    <div class="simulation-controls" aria-label="Acciones simuladas del prototipo">
+      <span class="simulation-label">Acciones simuladas del prototipo</span>
+      <button class="state-button" type="button" data-state-button="normal" aria-pressed="false">Formulario</button>
+      <button class="state-button" type="button" data-state-button="invalido" aria-pressed="false">Inválido</button>
+      <button class="state-button" type="button" data-state-button="conflicto" aria-pressed="true">Conflicto</button>
+      <button class="state-button" type="button" data-state-button="resuelto" aria-pressed="false">Alternativa aplicada</button>
+      <button class="state-button" type="button" data-state-button="fallo" aria-pressed="false">Fallo</button>
+      <button class="state-button" type="button" data-state-button="completado" aria-pressed="false">Completado</button>
+    </div>
+  </div>
+
+  <div class="prototype-stage">
+    <div class="app-window">
+      <aside class="app-sidebar" aria-label="Navegación de escritorio">
+        <div class="brand"><span class="brand-mark">T</span><span>Tiempo en Orden</span></div>
+        <nav class="side-nav">
+          <button type="button" data-screen-button="inicio" class="is-active">Inicio</button>
+          <button type="button" data-screen-button="agenda">Agenda</button>
+          <button type="button" data-screen-button="secundarias">Clientes y servicios</button>
+          <button type="button" data-screen-button="ajustes">Ajustes</button>
+        </nav>
+        <button class="side-primary" type="button" data-screen-button="nueva-cita">+ Nueva cita</button>
+      </aside>
+
+      <main class="app-main">
+        <header class="mobile-top">
+          <div class="brand"><span class="brand-mark">T</span><span>Tiempo en Orden</span></div>
+          <span class="prototype-chip">Prototipo</span>
+        </header>
+
+        <div class="content">
+          <section class="screen is-active" data-screen-panel="inicio">
+            <div class="screen-header">
+              <div><h2>Buenos días, Adrian</h2><p>Martes 20 de octubre · 09:20 · 3 compromisos pendientes</p></div>
+              <div class="header-actions"><button class="secondary-action" type="button" data-screen-button="tiempo-personal"><i data-lucide="user-round" aria-hidden="true"></i> Tiempo personal</button><button class="primary-action" type="button" data-screen-button="nueva-cita">+ Nueva cita</button></div>
+            </div>
+            <div class="home-grid">
+              <div class="panel next-card">
+                <span class="eyebrow">Próxima cita</span>
+                <div class="big-time">10:00</div>
+                <strong>Corte clásico · Ana López</strong>
+                <p class="muted">Comienza en 40 min · Servicio 10:00–10:45</p>
+                <div class="meta-row">
+                  <span class="tag tag-business"><i data-lucide="briefcase-business" aria-hidden="true"></i>Negocio</span>
+                </div>
+                <div class="margin-parts"><span class="margin-chip prepare">Preparación 09:50–10:00</span><span class="margin-chip clean">Limpieza 10:45–10:50</span></div>
+              </div>
+              <div class="panel">
+                <h3>Compromisos de hoy</h3>
+                <div class="timeline">
+                  <div class="timeline-item"><div class="timeline-time">08:00</div><div class="event-block is-past"><strong>Revisión de inventario</strong><div class="muted">08:00–08:30 · Negocio</div><span class="event-state">Pasado</span></div></div>
+                  <div class="timeline-item"><div class="timeline-time">10:00</div><div class="event-block"><strong>Corte clásico · Ana López</strong><div class="muted">45 min · MXN 250 · Próximo</div><div class="margin-parts"><span class="margin-chip prepare">Preparación 09:50–10:00</span><span class="margin-chip clean">Limpieza 10:45–10:50</span></div></div></div>
+                  <div class="timeline-item"><div class="timeline-time">14:00</div><div class="event-block personal"><strong>Descanso</strong><div class="muted">14:00–15:00 · Personal</div></div></div>
+                  <div class="timeline-item"><div class="timeline-time">18:30</div><div class="event-block personal"><strong>Clase nocturna</strong><div class="muted">18:30–20:00 · Personal</div></div></div>
+                </div>
+              </div>
+              <div class="panel"><h3>Pendientes sin horario</h3><div class="task-row"><span class="task-check" aria-hidden="true"></span><div><strong>Comprar insumos</strong><div class="muted">No ocupa disponibilidad</div></div></div></div>
+            </div>
+          </section>
+
+          <section class="screen" data-screen-panel="tiempo-personal">
+            <div class="screen-header"><div><h2>Agregar tiempo personal</h2><p>Este intervalo protegerá tu disponibilidad</p></div></div>
+            <div class="panel personal-form">
+              <div class="field-grid">
+                <div class="field full"><label for="teo-personal-title">Actividad *</label><input id="teo-personal-title" value="Cita médica"></div>
+                <div class="field"><label for="teo-personal-date">Fecha *</label><input id="teo-personal-date" value="20/10/2026"></div>
+                <div class="field"><label for="teo-personal-type">Tipo *</label><select id="teo-personal-type"><option>Actividad personal</option><option>Bloqueo</option></select></div>
+                <div class="field"><label for="teo-personal-start">Inicio *</label><input id="teo-personal-start" value="16:00"></div>
+                <div class="field"><label for="teo-personal-end">Fin *</label><input id="teo-personal-end" value="17:00"></div>
+              </div>
+              <p class="muted">Nada se moverá automáticamente si existe un conflicto.</p>
+              <div class="form-actions"><button class="secondary-action" type="button" data-screen-button="inicio">Volver</button><button class="primary-action" type="button">Guardar tiempo personal</button></div>
+            </div>
+          </section>
+
+          <section class="screen" data-screen-panel="agenda">
+            <div class="screen-header"><div><h2>Agenda</h2><p>Negocio, tiempo personal y márgenes en una sola vista</p></div><button class="primary-action" type="button" data-screen-button="nueva-cita">+ Nueva cita</button></div>
+            <div class="toolbar">
+              <div class="segments"><button class="seg-button" type="button" data-agenda-button="day" aria-pressed="true">Día</button><button class="seg-button" type="button" data-agenda-button="week" aria-pressed="false">Semana</button></div>
+              <div class="segments"><button class="seg-button" type="button">Todo</button><button class="seg-button" type="button">Negocio</button><button class="seg-button" type="button">Personal</button><button class="seg-button" type="button">Mostrar canceladas</button></div>
+            </div>
+            <div class="agenda-day-view panel">
+              <h3>Martes 20 de octubre</h3>
+              <div class="timeline">
+                <div class="timeline-item"><div class="timeline-time">09:50</div><div class="event-block"><strong>Corte clásico · Ana López</strong><div class="muted">Servicio 10:00–10:45</div><div class="margin-parts"><span class="margin-chip prepare">Preparación 09:50–10:00</span><span class="margin-chip clean">Limpieza 10:45–10:50</span></div></div></div>
+                <div class="timeline-item"><div class="timeline-time">14:00</div><div class="event-block personal"><strong>Descanso</strong><div class="muted">14:00–15:00 · No disponible</div></div></div>
+                <div class="timeline-item"><div class="timeline-time">18:30</div><div class="event-block personal"><strong>Clase nocturna</strong><div class="muted">18:30–20:00 · Personal</div></div></div>
+              </div>
+            </div>
+            <div class="agenda-week-view mobile-week">
+              <div class="week-strip" aria-label="Semana del 19 al 25 de octubre">
+                <button class="day-pill" type="button"><span>Lun</span><strong>19</strong></button><button class="day-pill is-selected" type="button"><span>Mar</span><strong>20</strong></button><button class="day-pill" type="button"><span>Mié</span><strong>21</strong></button><button class="day-pill" type="button"><span>Jue</span><strong>22</strong></button><button class="day-pill" type="button"><span>Vie</span><strong>23</strong></button><button class="day-pill" type="button"><span>Sáb</span><strong>24</strong></button><button class="day-pill" type="button"><span>Dom</span><strong>25</strong></button>
+              </div>
+              <div class="panel"><h3>Martes 20 · <span data-mobile-week-count>0</span> compromisos</h3><div class="timeline" data-mobile-week-list aria-live="polite"></div></div>
+            </div>
+            <div class="agenda-week-view desktop-week" aria-label="Agenda semanal con escala uniforme de 09:00 a 20:00">
+              <div class="week-selected-detail"><strong>Cita seleccionada · Martes 20</strong><span>Preparación 09:50–10:00</span><span>Servicio 10:00–10:45</span><span>Limpieza 10:45–10:50</span></div>
+              <div class="week-scale">
+                <div class="week-scale-head"><div>Hora</div><div>Lun 19</div><div>Mar 20</div><div>Mié 21</div><div>Jue 22</div><div>Vie 23</div><div>Sáb 24</div><div>Dom 25</div></div>
+                <div class="week-scale-body">
+                  <div class="time-axis" aria-hidden="true"><span style="--minute:0">09:00</span><span style="--minute:60">10:00</span><span style="--minute:120">11:00</span><span style="--minute:180">12:00</span><span style="--minute:240">13:00</span><span style="--minute:300">14:00</span><span style="--minute:360">15:00</span><span style="--minute:420">16:00</span><span style="--minute:480">17:00</span><span style="--minute:540">18:00</span><span style="--minute:600">19:00</span><span style="--minute:660">20:00</span></div>
+                  <div class="day-lane" aria-label="Lunes 19"><div class="week-block personal" style="--start:300;--minutes:60">Descanso<br>14:00–15:00</div></div>
+                  <div class="day-lane" aria-label="Martes 20"><div class="week-block week-appointment" style="--start:50;--minutes:60" aria-label="Corte con Ana: preparación 09:50 a 10:00, servicio 10:00 a 10:45 y limpieza 10:45 a 10:50"><span class="week-segment prepare" aria-hidden="true"></span><span class="week-segment service">Corte · Ana<br>10:00–10:45</span><span class="week-segment clean" aria-hidden="true"></span></div><div class="week-block personal" style="--start:300;--minutes:60">Descanso<br>14:00–15:00</div><div class="week-block personal" style="--start:570;--minutes:90">Clase<br>18:30–20:00</div></div>
+                  <div class="day-lane" aria-label="Miércoles 21"><div class="week-block personal" style="--start:300;--minutes:60">Descanso<br>14:00–15:00</div></div>
+                  <div class="day-lane" aria-label="Jueves 22"><div class="week-block personal" style="--start:300;--minutes:60">Descanso<br>14:00–15:00</div></div>
+                  <div class="day-lane" aria-label="Viernes 23"><div class="week-block personal" style="--start:300;--minutes:60">Descanso<br>14:00–15:00</div></div>
+                  <div class="day-lane" aria-label="Sábado 24"></div>
+                  <div class="day-lane" aria-label="Domingo 25"></div>
+                </div>
+              </div>
+            </div>
+            <div class="meta-row"><span class="tag tag-business"><i data-lucide="briefcase-business" aria-hidden="true"></i>Negocio</span><span class="tag tag-personal"><i data-lucide="user-round" aria-hidden="true"></i>Personal</span><span class="tag tag-margin"><i data-lucide="clock-3" aria-hidden="true"></i>Preparación y limpieza</span></div>
+          </section>
+
+          <section class="screen" data-screen-panel="nueva-cita">
+            <div class="screen-header"><div><h2>Nueva cita</h2><p>Los datos ficticios se conservan al crear cliente o servicio</p></div></div>
+            <div class="notice notice-invalid" role="alert"><strong>Revisa dos campos</strong><br>El servicio y la hora de inicio necesitan atención.</div>
+            <div class="notice notice-conflict" role="alert"><strong>Este horario no está disponible</strong><br>La ocupación 18:20–19:20 se cruza con “Clase nocturna” desde las 18:30. Nada se moverá automáticamente.</div>
+            <div class="notice notice-applied" aria-live="polite"><strong>Alternativa aplicada</strong><br>Miércoles 21 a las 09:15. Se volverá a validar con las mismas reglas al guardar.</div>
+            <div class="notice notice-failure" role="alert"><strong>No pudimos guardar la cita</strong><br>Tus datos siguen aquí. Revisa el almacenamiento local e intenta de nuevo.</div>
+            <div class="notice notice-success"><strong>Cita guardada</strong><br>Corte clásico con Ana López · 20 oct, 10:00.</div>
+            <div class="notice discard-confirmation" role="alert" aria-live="assertive"><strong>¿Descartar los cambios?</strong><br>Los datos capturados para esta cita se perderán. La cita todavía no ha sido guardada.<div class="discard-actions"><button class="secondary-action" type="button" data-keep-editing>Seguir editando</button><button class="danger-action" type="button" data-confirm-discard>Descartar cambios</button></div></div>
+            <section class="panel context-panel" data-context-panel="cliente" aria-label="Crear cliente sin perder la cita">
+              <div class="context-panel-header"><div><h3>Nuevo cliente</h3><span class="muted">La cita permanece debajo con sus datos.</span></div><button class="secondary-action" type="button" data-close-context>Cerrar</button></div>
+              <div class="field-grid"><div class="field"><label for="teo-new-client-name">Nombre *</label><input id="teo-new-client-name" value="Luis Pérez"></div><div class="field"><label for="teo-new-client-phone">Teléfono (opcional)</label><input id="teo-new-client-phone" value="555-010-2075"></div><div class="field full"><label for="teo-new-client-notes">Notas (opcional)</label><textarea id="teo-new-client-notes" rows="2">Prefiere turno de mañana</textarea></div></div>
+              <div class="form-actions"><button class="primary-action" type="button" data-save-context="cliente">Guardar cliente y volver</button></div>
+            </section>
+            <section class="panel context-panel" data-context-panel="servicio" aria-label="Crear servicio sin perder la cita">
+              <div class="context-panel-header"><div><h3>Nuevo servicio</h3><span class="muted">La cita permanece debajo con sus datos.</span></div><button class="secondary-action" type="button" data-close-context>Cerrar</button></div>
+              <div class="field-grid"><div class="field"><label for="teo-new-service-name">Nombre *</label><input id="teo-new-service-name" value="Afeitado premium"></div><div class="field"><label for="teo-new-service-duration">Duración *</label><input id="teo-new-service-duration" value="30 min"></div><div class="field"><label for="teo-new-service-price">Precio *</label><input id="teo-new-service-price" value="180"></div><div class="field"><label for="teo-new-service-currency">Moneda *</label><select id="teo-new-service-currency"><option>MXN</option></select></div><div class="field"><label for="teo-new-service-prep">Preparación</label><input id="teo-new-service-prep" value="10 min"></div><div class="field"><label for="teo-new-service-clean">Limpieza</label><input id="teo-new-service-clean" value="10 min"></div></div>
+              <div class="form-actions"><button class="primary-action" type="button" data-save-context="servicio">Guardar servicio y volver</button></div>
+            </section>
+            <div class="form-layout">
+              <div class="panel">
+                <div class="field-grid">
+                  <div class="field full"><label for="teo-client">Cliente <span class="muted">(opcional)</span></label><select id="teo-client"><option>Ana López</option></select><button class="inline-create" type="button" data-open-context="cliente">+ Crear cliente sin perder esta cita</button></div>
+                  <div class="field full"><label for="teo-service">Servicio *</label><select id="teo-service" class="invalid-field"><option>Corte clásico · 45 min · MXN 250</option></select><span class="field-error">Selecciona un servicio activo.</span><button class="inline-create" type="button" data-open-context="servicio">+ Crear servicio sin perder esta cita</button></div>
+                  <div class="field"><label for="teo-start-date">Fecha de inicio *</label><input id="teo-start-date" value="20/10/2026"></div>
+                  <div class="field"><label for="teo-start-time">Hora de inicio *</label><input id="teo-start-time" class="invalid-field" value="18:30"><span class="field-error">Indica una hora válida.</span></div>
+                  <div class="field"><label for="teo-end-date">Fecha de fin</label><input id="teo-end-date" value="20/10/2026" readonly></div>
+                  <div class="field"><label for="teo-end-time">Hora de fin</label><input id="teo-end-time" value="19:15" readonly></div>
+                  <div class="field full"><label>Zona horaria</label><div class="timezone-display"><strong>Ciudad de México</strong><span class="muted">Identificador interno: America/Mexico_City · Confirmada para este dispositivo</span></div></div>
+                </div>
+                <div class="form-actions"><button class="secondary-action" type="button" data-discard-appointment>Descartar cambios</button><button class="primary-action" type="button">Guardar cita</button></div>
+              </div>
+              <aside class="panel">
+                <h3>Ocupación total · 60 min</h3>
+                <div class="occupancy"><span class="prepare">10 min<br>Prep.</span><span class="service">45 min<br>Servicio</span><span class="clean">5 min<br>Limp.</span></div>
+                <p class="muted" id="teo-occupancy-time">La agenda reservará 18:20–19:20.</p>
+                <div class="suggestions"><strong>3 alternativas en 14 días</strong><button class="suggestion" type="button" data-suggestion-date="21/10/2026" data-suggestion-start="09:15" data-suggestion-end="10:00"><strong>Mié 21 · 09:15</strong><br><span class="muted">Ocupa 09:05–10:05</span></button><button class="suggestion" type="button" data-suggestion-date="21/10/2026" data-suggestion-start="11:30" data-suggestion-end="12:15"><strong>Mié 21 · 11:30</strong><br><span class="muted">Ocupa 11:20–12:20</span></button><button class="suggestion" type="button" data-suggestion-date="22/10/2026" data-suggestion-start="16:00" data-suggestion-end="16:45"><strong>Jue 22 · 16:00</strong><br><span class="muted">Ocupa 15:50–16:50</span></button></div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="screen" data-screen-panel="secundarias">
+            <div class="screen-header"><div><h2>Clientes y servicios</h2><p>Bocetos secundarios · activos por defecto, historial conservado</p></div></div>
+            <div class="secondary-grid">
+              <div class="panel"><h3>Clientes</h3><button class="primary-action" type="button">+ Cliente</button><div class="list-row"><div><strong>Ana López</strong><div class="muted">555-010-2040</div></div><span class="status-text">Activo</span></div><div class="list-row"><div><strong>Luis Pérez</strong><div class="muted">555-010-2075</div></div><span class="status-text">Activo</span></div><div class="list-row"><div><strong>María Díaz</strong><div class="muted">Historial disponible</div></div><span class="status-text archived">Archivada</span></div></div>
+              <div class="panel"><h3>Servicios</h3><button class="primary-action" type="button">+ Servicio</button><div class="list-row"><div><strong>Corte clásico</strong><div class="muted">45 min + 15 min márgenes</div></div><span>MXN 250</span></div><div class="list-row"><div><strong>Afeitado</strong><div class="muted">30 min + 20 min márgenes</div></div><span>MXN 180</span></div><div class="list-row"><div><strong>Diseño especial</strong><div class="muted">No aparece en nuevas citas</div></div><span class="status-text archived">Archivado</span></div></div>
+              <div class="panel"><h3>Creación contextual</h3><p class="muted">En Android se abre como hoja; en Windows como panel lateral. Al guardar:</p><ol><li>La cita conserva fecha y hora.</li><li>El registro nuevo queda seleccionado.</li><li>Si falla, no se pierde el formulario.</li></ol><button class="secondary-action" type="button">Volver a Nueva cita</button></div>
+            </div>
+          </section>
+
+          <section class="screen" data-screen-panel="ajustes">
+            <div class="screen-header"><div><h2>Ajustes</h2><p>Preferencias locales de la entrega A</p></div></div>
+            <div class="secondary-grid">
+              <div class="panel"><h3>Horario laboral</h3><div class="settings-row"><strong>Lunes a viernes</strong><span class="muted">09:00–18:00</span></div><div class="settings-row"><strong>Descanso</strong><span class="muted">14:00–15:00</span></div><button class="secondary-action" type="button">Editar horarios</button></div>
+              <div class="panel"><h3>Agenda</h3><div class="settings-row"><strong>Inicio de semana</strong><span class="muted">Lunes · Configurable</span></div><div class="settings-row"><strong>Mostrar canceladas</strong><span class="muted">Desactivado</span></div><div class="settings-row"><strong>Búsqueda automática</strong><span class="muted">15 min · 14 días · 3 opciones</span></div></div>
+              <div class="panel"><h3>Zona horaria</h3><div class="notice notice-success" style="display:block"><strong>Propuesta del dispositivo</strong><br>Ciudad de México<div class="muted">Identificador interno: America/Mexico_City</div></div><p class="muted">Esta propuesta proviene de este dispositivo. No se asigna automáticamente a todas las personas de México; debe confirmarse o cambiarse.</p><button class="primary-action" type="button">Confirmar zona</button></div>
+            </div>
+          </section>
+
+          <section class="screen" data-screen-panel="estados">
+            <div class="screen-header"><div><h2>Estados para revisión</h2><p>Control del prototipo; no forma parte del menú del producto</p></div></div>
+            <div class="state-grid">
+              <div class="state-sample"><div class="empty-illustration">0</div><strong>Agenda vacía</strong><span class="muted">No hay compromisos para este día.</span><div><button class="secondary-action" type="button">Nueva cita</button></div></div>
+              <div class="state-sample"><strong style="color:var(--teo-danger)">Formulario inválido</strong><span class="muted">Señala campos y conserva lo capturado.</span></div>
+              <div class="state-sample"><strong style="color:var(--teo-danger)">Conflicto</strong><span class="muted">Explica el cruce y ofrece buscar espacios.</span></div>
+              <div class="state-sample"><strong style="color:var(--teo-danger)">Guardado fallido</strong><span class="muted">No afirma éxito. Permite reintentar.</span></div>
+              <div class="state-sample"><strong style="color:var(--teo-success)">Operación completada</strong><span class="muted">Confirma qué cambió y ofrece el siguiente paso.</span></div>
+              <div class="state-sample"><strong>Cancelada</strong><span class="muted">Oculta por defecto; visible mediante filtro y sin ocupar tiempo.</span></div>
+            </div>
+          </section>
+        </div>
+
+        <nav class="bottom-nav" aria-label="Navegación móvil">
+          <button type="button" data-screen-button="inicio" class="is-active">Inicio</button>
+          <button type="button" data-screen-button="agenda">Agenda</button>
+          <button type="button" data-screen-button="secundarias">Más</button>
+        </nav>
+      </main>
+    </div>
+    <div class="prototype-note">Prototipo estático para revisión visual · No guarda datos ni ejecuta reglas</div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('teo-prototype');
+      const mobileWeekEvents = [
+        { time: '10:00', title: 'Corte · Ana', kind: 'business', detail: 'Servicio 10:00–10:45', preparation: 'Prep. 09:50–10:00', cleaning: 'Limp. 10:45–10:50' },
+        { time: '14:00', title: 'Descanso', kind: 'personal', detail: '14:00–15:00 · No disponible' },
+        { time: '18:30', title: 'Clase nocturna', kind: 'personal', detail: '18:30–20:00 · Personal' }
+      ];
+      const mobileWeekList = root.querySelector('[data-mobile-week-list]');
+      root.querySelector('[data-mobile-week-count]').textContent = String(mobileWeekEvents.length);
+      mobileWeekList.innerHTML = mobileWeekEvents.map((event) => `
+        <div class="timeline-item">
+          <div class="timeline-time">${event.time}</div>
+          <div class="event-block${event.kind === 'personal' ? ' personal' : ''}">
+            <strong>${event.title}</strong>
+            <div class="muted">${event.detail}</div>
+            ${event.preparation ? `<div class="margin-parts"><span class="margin-chip prepare">${event.preparation}</span><span class="margin-chip clean">${event.cleaning}</span></div>` : ''}
+          </div>
+        </div>`).join('');
+      let appointmentDirty = false;
+      const setPressed = (selector, activeValue, attribute) => {
+        root.querySelectorAll(selector).forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.getAttribute(attribute) === activeValue));
+        });
+      };
+      const showScreen = (screen) => {
+        root.dataset.screen = screen;
+        root.querySelectorAll('[data-screen-panel]').forEach((panel) => panel.classList.toggle('is-active', panel.dataset.screenPanel === screen));
+        root.querySelectorAll('[data-screen-button]').forEach((button) => button.classList.toggle('is-active', button.dataset.screenButton === screen));
+      };
+      root.querySelectorAll('[data-platform-button]').forEach((button) => button.addEventListener('click', () => {
+        root.dataset.platform = button.dataset.platformButton;
+        setPressed('[data-platform-button]', button.dataset.platformButton, 'data-platform-button');
+      }));
+      root.querySelectorAll('[data-screen-button]').forEach((button) => button.addEventListener('click', () => showScreen(button.dataset.screenButton)));
+      root.querySelectorAll('[data-review-screen]').forEach((button) => button.addEventListener('click', () => showScreen(button.dataset.reviewScreen)));
+      root.querySelector('[data-text-size]').addEventListener('click', (event) => {
+        const enabled = root.classList.toggle('is-large-text');
+        event.currentTarget.setAttribute('aria-pressed', String(enabled));
+      });
+      root.querySelectorAll('[data-agenda-button]').forEach((button) => button.addEventListener('click', () => {
+        root.dataset.agenda = button.dataset.agendaButton;
+        setPressed('[data-agenda-button]', button.dataset.agendaButton, 'data-agenda-button');
+      }));
+      root.querySelectorAll('[data-state-button]').forEach((button) => button.addEventListener('click', () => {
+        root.dataset.appointmentState = button.dataset.stateButton;
+        setPressed('[data-state-button]', button.dataset.stateButton, 'data-state-button');
+      }));
+      root.querySelectorAll('[data-open-context]').forEach((button) => button.addEventListener('click', () => {
+        root.querySelectorAll('[data-context-panel]').forEach((panel) => panel.classList.toggle('is-open', panel.dataset.contextPanel === button.dataset.openContext));
+        root.querySelector(`[data-context-panel="${button.dataset.openContext}"] input`)?.focus();
+      }));
+      root.querySelectorAll('[data-close-context]').forEach((button) => button.addEventListener('click', () => {
+        button.closest('[data-context-panel]').classList.remove('is-open');
+      }));
+      root.querySelectorAll('[data-save-context]').forEach((button) => button.addEventListener('click', () => {
+        const type = button.dataset.saveContext;
+        const name = root.querySelector(type === 'cliente' ? '#teo-new-client-name' : '#teo-new-service-name').value;
+        const select = root.querySelector(type === 'cliente' ? '#teo-client' : '#teo-service');
+        const option = document.createElement('option');
+        option.textContent = type === 'cliente' ? name : `${name} · 30 min · MXN 180`;
+        select.append(option);
+        select.value = option.value;
+        appointmentDirty = true;
+        button.closest('[data-context-panel]').classList.remove('is-open');
+        select.focus();
+      }));
+      root.querySelectorAll('[data-suggestion-start]').forEach((button) => button.addEventListener('click', () => {
+        root.querySelector('#teo-start-date').value = button.dataset.suggestionDate;
+        root.querySelector('#teo-end-date').value = button.dataset.suggestionDate;
+        root.querySelector('#teo-start-time').value = button.dataset.suggestionStart;
+        root.querySelector('#teo-end-time').value = button.dataset.suggestionEnd;
+        const [startHour, startMinute] = button.dataset.suggestionStart.split(':').map(Number);
+        const occupiedStart = `${String(startHour - (startMinute < 10 ? 1 : 0)).padStart(2, '0')}:${String((startMinute + 50) % 60).padStart(2, '0')}`;
+        const [endHour, endMinute] = button.dataset.suggestionEnd.split(':').map(Number);
+        const occupiedEnd = `${String(endHour + (endMinute >= 55 ? 1 : 0)).padStart(2, '0')}:${String((endMinute + 5) % 60).padStart(2, '0')}`;
+        root.querySelector('#teo-occupancy-time').textContent = `La agenda reservará ${occupiedStart}–${occupiedEnd}.`;
+        appointmentDirty = true;
+        root.dataset.appointmentState = 'resuelto';
+        setPressed('[data-state-button]', 'resuelto', 'data-state-button');
+      }));
+      root.querySelectorAll('#teo-client, #teo-service, #teo-start-date, #teo-start-time').forEach((field) => {
+        field.addEventListener('input', () => { appointmentDirty = true; });
+        field.addEventListener('change', () => { appointmentDirty = true; });
+      });
+      const discardConfirmation = root.querySelector('.discard-confirmation');
+      root.querySelector('[data-discard-appointment]').addEventListener('click', () => {
+        if (appointmentDirty) {
+          discardConfirmation.classList.add('is-visible');
+          discardConfirmation.querySelector('[data-keep-editing]').focus();
+          return;
+        }
+        showScreen('inicio');
+      });
+      root.querySelector('[data-keep-editing]').addEventListener('click', () => {
+        discardConfirmation.classList.remove('is-visible');
+        root.querySelector('[data-discard-appointment]').focus();
+      });
+      root.querySelector('[data-confirm-discard]').addEventListener('click', () => {
+        discardConfirmation.classList.remove('is-visible');
+        appointmentDirty = false;
+        showScreen('inicio');
+      });
+      root.dataset.agenda = 'day';
+    })();
+  </script>
+</div>
