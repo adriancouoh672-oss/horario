@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="TiempoEnOrden.App.Views.DemoBannerView" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Border Padding="12" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 10">
+        <Label Text="ⓘ Datos ficticios · Los cambios de esta demostración se borran al reiniciar." FontSize="14" TextColor="{StaticResource Primary}" />
+    </Border>
+</ContentView>

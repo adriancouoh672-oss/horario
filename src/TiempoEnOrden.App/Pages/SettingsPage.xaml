@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TiempoEnOrden.App.Pages.SettingsPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" Title="Ajustes">
+    <ScrollView>
+        <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="900" HorizontalOptions="Center">
+            <views:DemoBannerView />
+            <Label Text="Ajustes" Style="{StaticResource PageTitle}" />
+            <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='*,*'}" RowDefinitions="Auto,Auto" ColumnSpacing="18" RowSpacing="18">
+                <Border Style="{StaticResource Card}"><VerticalStackLayout Spacing="12"><Label Text="Horario laboral" Style="{StaticResource SectionTitle}" /><Label Text="{Binding WorkSchedule}" /><Label Text="{Binding BreakSchedule}" /><Label Text="Los descansos impiden citas de negocio en una etapa posterior." Style="{StaticResource Caption}" /></VerticalStackLayout></Border>
+                <Border Grid.Column="{OnPlatform Android=0, WinUI=1}" Grid.Row="{OnPlatform Android=1, WinUI=0}" Style="{StaticResource Card}"><VerticalStackLayout Spacing="12"><Label Text="Zona horaria" Style="{StaticResource SectionTitle}" /><Label Text="{Binding TimeZoneName}" FontFamily="OpenSansSemibold" /><Label Text="{Binding TimeZoneId}" Style="{StaticResource Caption}" /><Label Text="Propuesta del dispositivo actual; no se deduce para todas las personas de México." Style="{StaticResource Caption}" /><HorizontalStackLayout Spacing="8"><Switch IsToggled="{Binding TimeZoneConfirmed}" /><Label Text="Zona confirmada" VerticalOptions="Center" /></HorizontalStackLayout></VerticalStackLayout></Border>
+                <Border Grid.Row="1" Style="{StaticResource Card}"><VerticalStackLayout Spacing="12"><Label Text="Agenda" Style="{StaticResource SectionTitle}" /><HorizontalStackLayout Spacing="8"><Switch IsToggled="{Binding WeekStartsMonday}" /><Label Text="Semana desde lunes" VerticalOptions="Center" /></HorizontalStackLayout><HorizontalStackLayout Spacing="8"><Switch IsToggled="{Binding ShowCancelled}" /><Label Text="Mostrar canceladas por defecto" VerticalOptions="Center" /></HorizontalStackLayout></VerticalStackLayout></Border>
+            </Grid>
+            <Border IsVisible="{Binding HasMessage}" Padding="12" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 10"><Label Text="{Binding Message}" TextColor="{StaticResource Primary}" /></Border>
+            <Label Text="Esta entrega no incluye cuenta, nube, sincronización ni recordatorios coordinados." Style="{StaticResource Caption}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

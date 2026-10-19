@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="TiempoEnOrden.App.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:TiempoEnOrden.App"
-    Title="TiempoEnOrden.App">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+<Shell x:Class="TiempoEnOrden.App.AppShell" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="Tiempo en Orden" FlyoutBehavior="{OnPlatform WinUI=Locked, Android=Disabled}" FlyoutWidth="248">
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout Padding="20,24,20,16" Spacing="12" IsVisible="{OnPlatform WinUI=True, Android=False}">
+            <Label Text="Tiempo en Orden" FontSize="20" FontFamily="OpenSansSemibold" />
+            <Button Text="Nueva cita" Clicked="OnNewAppointmentClicked" />
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
+    <FlyoutItem Title="Inicio" Route="home" IsVisible="{OnPlatform WinUI=True, Android=False}"><ShellContent Title="Inicio" ContentTemplate="{DataTemplate pages:HomePage}" /></FlyoutItem>
+    <FlyoutItem Title="Agenda" Route="agenda" IsVisible="{OnPlatform WinUI=True, Android=False}"><ShellContent Title="Agenda" ContentTemplate="{DataTemplate pages:AgendaPage}" /></FlyoutItem>
+    <FlyoutItem Title="Clientes" Route="clients" IsVisible="{OnPlatform WinUI=True, Android=False}"><ShellContent Title="Clientes" ContentTemplate="{DataTemplate pages:ClientsPage}" /></FlyoutItem>
+    <FlyoutItem Title="Servicios" Route="services" IsVisible="{OnPlatform WinUI=True, Android=False}"><ShellContent Title="Servicios" ContentTemplate="{DataTemplate pages:ServicesPage}" /></FlyoutItem>
+    <FlyoutItem Title="Ajustes" Route="settings" IsVisible="{OnPlatform WinUI=True, Android=False}"><ShellContent Title="Ajustes" ContentTemplate="{DataTemplate pages:SettingsPage}" /></FlyoutItem>
+    <TabBar Route="mobile" IsVisible="{OnPlatform WinUI=False, Android=True}">
+        <ShellContent Title="Inicio" Route="mobile-home" ContentTemplate="{DataTemplate pages:HomePage}" />
+        <ShellContent Title="Agenda" Route="mobile-agenda" ContentTemplate="{DataTemplate pages:AgendaPage}" />
+        <ShellContent Title="Más" Route="mobile-more" ContentTemplate="{DataTemplate pages:MorePage}" />
+    </TabBar>
 </Shell>

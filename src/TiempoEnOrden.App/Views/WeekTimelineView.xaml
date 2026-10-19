@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="TiempoEnOrden.App.Views.WeekTimelineView" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ScrollView Orientation="Both">
+        <Grid ColumnDefinitions="64,*" MinimumWidthRequest="900">
+            <Grid x:Name="TimeLabels" Grid.Column="0" HeightRequest="720" />
+            <Grid x:Name="TimelineCanvas" Grid.Column="1" HeightRequest="720" />
+        </Grid>
+    </ScrollView>
+</ContentView>

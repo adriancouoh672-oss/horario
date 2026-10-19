@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TiempoEnOrden.App.Pages.AgendaPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="Agenda">
+    <Grid Padding="{OnPlatform Android='20,16,20,16', WinUI='32,24,32,24'}" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="14" MaximumWidthRequest="1440" HorizontalOptions="Fill">
+        <VerticalStackLayout Spacing="10">
+            <views:DemoBannerView />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Agenda" Style="{StaticResource PageTitle}" />
+                    <Label Text="{Binding DateHeader}" Style="{StaticResource Caption}" />
+                </VerticalStackLayout>
+                <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center" IsVisible="{OnPlatform Android=False, WinUI=True}">
+                    <Button Text="Tiempo personal" Command="{Binding OpenPersonalTimeCommand}" Style="{StaticResource SecondaryButton}" />
+                    <Button Text="Nueva cita" Command="{Binding OpenAppointmentCommand}" />
+                </HorizontalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8" IsVisible="{OnPlatform Android=False, WinUI=True}">
+                <Button Text="‹" Command="{Binding PreviousCommand}" Style="{StaticResource ChipButton}" SemanticProperties.Description="Periodo anterior" />
+                <Button Grid.Column="1" Text="Hoy" Command="{Binding TodayCommand}" Style="{StaticResource ChipButton}" />
+                <Button Grid.Column="2" Text="›" Command="{Binding NextCommand}" Style="{StaticResource ChipButton}" SemanticProperties.Description="Periodo siguiente" />
+                <HorizontalStackLayout Grid.Column="4" Spacing="6">
+                    <Button Text="Día" Command="{Binding ShowDayCommand}" Style="{StaticResource ChipButton}" />
+                    <Button Text="Semana" Command="{Binding ShowWeekCommand}" Style="{StaticResource ChipButton}" />
+                </HorizontalStackLayout>
+                <Label Grid.Column="5" Text="{Binding EntryCountText}" Style="{StaticResource Caption}" VerticalOptions="Center" />
+            </Grid>
+            <VerticalStackLayout Spacing="8" IsVisible="{OnPlatform Android=True, WinUI=False}">
+                <Grid ColumnDefinitions="Auto,Auto,Auto,*" ColumnSpacing="8">
+                    <Button Text="‹" Command="{Binding PreviousCommand}" Style="{StaticResource ChipButton}" SemanticProperties.Description="Periodo anterior" />
+                    <Button Grid.Column="1" Text="Hoy" Command="{Binding TodayCommand}" Style="{StaticResource ChipButton}" />
+                    <Button Grid.Column="2" Text="›" Command="{Binding NextCommand}" Style="{StaticResource ChipButton}" SemanticProperties.Description="Periodo siguiente" />
+                    <Label Grid.Column="3" Text="{Binding EntryCountText}" Style="{StaticResource Caption}" VerticalOptions="Center" HorizontalTextAlignment="End" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Button Text="Día" Command="{Binding ShowDayCommand}" Style="{StaticResource ChipButton}" />
+                    <Button Grid.Column="1" Text="Semana" Command="{Binding ShowWeekCommand}" Style="{StaticResource ChipButton}" />
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+
+        <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="8">
+                <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Filters}" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Button Text="{Binding .}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=SelectFilterCommand}" CommandParameter="{Binding .}" Style="{StaticResource ChipButton}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                    <Switch IsToggled="{Binding ShowCancelled}" />
+                    <Label Text="Mostrar canceladas" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <Grid Grid.Row="3">
+            <ScrollView IsVisible="{Binding IsDay}">
+                <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding VisibleEntries}" Spacing="8">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="12" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 10" SemanticProperties.Description="{Binding AccessibleText}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                        <Label Text="{Binding Icon}" FontSize="20" VerticalOptions="Center" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                            <Label Text="{Binding SegmentLabel}" FontFamily="OpenSansSemibold" TextColor="#18282D" />
+                                            <Label Text="{Binding Title}" FontSize="14" TextColor="#18282D" />
+                                            <Label Text="{Binding Subtitle}" FontSize="13" TextColor="#52666D" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" TextColor="#18282D" VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Grid IsVisible="{Binding IsWeek}" RowDefinitions="Auto,*" RowSpacing="12">
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout BindableLayout.ItemsSource="{Binding WeekDays}" Spacing="8">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Button Text="{Binding DisplayText}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=SelectDayCommand}" CommandParameter="{Binding Date}" Style="{StaticResource ChipButton}" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+                <Grid Grid.Row="1">
+                    <ScrollView IsVisible="{OnPlatform Android=True, WinUI=False}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="En móvil, elige un día y consulta su detalle." Style="{StaticResource Caption}" />
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding VisibleEntries}" Spacing="8">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="12" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 10">
+                                            <Grid ColumnDefinitions="*,Auto"><VerticalStackLayout><Label Text="{Binding SegmentLabel}" FontFamily="OpenSansSemibold" /><Label Text="{Binding Title}" FontSize="14" /></VerticalStackLayout><Label Grid.Column="1" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" /></Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </ScrollView>
+
+                    <Grid IsVisible="{OnPlatform Android=False, WinUI=True}" RowDefinitions="Auto,*,Auto" RowSpacing="8">
+                        <Grid ColumnDefinitions="64,*,*,*,*,*,*,*" ColumnSpacing="0">
+                            <Label Grid.Column="1" Text="Lun" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                            <Label Grid.Column="2" Text="Mar" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                            <Label Grid.Column="3" Text="Mié" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                            <Label Grid.Column="4" Text="Jue" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                            <Label Grid.Column="5" Text="Vie" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                            <Label Grid.Column="6" Text="Sáb" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                            <Label Grid.Column="7" Text="Dom" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
+                        </Grid>
+                        <views:WeekTimelineView Grid.Row="1" ItemsSource="{Binding WeekEntries}" WeekStart="{Binding WeekStart}" />
+                        <VerticalStackLayout Grid.Row="2" Spacing="4" BindableLayout.ItemsSource="{Binding WeekEntries}">
+                            <BindableLayout.ItemTemplate><DataTemplate><Label Text="{Binding AccessibleText}" FontSize="12" /></DataTemplate></BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

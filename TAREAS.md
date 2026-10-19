@@ -64,7 +64,7 @@ Estado: completada el 2026-10-19. E1-T01, E1-T02 y E1-T03 cerradas; el diseño y
 
 ## Etapa 2: base ejecutable
 
-Estado: en curso. E2-T01 y E2-T02 completadas; E2-T03 no iniciada. Depende de la etapa 1, aprobada el 2026-10-19.
+Estado: en curso. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 no iniciada. Depende de la etapa 1, aprobada el 2026-10-19.
 
 ### E2-T01. Elegir versiones objetivo y requisitos del entorno
 
@@ -84,7 +84,15 @@ Estado: en curso. E2-T01 y E2-T02 completadas; E2-T03 no iniciada. Depende de la
 - Evidencia: `global.json`, `TiempoEnOrden.sln`, proyectos bajo `src/`, `README.md`, DEC-0019 a DEC-0021 y entrada E2-T02 en `AVANCES.md`.
 - Criterio de cierre: cumplido; Core, Android y Windows restauraron y compilaron por separado sin errores. No se ejecutó la aplicación.
 
-- E2-T03: implementar navegación con datos ficticios identificados.
+### E2-T03. Implementar navegación y pantallas con datos ficticios
+
+- Estado: completada el 2026-10-19.
+- Requisitos relacionados: REQ-A-001 a REQ-A-009, únicamente en presentación y navegación; no implementa todavía la persistencia ni las reglas funcionales dependientes de etapas posteriores.
+- Dependencia: E2-T02 completada y diseño aprobado en E1-T03.
+- Resultado: Inicio, Agenda diaria/semanal, Nueva cita, Tiempo personal, Clientes, Servicios y Ajustes implementados en XAML con MVVM sencillo, navegación adaptable y fuente ficticia compartida en memoria.
+- Evidencia: código bajo `src/TiempoEnOrden.App`, README y entrada E2-T03 en `AVANCES.md`; compilaciones separadas Android/Windows y arranque de proceso con ventana principal en Windows.
+- Criterio de cierre: cumplido para implementación y compilación. La herramienta de revisión no pudo seleccionar la ventana WinUI, por lo que capturas y recorrido visual automatizado quedan pendientes y no se sustituyen por el prototipo HTML.
+
 - E2-T04: compilar y ejecutar en cada destino disponible, documentando los pendientes.
 
 ## Etapa 3: datos y agenda local

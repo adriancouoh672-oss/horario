@@ -609,3 +609,86 @@ En una tarea posterior autorizada, abrir una terminal nueva, confirmar que `dotn
 ### SIGUIENTE TAREA
 
 E2-T03: implementar navegación con datos ficticios claramente identificados. Dependencia: E2-T02 completada. Criterio de cierre propuesto: navegación mínima coherente con el diseño aprobado, sin persistencia ni lógica de disponibilidad. E2-T03 no se inició en este encargo.
+
+## 2026-10-19 — E2-T03: navegación y pantallas XAML
+
+### ETAPA Y TAREA
+
+Etapa 2, tarea E2-T03. Implementar navegación y pantallas XAML de la entrega A sobre la solución existente, usando los bocetos aprobados y datos ficticios identificados. No se inició E2-T04.
+
+### RESULTADO
+
+E2-T03 queda completada para implementación y compilación. Se agregaron estas pantallas MAUI:
+
+- Inicio.
+- Agenda diaria y semanal.
+- Nueva cita.
+- Tiempo personal.
+- Clientes.
+- Servicios.
+- Ajustes.
+- `Más` como concentrador compacto exclusivo de la navegación Android.
+
+Windows usa navegación lateral bloqueada y una acción visible `Nueva cita`. Android usa barra inferior con `Inicio`, `Agenda` y `Más`. Los formularios, modelos de presentación y navegación permanecen en `TiempoEnOrden.App`; `TiempoEnOrden.Core` no recibió dependencias de MAUI ni reglas de presentación.
+
+Se implementó MVVM sencillo con `INotifyPropertyChanged`, comandos propios y registro de servicios en `MauiProgram`. No se agregó ningún paquete. La fuente `DemoScheduleStore` es un singleton en memoria compartido por Inicio y Agenda; usa como reloj ficticio el viernes 6 de noviembre de 2026 a las 09:20. Inicio muestra tres compromisos pendientes y separa un compromiso pasado. Los contadores se calculan desde la misma colección mostrada.
+
+Agenda permite cambiar día, semana, fecha, filtros de negocio/personal y visibilidad de canceladas. En Android, la semana usa una tira de siete días y el detalle del seleccionado. En Windows, usa una escala vertical uniforme de 09:00 a 21:00, a razón de 60 píxeles por hora; preparación, servicio y limpieza se colocan por sus minutos reales y se complementan con un resumen textual para segmentos pequeños.
+
+Nueva cita mantiene un `AppointmentDraft` compartido mientras se abre la creación contextual de cliente o servicio. Al regresar, el registro ficticio se selecciona sin perder fecha, hora ni notas. Descartar cambios pide confirmación cuando el borrador fue modificado. La pantalla solo ofrece `Revisar borrador` y declara que no guarda ni comprueba conflictos; no presenta una simulación como función terminada.
+
+Tiempo personal, Clientes, Servicios y Ajustes pueden modificar exclusivamente la colección de demostración en memoria. Todas las pantallas muestran que esos cambios se pierden al reiniciar.
+
+### FUNCIONES AÚN NO DISPONIBLES
+
+- Persistencia SQLite y recuperación tras reinicio.
+- Guardado, edición o cancelación real de citas.
+- Motor de disponibilidad, detección de conflictos y sugerencias.
+- Servidor, cuenta, sincronización y recordatorios.
+- Ejecución Android y validación en teléfono real.
+
+### ARCHIVOS CREADOS O MODIFICADOS
+
+- `src/TiempoEnOrden.App/Pages/`: siete pantallas de producto y la pantalla compacta `Más`.
+- `src/TiempoEnOrden.App/ViewModels/`: modelos de presentación y comandos.
+- `src/TiempoEnOrden.App/Models/DemoModels.cs`: tipos exclusivos de la demostración.
+- `src/TiempoEnOrden.App/Services/`: fuente ficticia compartida, navegación y diálogo de confirmación.
+- `src/TiempoEnOrden.App/Views/`: aviso de datos ficticios y escala semanal uniforme.
+- `src/TiempoEnOrden.App/Resources/Styles/`: colores, tipografía, espaciado, controles y foco centralizados.
+- `AppShell.xaml`, `AppShell.xaml.cs`, `MauiProgram.cs` y `App.xaml.cs`: navegación adaptable e inyección de dependencias.
+- `README.md`, `TAREAS.md` y `AVANCES.md`: alcance, comandos y evidencia.
+- Se retiró la pantalla mínima de E2-T02, sustituida por Inicio.
+
+### VALIDACIÓN EJECUTADA
+
+1. Restauración completa de App y Core: correcta.
+2. Core `net10.0`: compilación correcta, 0 advertencias y 0 errores.
+3. Windows `net10.0-windows10.0.19041.0`: compilación correcta, 0 advertencias y 0 errores.
+4. Android `net10.0-android`, Platform 36 y JDK 21: compilación correcta, 0 advertencias y 0 errores.
+5. Windows: `dotnet run --project .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 --no-build --no-launch-profile` creó un proceso receptivo con identificador de ventana distinto de cero y título `Tiempo en Orden`. El proceso permaneció activo durante la comprobación y se cerró al terminarla.
+
+La ejecución Windows confirma arranque y creación de la ventana principal, pero no demuestra el recorrido de navegación. La herramienta de control de Windows identificó `TiempoEnOrden.App` como proceso en ejecución, pero devolvió `windows: []` y no permitió seleccionar su ventana WinUI. Un reintento mediante la herramienta encontró además una aplicación ajena con el mismo título visible, por lo que se detuvo sin interactuar con ella. No se generaron capturas y no se sustituyó esta evidencia con capturas del prototipo HTML.
+
+Android solo se compiló. No se instaló emulador, no se creó AVD y no se ejecutó en teléfono, conforme al alcance.
+
+### PROBLEMAS Y BLOQUEOS
+
+- Bloqueo de evidencia visual automatizada en Windows: el proceso MAUI tenía `MainWindowTitle` y `MainWindowHandle`, pero la herramienta de captura no devolvió una ventana seleccionable.
+- No se pudo comprobar visualmente ni mediante interacción automatizada el menú, el cambio Día/Semana, filtros, foco, formulario contextual o escalado de texto. Esos recorridos quedan como prueba manual propuesta, no como aprobados.
+- No existen capturas MAUI para entregar en E2-T03 por ese bloqueo.
+- La ejecución Android permanece deliberadamente pendiente de E2-T04.
+
+### DECISIONES DE IMPLEMENTACIÓN
+
+- No se añadieron paquetes MVVM: los comandos y notificación de propiedades son internos y pequeños.
+- Los modelos de demostración, ViewModels y navegación permanecen en App. Core sigue independiente y reservado para reglas reales posteriores.
+- Los cambios de demostración son acciones reales solo sobre memoria volátil; los textos evitan llamarlos guardados persistentes.
+- No se muestran controles de revisión del prototipo dentro del menú del producto.
+
+### PRUEBA MANUAL PROPUESTA
+
+En Windows, ejecutar el comando del README y comprobar: navegación lateral completa; Inicio con tres pendientes y un pasado; cambio Día/Semana y filtros; escala semanal uniforme; apertura de Nueva cita; conservación de fecha/hora al crear cliente y servicio; confirmación al descartar; alta temporal de tiempo personal; foco visible con teclado; reflujo al ampliar texto. Registrar cada resultado observado y capturas reales de MAUI.
+
+### SIGUIENTE TAREA
+
+E2-T04: ejecutar y documentar cada destino disponible, incluyendo Android mediante AVD o teléfono cuando se autorice. Dependencia: E2-T03 completada. Criterio de cierre propuesto: arranque y recorrido manual registrado por plataforma, capturas reales y pendientes físicos diferenciados. E2-T04 no se inició.

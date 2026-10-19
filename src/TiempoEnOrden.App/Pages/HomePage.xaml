@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TiempoEnOrden.App.Pages.HomePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="Inicio">
+    <ScrollView>
+        <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="20" MaximumWidthRequest="1280" HorizontalOptions="Fill">
+            <views:DemoBannerView />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Greeting}" Style="{StaticResource PageTitle}" />
+                    <Label Text="{Binding DemoDateText}" Style="{StaticResource Caption}" />
+                    <Label Text="{Binding UpcomingCountText}" FontFamily="OpenSansSemibold" TextColor="{StaticResource Primary}" />
+                </VerticalStackLayout>
+                <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center" IsVisible="{OnPlatform Android=False, WinUI=True}">
+                    <Button Text="Tiempo personal" Command="{Binding OpenPersonalTimeCommand}" Style="{StaticResource SecondaryButton}" />
+                    <Button Text="Nueva cita" Command="{Binding OpenAppointmentCommand}" />
+                </HorizontalStackLayout>
+            </Grid>
+            <HorizontalStackLayout Spacing="8" IsVisible="{OnPlatform Android=True, WinUI=False}">
+                <Button Text="Nueva cita" Command="{Binding OpenAppointmentCommand}" HorizontalOptions="Fill" />
+                <Button Text="Tiempo personal" Command="{Binding OpenPersonalTimeCommand}" Style="{StaticResource SecondaryButton}" HorizontalOptions="Fill" />
+            </HorizontalStackLayout>
+
+            <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='0.9*,1.1*'}" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="20" RowSpacing="20">
+                <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="0" VerticalOptions="Start">
+                    <VerticalStackLayout Spacing="12" BindingContext="{Binding NextAppointment}">
+                        <Label Text="Próxima cita" Style="{StaticResource SectionTitle}" />
+                        <Label Text="{Binding Title}" FontSize="22" FontFamily="OpenSansSemibold" />
+                        <Label Text="{Binding Subtitle}" />
+                        <Label Text="{Binding TimeText}" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource Business}" />
+                        <Label Text="Ocupación total: preparación, servicio y limpieza" Style="{StaticResource Caption}" />
+                        <Button Text="Ver agenda" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:HomePage}}, Path=OpenAgendaCommand}" Style="{StaticResource SecondaryButton}" HorizontalOptions="Start" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Grid.Column="{OnPlatform Android=0, WinUI=1}" Grid.Row="{OnPlatform Android=1, WinUI=0}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Compromisos de hoy" Style="{StaticResource SectionTitle}" />
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding TodayItems}" Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="12" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 10">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                            <Label Text="{Binding Icon}" FontSize="20" VerticalOptions="Center" />
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" TextColor="#18282D" />
+                                                <Label Text="{Binding Subtitle}" FontSize="13" TextColor="#52666D" />
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="End">
+                                                <Label Text="{Binding TimeText}" FontFamily="OpenSansSemibold" TextColor="#18282D" />
+                                                <Label Text="{Binding StatusText}" FontSize="13" HorizontalTextAlignment="End" TextColor="#52666D" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="{OnPlatform Android=2, WinUI=1}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Tareas sin horario" Style="{StaticResource SectionTitle}" />
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Tasks}">
+                            <BindableLayout.ItemTemplate><DataTemplate><Label Text="• {Binding .}" /></DataTemplate></BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                        <Label Text="No ocupan disponibilidad." Style="{StaticResource Caption}" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

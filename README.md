@@ -1,6 +1,6 @@
 # Tiempo en Orden
 
-Base de desarrollo de una agenda personal y de negocio para Android y Windows. Esta solución todavía no implementa la agenda, persistencia, disponibilidad, servidor, sincronización ni recordatorios.
+Aplicación .NET MAUI de una agenda personal y de negocio para Android y Windows. E2-T03 incorpora navegación y pantallas XAML de la entrega A con datos ficticios en memoria; todavía no implementa persistencia, motor de disponibilidad, servidor, sincronización ni recordatorios.
 
 ## Estructura
 
@@ -8,6 +8,17 @@ Base de desarrollo de una agenda personal y de negocio para Android y Windows. E
 - `src/TiempoEnOrden.Core`: biblioteca C# compartida e independiente de MAUI.
 
 La aplicación depende de `Core`; `Core` no depende de la aplicación.
+
+## Pantallas disponibles en la demostración
+
+- Inicio con próxima cita, compromisos del día y tarea sin horario.
+- Agenda diaria y semanal con navegación por fecha, filtros y canceladas.
+- Nueva cita como borrador visual; no guarda ni comprueba conflictos.
+- Tiempo personal con altas únicamente en memoria.
+- Clientes y Servicios con creación contextual que conserva el borrador de cita.
+- Ajustes de demostración.
+
+La muestra usa el viernes 6 de noviembre de 2026 a las 09:20 como fecha y hora ficticias. Todas las pantallas señalan que los datos pueden desaparecer al reiniciar.
 
 ## Requisitos de compilación
 
@@ -62,3 +73,11 @@ dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows
 ```
 
 Estos comandos solo restauran y compilan. No ejecutan la aplicación ni sustituyen las pruebas posteriores en un teléfono Android o en una sesión de Windows.
+
+## Ejecutar en Windows
+
+```powershell
+dotnet run --project .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 --no-build --no-launch-profile
+```
+
+E2-T03 confirmó que el proceso crea una ventana principal titulada `Tiempo en Orden`. La inspección automatizada de su contenido quedó pendiente porque la herramienta de captura no expuso esa ventana como seleccionable. Android no se ejecutó: se preparará en E2-T04 sin instalar un emulador durante E2-T03.

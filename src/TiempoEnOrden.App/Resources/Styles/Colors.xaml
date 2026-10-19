@@ -1,44 +1,29 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-
-    <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
-
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
-
-    <Color x:Key="White">White</Color>
-    <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#D600AA</Color>
-    <Color x:Key="MidnightBlue">#190649</Color>
-    <Color x:Key="OffBlack">#1f1f1f</Color>
-
-    <Color x:Key="Gray100">#E1E1E1</Color>
-    <Color x:Key="Gray200">#C8C8C8</Color>
-    <Color x:Key="Gray300">#ACACAC</Color>
-    <Color x:Key="Gray400">#919191</Color>
-    <Color x:Key="Gray500">#6E6E6E</Color>
-    <Color x:Key="Gray600">#404040</Color>
-    <Color x:Key="Gray900">#212121</Color>
-    <Color x:Key="Gray950">#141414</Color>
-
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
-    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
-    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
-    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
-    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
-
-    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
-    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
-    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
-    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
-    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
-    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
-    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
-    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="Primary">#0F6674</Color>
+    <Color x:Key="PrimaryHover">#0A5360</Color>
+    <Color x:Key="PrimarySoft">#DDF1F3</Color>
+    <Color x:Key="PageBackground">#F3F7F8</Color>
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="SurfaceMuted">#EAF0F1</Color>
+    <Color x:Key="TextPrimary">#18282D</Color>
+    <Color x:Key="TextSecondary">#52666D</Color>
+    <Color x:Key="Border">#CAD7DA</Color>
+    <Color x:Key="Business">#176B87</Color>
+    <Color x:Key="BusinessSoft">#DCEEFF</Color>
+    <Color x:Key="Personal">#7352A3</Color>
+    <Color x:Key="PersonalSoft">#F0E8FF</Color>
+    <Color x:Key="Preparation">#9A6500</Color>
+    <Color x:Key="PreparationSoft">#FFF3D6</Color>
+    <Color x:Key="Cleanup">#287788</Color>
+    <Color x:Key="CleanupSoft">#E2F2F5</Color>
+    <Color x:Key="Danger">#A33B3B</Color>
+    <Color x:Key="DangerSoft">#FCE8E8</Color>
+    <Color x:Key="Success">#2E7048</Color>
+    <Color x:Key="SuccessSoft">#E1F3E7</Color>
+    <Color x:Key="DarkPageBackground">#142126</Color>
+    <Color x:Key="DarkSurface">#1D2D33</Color>
+    <Color x:Key="DarkTextPrimary">#EDF5F5</Color>
+    <Color x:Key="DarkTextSecondary">#B7C8CC</Color>
+    <Color x:Key="DarkBorder">#3C535A</Color>
 </ResourceDictionary>
