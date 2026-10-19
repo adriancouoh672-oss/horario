@@ -523,3 +523,89 @@ Después de autorizar y preparar el entorno, E2-T02 deberá registrar `dotnet --
 ### SIGUIENTE TAREA
 
 E2-T02: preparar los componentes faltantes autorizados, crear la solución mínima y confirmar la combinación candidata mediante compilaciones separadas. Dependencia: E2-T01 completada y autorización explícita. Criterio de cierre: solución mínima con reglas separadas de interfaz y resultados reales de compilación para Android y Windows, o bloqueos documentados. No iniciada en este encargo.
+
+## 2026-10-19 — E2-T02: entorno y solución mínima
+
+### ETAPA Y TAREA
+
+Etapa 2, tarea E2-T02. Preparar el entorno de compilación por CLI, crear la solución mínima C#/.NET MAUI y comprobar Core, Android y Windows por separado. No se inició E2-T03.
+
+### RESULTADO
+
+E2-T02 queda completada. La combinación de DEC-0019 se confirmó para compilación con estos componentes efectivos:
+
+| Componente | Versión o destino efectivo | Ruta o procedencia |
+| --- | --- | --- |
+| .NET SDK / runtime | SDK `10.0.113`; runtime `10.0.13`; MSBuild `18.0.36` | `%USERPROFILE%\.dotnet` |
+| .NET MAUI | manifiesto y paquetes `10.0.110` | carga `maui`, workload set `10.0.113` |
+| .NET for Android | `36.1.118` | carga de trabajo .NET 10 |
+| Java | Microsoft OpenJDK `21.0.12.1+1` LTS | `%USERPROFILE%\.jdks\jdk-21.0.12.1+1` |
+| Android para compilar | `net10.0-android`; Platform 36; Build-Tools `36.0.0` | `%LOCALAPPDATA%\Android\Sdk` |
+| Android cliente mínimo | Android 7.0, API 24 | `SupportedOSPlatformVersion=24.0` |
+| Windows para compilar | `net10.0-windows10.0.19041.0`; SDK BuildTools `10.0.26100.8249`; Windows App SDK `1.8.260529003` | paquetes transitivos restaurados |
+| Windows cliente mínimo | Windows 10 1809, build `17763` | `TargetPlatformMinVersion=10.0.17763.0` |
+
+Se creó `TiempoEnOrden.sln` con dos proyectos y una única dependencia: `TiempoEnOrden.App` referencia `TiempoEnOrden.Core`; Core no referencia App ni MAUI. La app conserva XAML y muestra una pantalla mínima con `Tiempo en Orden`, `Base de desarrollo` y una advertencia de que las funciones de agenda se implementarán después.
+
+No se implementaron persistencia, reglas de disponibilidad, conflictos, servidor, sincronización, recordatorios ni navegación completa.
+
+### PREPARACIÓN DEL ENTORNO
+
+- Se comprobó en las fuentes oficiales ya registradas en DEC-0019 y DEC-0020 que SDK .NET `10.0.113`, runtime `10.0.13`, MAUI `10.0.110`, JDK 21 y la familia Windows SDK 26100 existían y eran compatibles antes de descargarlos.
+- El intento inicial de `winget install Microsoft.DotNet.SDK.10 --version 10.0.113` descargó y verificó el instalador, pero quedó pendiente de elevación. Se cancelaron únicamente sus procesos y se confirmó que la instalación global anterior no cambió.
+- Para no bloquear el trabajo, se instaló el SDK oficial con `dotnet-install.ps1` en `%USERPROFILE%\.dotnet` y se actualizó la carga `maui` a `10.0.110` mediante `dotnet workload update`.
+- Se descargó Microsoft OpenJDK `21.0.12.1` desde el enlace oficial. El SHA-256 calculado coincidió con el publicado: `192441A9D27DA813BADA974BB88B4CF64D37A9589ED37F204374D411CA5CE07F`.
+- Se reutilizó el Android SDK existente. No se reemplazó ni reinstaló Android Studio, Platform 36, Build-Tools 36.0.0, Platform-Tools ni el emulador.
+- Se definieron como variables de usuario `DOTNET_ROOT`, `JAVA_HOME`, `ANDROID_HOME` y `ANDROID_SDK_ROOT`. Se agregaron a `PATH` las rutas faltantes de .NET, Java, `platform-tools` y `emulator`, conservando el contenido y sin duplicar entradas.
+- No se instaló Windows Kits de forma global: la compilación CLI restauró `Microsoft.Windows.SDK.BuildTools 10.0.26100.8249`, suficiente para este alcance. Tampoco se instalaron extensiones del editor porque no son necesarias para compilar.
+
+### ARCHIVOS CREADOS O MODIFICADOS
+
+- `.gitignore`: excluye `bin`, `obj`, resultados, paquetes, firma y configuración local.
+- `global.json`: fija exactamente el SDK `10.0.113` y desactiva el avance automático a otra versión.
+- `TiempoEnOrden.sln`: solución con App y Core.
+- `src/TiempoEnOrden.App/`: proyecto MAUI XAML limitado a Android y Windows.
+- `src/TiempoEnOrden.Core/`: biblioteca C# `net10.0` independiente de MAUI.
+- `README.md`: preparación y comandos reproducibles.
+- `TAREAS.md`, `docs/DECISIONES.md` y `AVANCES.md`: estado, decisiones y evidencia de E2-T02.
+
+### VALIDACIONES EJECUTADAS
+
+1. Core:
+   - `dotnet restore .\src\TiempoEnOrden.Core\TiempoEnOrden.Core.csproj`
+   - `dotnet build .\src\TiempoEnOrden.Core\TiempoEnOrden.Core.csproj -c Debug --no-restore`
+   - Resultado: compilación correcta, 0 advertencias y 0 errores.
+2. Android:
+   - Una primera restauración con `-p:TargetFramework=net10.0-android` propagó indebidamente la propiedad al proyecto Core y produjo `NETSDK1005`; no era un error del código ni de la plataforma.
+   - Se corrigió el procedimiento con `dotnet restore .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj`, seguido de `dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-android -c Debug --no-restore` y las rutas efectivas de Android/JDK.
+   - Resultado final: compilación correcta, 0 advertencias y 0 errores.
+3. Windows:
+   - `dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 -c Debug --no-restore`
+   - Resultado: compilación correcta, 0 advertencias y 0 errores.
+4. Inventario:
+   - `dotnet --info`, `dotnet workload list`, `java -version`, inventario de Platform/Build-Tools Android y `dotnet list ... package --include-transitive` confirmaron las versiones de la tabla.
+
+Estas son compilaciones, no ejecuciones. No se desplegó la app, no se abrió un emulador, no se conectó un teléfono y no se declaró Android, Windows ni teléfono real como probado en ejecución.
+
+### PROBLEMAS, BLOQUEOS Y PASOS MANUALES
+
+- No quedan bloqueos para la compilación por CLI.
+- La instalación global por `winget` necesitaría aprobación de UAC; no es necesaria porque la instalación por usuario funciona y está documentada.
+- Para ejecutar Android más adelante se deberá crear un AVD API 36 o conectar un teléfono con depuración autorizada.
+- Para desplegar Windows más adelante se deberá confirmar o habilitar Modo de desarrollador si el método de despliegue lo exige.
+- Las extensiones oficiales C#, C# Dev Kit y .NET MAUI de VS Code son opcionales para edición y depuración; no se instalaron porque la CLI cubrió E2-T02.
+- La validación en teléfono real sigue pendiente de implementación y no forma parte de esta tarea.
+
+### DECISIONES
+
+- DEC-0019 pasa de candidata a confirmada para compilación, no para ejecución.
+- DEC-0020 registra las rutas y herramientas efectivas, además de los elementos opcionales pendientes.
+- DEC-0021 fija la solución mínima de dos proyectos y la dirección de dependencia App → Core.
+
+### PRUEBA MANUAL PROPUESTA
+
+En una tarea posterior autorizada, abrir una terminal nueva, confirmar que `dotnet --version` devuelve `10.0.113` dentro del repositorio y ejecutar la aplicación primero en un destino disponible. Registrar despliegue, arranque y pantalla observada por plataforma, sin inferir la otra plataforma.
+
+### SIGUIENTE TAREA
+
+E2-T03: implementar navegación con datos ficticios claramente identificados. Dependencia: E2-T02 completada. Criterio de cierre propuesto: navegación mínima coherente con el diseño aprobado, sin persistencia ni lógica de disponibilidad. E2-T03 no se inició en este encargo.

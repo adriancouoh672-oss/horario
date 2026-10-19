@@ -1,0 +1,40 @@
+## .NET, Visual Studio y Visual Studio Code
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Resultados y paquetes
+artifacts/
+TestResults/
+*.nupkg
+*.snupkg
+
+## Android y firma local
+*.apk
+*.aab
+*.keystore
+*.jks
+*.pfx
+
+## Windows y MAUI
+AppPackages/
+BundleArtifacts/
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+
+## Sistema operativo
+.DS_Store
+Thumbs.db
+
+## Configuración local y secretos
+.env
+.env.*
+!.env.example
+secrets.json

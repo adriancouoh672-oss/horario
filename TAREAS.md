@@ -64,7 +64,7 @@ Estado: completada el 2026-10-19. E1-T01, E1-T02 y E1-T03 cerradas; el diseño y
 
 ## Etapa 2: base ejecutable
 
-Estado: en curso. E2-T01 completada; E2-T02 no iniciada. Depende de la etapa 1, aprobada el 2026-10-19.
+Estado: en curso. E2-T01 y E2-T02 completadas; E2-T03 no iniciada. Depende de la etapa 1, aprobada el 2026-10-19.
 
 ### E2-T01. Elegir versiones objetivo y requisitos del entorno
 
@@ -77,11 +77,12 @@ Estado: en curso. E2-T01 completada; E2-T02 no iniciada. Depende de la etapa 1, 
 
 ### E2-T02. Crear solución mínima y separación de lógica/interfaz
 
-- Estado: no iniciada.
+- Estado: completada el 2026-10-19.
 - Requisitos relacionados: REQ-A-001 a REQ-A-009.
 - Dependencia: E2-T01 completada y autorización explícita para preparar el entorno y crear la solución.
-- Evidencia esperada: versiones efectivas, restauración y compilación mínima separada de Android y Windows, más estructura que mantenga reglas fuera de las vistas.
-- Criterio de cierre: solución mínima creada y combinación candidata confirmada o corregida con resultados reales de compilación.
+- Resultado: entorno CLI preparado, solución mínima creada con `TiempoEnOrden.App` y `TiempoEnOrden.Core`, y combinación de DEC-0019 confirmada para compilación.
+- Evidencia: `global.json`, `TiempoEnOrden.sln`, proyectos bajo `src/`, `README.md`, DEC-0019 a DEC-0021 y entrada E2-T02 en `AVANCES.md`.
+- Criterio de cierre: cumplido; Core, Android y Windows restauraron y compilaron por separado sin errores. No se ejecutó la aplicación.
 
 - E2-T03: implementar navegación con datos ficticios identificados.
 - E2-T04: compilar y ejecutar en cada destino disponible, documentando los pendientes.

@@ -25,15 +25,15 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Decisión: orientar la primera entrega a Android y Windows.
 - Motivo: corresponde al escenario del usuario inicial.
 - Evidencia de viabilidad general: la documentación oficial de .NET MAUI permite compilar Android y Windows desde Windows; el equipo cumple el requisito general de sistema operativo.
-- Pendiente: comprobar compilación y ejecución reales de cada plataforma en la etapa 2.
+- Pendiente: comprobar ejecución real de cada plataforma en una tarea posterior; E2-T02 confirmó la compilación de ambas.
 
 ## DEC-0004. Tecnología candidata
 
 - Fecha: 2026-10-18
-- Estado: aceptada como base tecnológica; versiones candidatas en DEC-0019 pendientes de compilación mínima
+- Estado: aceptada como base tecnológica; versiones de DEC-0019 confirmadas por compilación mínima en E2-T02
 - Decisión: C#/.NET MAUI con XAML, SQLite local y, en una entrega posterior, ASP.NET Core y SignalR.
 - Motivo: permite compartir modelos y reglas entre Android y Windows, conservar integraciones específicas por plataforma y seguir la arquitectura de la guía.
-- Pendiente: comprobar la combinación de versiones de DEC-0019 mediante la solución mínima de E2-T02.
+- Pendiente: comprobar ejecución y comportamiento en cada plataforma en tareas posteriores; la compilación mínima quedó confirmada en E2-T02.
 
 ## DEC-0005. Persistencia local antes que sincronización
 
@@ -156,30 +156,44 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 ## DEC-0019. Versiones objetivo de la base ejecutable
 
 - Fecha: 2026-10-19
-- Estado: combinación candidata; requiere compilación mínima en E2-T02
+- Estado: combinación confirmada para compilación en E2-T02; ejecución pendiente
 - Decisión: usar .NET 10 LTS y .NET MAUI 10 para Android y Windows. Preparar el SDK .NET `10.0.113` de la banda 10.0.1xx, que incluye el runtime de seguridad `10.0.13`, y el servicio estable .NET MAUI `10.0.110`. La instalación actual `10.0.102`/MAUI `10.0.20` se aprovecha como base, pero no se fija porque está por detrás de las correcciones de seguridad y mantenimiento vigentes.
 - Android para compilar: `net10.0-android`, Android SDK Platform 36, Build-Tools `36.0.0` y Microsoft OpenJDK 21 LTS. El paquete Android exacto lo resolverá el conjunto estable de cargas de trabajo de .NET 10; no se fijará manualmente fuera de ese conjunto.
 - Android para el cliente: mínimo Android 7.0, API 24. Aunque .NET 10 todavía admite API 21, la documentación recomienda API 24 para evitar fallos de ejecución relacionados con desugaring.
-- Windows para compilar: `net10.0-windows10.0.19041.0`, Windows SDK estable de la familia `10.0.26100.x` o posterior compatible y Windows App SDK transitivo de la versión MAUI elegida, sin sobrescribirlo manualmente al crear la solución.
+- Windows para compilar: `net10.0-windows10.0.19041.0`, `Microsoft.Windows.SDK.BuildTools 10.0.26100.8249` y `Microsoft.WindowsAppSDK 1.8.260529003`, resueltos transitivamente por MAUI sin sobrescribirlos manualmente.
 - Windows para el cliente: mínimo Windows 10 versión 1809, compilación `10.0.17763.0`; las API posteriores deberán protegerse con comprobaciones de versión.
 - Justificación: .NET 10 es LTS activo hasta el 2028-11-14; API 36 es estable y es la plataforma de compilación predeterminada de .NET 10 para Android; Windows App SDK conserva compatibilidad hasta Windows 10 1809.
-- Consecuencia: E2-T02 debe crear una solución mínima, restaurar y compilar por separado Android y Windows antes de convertir esta combinación candidata en confirmada.
+- Evidencia: .NET SDK `10.0.113`, runtime `10.0.13`, manifiesto MAUI `10.0.110`, .NET for Android `36.1.118`, Microsoft OpenJDK `21.0.12.1`, Android Platform 36 y Build-Tools `36.0.0`. Core, Android y Windows compilaron por separado con cero errores y cero advertencias.
+- Consecuencia: la combinación queda confirmada para compilación. Esto no demuestra ejecución en Android o Windows ni validación en teléfono real.
 
 ## DEC-0020. Preparación del entorno para E2-T02
 
 - Fecha: 2026-10-19
-- Estado: diagnóstico completado; preparación pendiente y no ejecutada
+- Estado: preparación de CLI completada en E2-T02; herramientas opcionales de ejecución pendientes
 - Herramientas reutilizables: Windows x64 versión mostrada como 25H2, compilación 26200; .NET SDK `10.0.102`; carga `maui` con MAUI `10.0.20` y .NET for Android `36.1.43`; Visual Studio Code `1.140.0`; Android Studio 2026.1; Android SDK Platform 35, 36 y 37.0; Build-Tools `36.0.0`; Platform-Tools `37.0.1`; emulador `37.1.11`; aproximadamente 380 GB libres.
-- Componentes faltantes o no configurados: Microsoft OpenJDK 21; `JAVA_HOME`; `ANDROID_HOME`; Windows SDK/Windows Kits; extensiones oficiales C#, C# Dev Kit y .NET MAUI para Visual Studio Code; dispositivo Android o AVD; confirmación de Modo de desarrollador. No hay una instalación completa de Visual Studio, solo SSMS y el instalador.
+- Componentes preparados: SDK .NET `10.0.113` en `%USERPROFILE%\.dotnet`; carga MAUI `10.0.110`; Microsoft OpenJDK `21.0.12.1` en `%USERPROFILE%\.jdks\jdk-21.0.12.1+1`; variables de usuario `DOTNET_ROOT`, `JAVA_HOME`, `ANDROID_HOME` y `ANDROID_SDK_ROOT`; entradas no duplicadas de .NET, Java, `platform-tools` y `emulator` en el `PATH` de usuario.
+- Componentes reutilizados: Android SDK existente en `C:\Users\adria\AppData\Local\Android\Sdk`, Platform 36, Build-Tools `36.0.0` y Platform-Tools `37.0.1`.
+- Herramientas Windows efectivas: la restauración obtuvo `Microsoft.Windows.SDK.BuildTools 10.0.26100.8249` y `Microsoft.WindowsAppSDK 1.8.260529003`; no fue necesario instalar Windows Kits ni Visual Studio para la compilación CLI.
 - Incompatibilidad observada: Android Studio incluye JDK 25, pero no se elige porque .NET 10 documenta JDK 21. `sdkmanager` 12 puede enumerar los paquetes, aunque avisa que solo entiende XML hasta versión 3 frente a repositorios con XML 4.
-- Preparación exacta autorizable antes de E2-T02: instalar SDK .NET `10.0.113` x64 y actualizar la carga estable MAUI 10 dentro de la banda 10.0.1xx; instalar Microsoft OpenJDK 21 x64; definir `JAVA_HOME` a su carpeta real; definir `ANDROID_HOME` como `C:\Users\adria\AppData\Local\Android\Sdk`; agregar `%ANDROID_HOME%\platform-tools` y `%ANDROID_HOME%\emulator` a `PATH`; instalar Windows SDK estable `10.0.26100.x`; instalar las extensiones oficiales de C#, C# Dev Kit y .NET MAUI en VS Code; comprobar o habilitar Modo de desarrollador antes de desplegar Windows.
+- Método de instalación: el intento de instalación de .NET por `winget` requirió elevación y no pudo completarse de forma desatendida. Se usó el instalador oficial `dotnet-install.ps1` en el perfil del usuario. Microsoft OpenJDK se instaló desde el ZIP oficial tras comprobar su SHA-256 (`192441A9D27DA813BADA974BB88B4CF64D37A9589ED37F204374D411CA5CE07F`).
 - Alternativa de IDE: si se prefiere Visual Studio, .NET 10 requiere Visual Studio 2026 versión 18.0 o posterior con la carga de desarrollo .NET MAUI. No es necesario instalarlo para probar primero la ruta ya disponible de CLI y VS Code.
-- Elementos no bloqueantes para compilar: no hay AVD ni teléfono conectado. Se necesitará uno para ejecutar Android más adelante, no para la primera compilación. La directiva de rutas largas está desactivada y se vigilará en E2-T02 antes de cambiarla.
-- Consecuencia: no se instaló ni configuró nada en E2-T01. Los pasos se ejecutarán únicamente con una autorización posterior; E2-T02 registrará versiones efectivas y resultados reales.
+- Elementos no bloqueantes para compilar y todavía pendientes: extensiones oficiales de C# y MAUI para VS Code, AVD o teléfono conectado, y confirmación de Modo de desarrollador. Solo se necesitan para mejorar la edición o ejecutar/desplegar en tareas posteriores. La directiva de rutas largas permanece sin cambios porque las compilaciones no la requirieron.
+- Consecuencia: el entorno CLI queda preparado y reproducible. No se reemplazó el `PATH`, no se duplicaron entradas y se conservaron las instalaciones previas.
+
+## DEC-0021. Estructura mínima de la solución
+
+- Fecha: 2026-10-19
+- Estado: aceptada para la base ejecutable de E2-T02
+- Decisión: la solución contiene únicamente `TiempoEnOrden.App`, aplicación MAUI con XAML dirigida a Android y Windows, y `TiempoEnOrden.Core`, biblioteca `net10.0` independiente de MAUI. App referencia Core; Core no referencia App.
+- Motivo: establecer una frontera verificable entre interfaz y lógica compartida sin crear capas, API o infraestructura antes de necesitarlas.
+- Alcance actual: la única pantalla muestra el nombre del producto y la leyenda `Base de desarrollo`. `ProductInfo` contiene solo la identidad compartida del producto; no implementa reglas de negocio.
+- Consecuencia: persistencia, disponibilidad, conflictos, navegación completa, servidor, sincronización y recordatorios continúan fuera de E2-T02.
 
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0
+- Instalación oficial por script de .NET: https://learn.microsoft.com/dotnet/core/tools/dotnet-install-script
+- Descarga oficial de Microsoft Build of OpenJDK 21: https://learn.microsoft.com/java/openjdk/download
 - Plataformas compatibles: https://learn.microsoft.com/dotnet/maui/supported-platforms?view=net-maui-10.0
 - Novedades de .NET MAUI 10, API 36, JDK 21 y mínimo recomendado: https://learn.microsoft.com/dotnet/maui/whats-new/dotnet-10?view=net-maui-10.0
 - Instalación y configuración: https://learn.microsoft.com/dotnet/maui/get-started/installation y https://learn.microsoft.com/dotnet/android/getting-started/installation/dependencies
@@ -191,4 +205,4 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - SQLite local: https://learn.microsoft.com/dotnet/maui/data-cloud/database-sqlite?view=net-maui-10.0
 - SignalR: https://learn.microsoft.com/aspnet/core/signalr/introduction?view=aspnetcore-10.0
 
-Estas referencias respaldan las decisiones y distinguen herramientas de compilación de mínimos de cliente. La compatibilidad real de la combinación candidata todavía no está probada en este equipo.
+Estas referencias respaldan las decisiones y distinguen herramientas de compilación de mínimos de cliente. E2-T02 confirmó la combinación mediante compilaciones separadas de Core, Android y Windows; la ejecución en cada plataforma continúa pendiente.
