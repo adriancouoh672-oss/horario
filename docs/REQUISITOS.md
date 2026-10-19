@@ -33,7 +33,7 @@ Estado: requisitos de la entrega A refinados en E1-T01. Describen comportamiento
 
 ## Integración de propuestas técnicas de E1-T03
 
-DEC-0011 a DEC-0017 se contrastaron con estos requisitos como resultado de una revisión técnica asistida. No se modificaron identificadores ni se detectaron contradicciones funcionales. Su estado es de propuesta técnicamente revisada: todavía no representan aprobación del responsable ni validación del producto implementado.
+DEC-0011 a DEC-0017 se contrastaron con estos requisitos como resultado de una revisión técnica asistida. No se modificaron identificadores ni se detectaron contradicciones funcionales. El responsable aprobó estas decisiones y el diseño el 2026-10-19. La aprobación no sustituye la validación del producto implementado.
 
 | Decisión | Requisitos relacionados | Alcance integrado |
 | --- | --- | --- |
@@ -45,7 +45,7 @@ DEC-0011 a DEC-0017 se contrastaron con estos requisitos como resultado de una r
 | DEC-0016 | REQ-A-002, REQ-A-003, REQ-A-009 | Archivar conserva historial y excluye el registro de nuevas selecciones por defecto. |
 | DEC-0017 | REQ-A-004, REQ-A-008 | Lenguaje visual compartido con adaptación a Android y Windows. |
 
-Evidencia disponible en E1-T03: revisión documental realizada, diseño revisado mediante las tres capturas vigentes y pruebas de interacción del prototipo en navegador reportadas por Codex. Permanecen pendientes la aprobación del responsable y la validación en un teléfono real, que requiere una versión ejecutable después de autorizar la implementación.
+Evidencia disponible en E1-T03: revisión documental realizada, diseño revisado mediante las tres capturas vigentes, pruebas de interacción del prototipo en navegador reportadas por Codex y aprobación explícita del responsable el 2026-10-19. Permanece pendiente la validación en un teléfono real, que requiere una versión ejecutable.
 
 ## Requisitos funcionales de la entrega A
 
@@ -347,9 +347,9 @@ De 3 a 5 personas completarán recorridos definidos por el responsable y se regi
 
 Estado de REQ-C-001 a REQ-C-004: documentados para una entrega posterior; no autorizados.
 
-## Decisiones pendientes para continuar el diseño
+## Seguimiento posterior al diseño aprobado
 
 - Confirmar o corregir el público inicial mediante entrevistas reales.
-- Confirmar requisitos de accesibilidad y flujos móvil/escritorio durante E1-T02 y E1-T03.
-- Confirmar las decisiones provisionales de E1-T02 durante E1-T03.
-- Resolver reactivación de registros archivados, tratamiento de varias zonas horarias y densidad de la vista semanal móvil.
+- El diseño móvil/escritorio y DEC-0011 a DEC-0017 fueron aprobados el 2026-10-19.
+- Validar accesibilidad, densidad e interacción en un teléfono real cuando exista una versión ejecutable.
+- Resolver reactivación de registros archivados, tratamiento de varias zonas horarias y representación de citas que cruzan fechas.

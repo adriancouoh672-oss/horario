@@ -1,6 +1,6 @@
 # Diseño de Tiempo en Orden
 
-Estado: especificación visual provisional ajustada en E1-T03. Los bocetos son material de revisión; no son una aplicación web ni prueban funciones implementadas. La aplicación de producción prevista continúa siendo C#/.NET MAUI. La revisión del responsable sigue pendiente.
+Estado: diseño aprobado por el responsable el 2026-10-19 y E1-T03 cerrada. Los bocetos son material de diseño; no son una aplicación web ni prueban funciones implementadas. La aplicación de producción prevista continúa siendo C#/.NET MAUI. La validación en teléfono real permanece pendiente hasta disponer de una versión ejecutable.
 
 ## Alcance de este diseño
 
@@ -252,7 +252,7 @@ Abrir `docs/prototipos/tiempo-en-orden-bocetos.html`. Los controles externos cam
 
 ### Alcance registrado y estado
 
-`TAREAS.md` registraba E1-T03 como revisión con el responsable, dependiente de E1-T02, con cierre cuando el flujo de creación/corrección resulte comprensible y existan comentarios. El encargo actual autoriza los ajustes y la comprobación del prototipo. No equivale a aprobación final: la tarea queda en curso hasta recibir comentarios del responsable y la etapa 1 no se marca como terminada.
+`TAREAS.md` registraba E1-T03 como revisión con el responsable, dependiente de E1-T02, con cierre cuando el flujo de creación/corrección resulte comprensible y existan comentarios. Tras los ajustes y comprobaciones del prototipo, el responsable aprobó expresamente el diseño y las decisiones revisadas el 2026-10-19. E1-T03 y la etapa 1 quedan cerradas; la validación física continúa separada y pendiente.
 
 ### Evidencia y estado de la revisión
 
@@ -261,10 +261,10 @@ Abrir `docs/prototipos/tiempo-en-orden-bocetos.html`. Los controles externos cam
 | Revisión documental | Realizada | Se contrastaron REQ-A-001 a REQ-A-009, DEC-0011 a DEC-0017 y la especificación visual sin cambiar identificadores. |
 | Diseño revisado mediante capturas | Realizada | Se revisaron `semana-movil-corregida-e1-t03.png`, `semana-escritorio-corregida-e1-t03.png` y `formulario-actualizado-e1-t03.png`. |
 | Pruebas de interacción | Reportadas por Codex | Recorridos simulados en el prototipo HTML dentro de un navegador; no prueban lógica de producto ni una aplicación MAUI. |
-| Aprobación del responsable | Pendiente | No se han atribuido las propuestas ni los resultados a una aprobación del responsable. |
+| Aprobación del responsable | Realizada el 2026-10-19 | El responsable aprobó expresamente el diseño y DEC-0011 a DEC-0017. |
 | Validación en teléfono real | Pendiente de implementación | Requiere una versión ejecutable cuando se autorice la implementación; no puede inferirse de las capturas ni del navegador. |
 
-DEC-0011 a DEC-0017 quedan integradas como propuestas técnicamente revisadas. No se encontraron contradicciones con los requisitos vigentes. La formulación anterior que consideraba “resuelta” la presentación de zona horaria se corrige porque describía una solución visual, no una aprobación.
+DEC-0011 a DEC-0017 quedan integradas como decisiones aprobadas. No se encontraron contradicciones con los requisitos vigentes. La aprobación no convierte las comprobaciones del navegador en pruebas físicas ni elimina la validación pendiente en teléfono real.
 
 ### Ajustes implementados
 
@@ -299,13 +299,11 @@ Estas son comprobaciones visuales y de interacción del prototipo HTML en Chrome
 
 Las seis capturas de la primera revisión fueron sustituidas por las tres capturas vigentes de la segunda revisión, enumeradas más abajo.
 
-### Pendiente de revisión del responsable
+### Resultado de la revisión del responsable
 
-- Confirmar si la jerarquía de Inicio prioriza correctamente próxima cita, acciones y agenda del día.
-- Confirmar si preparación y limpieza se comprenden como tiempo ocupado separado del servicio.
-- Confirmar si la semana móvil y el mensaje de conflicto son suficientemente claros en un teléfono real.
-- Aprobar, rechazar o ajustar las propuestas técnicamente revisadas DEC-0011 a DEC-0017.
-- Resolver las preguntas funcionales todavía abiertas: motivo de cancelación, reactivación de archivados y representación de citas entre fechas.
+- El diseño y DEC-0011 a DEC-0017 fueron aprobados expresamente el 2026-10-19.
+- La validación de comodidad, densidad y comportamiento en un teléfono real queda pendiente hasta disponer de una versión ejecutable.
+- Siguen abiertas las decisiones no incluidas en la aprobación: motivo de cancelación, reactivación de archivados y representación de citas entre fechas.
 
 ### Segunda revisión de capturas E1-T03
 
@@ -322,17 +320,17 @@ Capturas vigentes de esta revisión:
 - `docs/prototipos/capturas/semana-escritorio-corregida-e1-t03.png`
 - `docs/prototipos/capturas/formulario-actualizado-e1-t03.png`
 
-La revisión del responsable continúa pendiente y la etapa 2 permanece sin iniciar.
+La revisión del responsable fue aprobada el 2026-10-19. E1-T03 y la etapa 1 quedan cerradas; la validación en teléfono real permanece pendiente de implementación.
 
-## Preguntas para E1-T03
+## Resultado de las preguntas de E1-T03
 
-1. ¿La diferencia entre preparación, servicio y limpieza se entiende sin explicación adicional?
-2. ¿La semana móvil permite decidir rápidamente qué día revisar?
-3. ¿Inicio debe mostrar primero próxima cita o compromisos del día?
-4. ¿La creación contextual de cliente/servicio debe ser hoja o pantalla completa en Android?
-5. ¿Los mensajes de conflicto explican suficiente información sin resultar técnicos?
+1. Aprobada la separación visual de preparación, servicio y limpieza.
+2. Aprobado el patrón de semana móvil para el diseño; falta validarlo en teléfono real.
+3. Aprobada la jerarquía de Inicio mostrada en el prototipo.
+4. Aprobado el recorrido contextual de cliente/servicio mostrado en el prototipo.
+5. Aprobado el mensaje de conflicto mostrado en el prototipo.
 6. ¿Debe pedirse motivo de cancelación?
 7. ¿Se permitirá reactivar clientes y servicios archivados?
 8. ¿Cómo se mostrará una cita que comienza un día y termina al siguiente en la semana?
-9. Propuesta técnica documentada; aprobación del responsable pendiente: mostrar ciudad comprensible e identificador interno (`Ciudad de México` y `America/Mexico_City`).
+9. Aprobada: mostrar ciudad comprensible e identificador interno (`Ciudad de México` y `America/Mexico_City`).
 10. ¿La densidad visual y tamaño de controles son adecuados en el teléfono real disponible?

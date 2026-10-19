@@ -33,7 +33,7 @@ Cada tarea debe cerrarse con evidencia en `AVANCES.md`. Una etapa posterior perm
 
 ## Etapa 1: requisitos y bocetos
 
-Estado: en curso. E1-T01 y E1-T02 completadas; E1-T03 tiene ajustes implementados y revisión del responsable pendiente.
+Estado: completada el 2026-10-19. E1-T01, E1-T02 y E1-T03 cerradas; el diseño y DEC-0011 a DEC-0017 fueron aprobados por el responsable. La validación en teléfono real se conserva como comprobación posterior a la implementación.
 
 ### E1-T01. Refinar historias y criterios
 
@@ -51,23 +51,38 @@ Estado: en curso. E1-T01 y E1-T02 completadas; E1-T03 tiene ajustes implementado
 - Dependencia: E1-T01
 - Alcance alineado: seis flujos; Inicio, Agenda y Nueva cita detallados para Android/Windows; Clientes, Servicios y Ajustes secundarios; sistema visual, estados, accesibilidad, trazabilidad y preguntas de revisión.
 - Resultado: especificación en `docs/DISENO.md` y prototipo visual estático en `docs/prototipos/tiempo-en-orden-bocetos.html`.
-- Evidencia: decisiones provisionales DEC-0011 a DEC-0017, naturaleza del prototipo DEC-0018, revisión visual y entrada E1-T02 en `AVANCES.md`.
+- Evidencia: DEC-0011 a DEC-0017, entonces provisionales y aprobadas al cerrar E1-T03; naturaleza del prototipo DEC-0018; revisión visual y entrada E1-T02 en `AVANCES.md`.
 - Criterio de cierre: prototipos navegables y revisados visualmente, sin lógica de negocio ni apariencia de funciones B/C.
 
 ### E1-T03. Revisar con el responsable
 
-- Estado: en curso. Ajustes visuales y comprobaciones del prototipo completados; falta la revisión y comentarios del responsable.
+- Estado: completada el 2026-10-19.
 - Dependencia: E1-T02
 - Alcance confirmado: revisar y ajustar los bocetos existentes de la entrega A, comprobar su adaptación visual en navegador y registrar observaciones sin iniciar MAUI ni la etapa 2.
-- Evidencia: `docs/DISENO.md`, capturas en `docs/prototipos/capturas/` y entrada E1-T03 de `AVANCES.md`.
-- Criterio de cierre: flujo de creación/corrección de cita comprensible y comentarios registrados.
+- Evidencia: `docs/DISENO.md`, capturas en `docs/prototipos/capturas/`, aprobación explícita del responsable y entradas E1-T03 de `AVANCES.md`.
+- Criterio de cierre: cumplido; flujo y decisiones aprobados. La validación en teléfono real no se confunde con el cierre del diseño y continúa pendiente.
 
 ## Etapa 2: base ejecutable
 
-Estado: no iniciada; depende de etapa 1 aprobada.
+Estado: en curso. E2-T01 completada; E2-T02 no iniciada. Depende de la etapa 1, aprobada el 2026-10-19.
 
-- E2-T01: elegir versiones objetivo y registrar la decisión.
-- E2-T02: crear solución mínima y separación de lógica/interfaz.
+### E2-T01. Elegir versiones objetivo y requisitos del entorno
+
+- Estado: completada el 2026-10-19.
+- Requisitos relacionados: REQ-A-001 a REQ-A-009 como base ejecutable compartida para Android y Windows.
+- Dependencia: etapa 1 aprobada.
+- Resultado: combinación candidata de .NET 10/MAUI 10, API de compilación y mínimos de cliente definidos; entorno instalado vuelto a inspeccionar; faltantes y preparación documentados sin instalar herramientas ni crear solución.
+- Evidencia: DEC-0019, DEC-0020 y entrada E2-T01 en `AVANCES.md`.
+- Criterio de cierre: versiones de compilación y mínimos de cliente separados, documentación oficial vigente registrada y comprobación mínima asignada a E2-T02.
+
+### E2-T02. Crear solución mínima y separación de lógica/interfaz
+
+- Estado: no iniciada.
+- Requisitos relacionados: REQ-A-001 a REQ-A-009.
+- Dependencia: E2-T01 completada y autorización explícita para preparar el entorno y crear la solución.
+- Evidencia esperada: versiones efectivas, restauración y compilación mínima separada de Android y Windows, más estructura que mantenga reglas fuera de las vistas.
+- Criterio de cierre: solución mínima creada y combinación candidata confirmada o corregida con resultados reales de compilación.
+
 - E2-T03: implementar navegación con datos ficticios identificados.
 - E2-T04: compilar y ejecutar en cada destino disponible, documentando los pendientes.
 

@@ -404,3 +404,122 @@ El responsable puede revisar la tabla de trazabilidad en `docs/REQUISITOS.md`, e
 ### SIGUIENTE TAREA
 
 Continuar E1-T03 únicamente al recibir comentarios reales del responsable. Criterio de cierre: registrar su aprobación o correcciones y mantener separada la futura validación en teléfono real. E2-T01 permanece bloqueada.
+
+## 2026-10-19 — Aprobación de E1-T03 y cierre de la etapa 1
+
+### ETAPA Y TAREA
+
+E1-T03 y etapa 1. El responsable declaró: “Apruebo el diseño y las decisiones revisadas en E1-T03”.
+
+### RESULTADO
+
+- E1-T03 queda completada.
+- La etapa 1 queda completada.
+- El diseño y DEC-0011 a DEC-0017 quedan aprobados por el responsable.
+- Se mantiene pendiente la validación en teléfono real; la aprobación del diseño no demuestra comportamiento de una aplicación implementada.
+
+### ARCHIVOS
+
+- `docs/REQUISITOS.md`
+- `docs/DECISIONES.md`
+- `docs/DISENO.md`
+- `TAREAS.md`
+- `AVANCES.md`
+
+### VALIDACIÓN Y PENDIENTES
+
+Se revisó que la aprobación no se describa como prueba física, prueba con usuarios ni ejecución MAUI. La futura validación en teléfono real requerirá una versión ejecutable y se registrará por separado.
+
+## 2026-10-19 — E2-T01: versiones objetivo y requisitos del entorno
+
+### ETAPA Y TAREA
+
+Etapa 2, tarea E2-T01. Elegir versiones objetivo, volver a diagnosticar el entorno y documentar su preparación sin instalar herramientas ni crear la solución.
+
+### RESULTADO
+
+E2-T01 queda completada documentalmente. Se eligió como combinación candidata .NET 10 LTS con .NET MAUI 10, Android API 36/JDK 21 y Windows SDK estable 10.0.26100.x. Se separaron los objetivos de compilación de los mínimos del cliente:
+
+| Destino | Compilación candidata | Mínimo del cliente |
+| --- | --- | --- |
+| Android | `net10.0-android`, SDK Platform 36, Build-Tools 36.0.0, Microsoft OpenJDK 21 | Android 7.0, API 24 |
+| Windows | `net10.0-windows10.0.19041.0`, Windows SDK estable 10.0.26100.x y Windows App SDK transitivo de MAUI | Windows 10 1809, build 17763 |
+
+La versión preparada para fijar es SDK .NET `10.0.113` con runtime `10.0.13` y .NET MAUI `10.0.110`. La instalación actual `10.0.102`/runtime `10.0.2`/MAUI `10.0.20` es de la misma base y se aprovecha, pero requiere servicio por correcciones de seguridad, no una actualización motivada solo por novedad. La combinación permanece candidata hasta compilar ambos destinos en E2-T02.
+
+### DIAGNÓSTICO REAL DEL EQUIPO
+
+- Windows x64, versión mostrada como 25H2, build 26200.9457; 16 GB de RAM aproximados y 380 GB libres.
+- .NET SDK `10.0.102`, MSBuild `18.0.7`, runtimes `10.0.2`.
+- Carga `maui` instalada: manifiesto MAUI `10.0.20/10.0.100`; .NET for Android `36.1.43`.
+- Plantillas MAUI disponibles.
+- Visual Studio Code `1.140.0` instalado, sin las extensiones oficiales C#, C# Dev Kit ni .NET MAUI.
+- No existe Visual Studio completo; `vswhere` solo encontró SQL Server Management Studio 22.
+- Android Studio 2026.1 instalado con JDK 25 integrado. No existe JDK 21 configurado y `java`/`javac` no están en `PATH`.
+- Android SDK en `C:\Users\adria\AppData\Local\Android\Sdk`: Platform 35, 36 y 37.0; Build-Tools 36.0.0; Platform-Tools 37.0.1; emulador 37.1.11; Command-line Tools 12.0; NDK 28.2.13676358.
+- `ANDROID_HOME`, `ANDROID_SDK_ROOT` y `JAVA_HOME` no están definidos.
+- No hay AVD y `adb devices -l` no encontró teléfono conectado.
+- No existe `C:\Program Files (x86)\Windows Kits\10`; no se encontró Windows SDK instalado.
+- El hipervisor está presente. El estado de Modo de desarrollador no quedó confirmado porque las claves consultadas no existían.
+- `LongPathsEnabled` vale 0.
+
+### COMANDOS Y COMPROBACIONES EJECUTADAS
+
+- `Get-ComputerInfo` y lectura de `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion`: sistema, versión y build.
+- `dotnet --info`, `dotnet --list-sdks`, `dotnet workload list` y `dotnet new list maui`: SDK, runtimes, cargas y plantillas.
+- `vswhere -all -products * -format json`: ausencia de Visual Studio completo.
+- `code --version` y `code --list-extensions --show-versions`: editor y extensiones.
+- Ejecución directa de `java.exe` y `javac.exe` incluidos en Android Studio: JDK 25.0.2, no elegido como JDK del proyecto.
+- Ejecución directa de `adb version`, `emulator -version`, `sdkmanager --version` y `sdkmanager --list_installed`: inventario Android. `sdkmanager` devolvió una advertencia por XML de repositorio versión 4, pero enumeró los paquetes.
+- `emulator -list-avds` y `adb devices -l`: sin AVD ni dispositivo conectado.
+- Inspección de Windows Kits, variables de entorno, Modo de desarrollador, rutas largas, virtualización y espacio libre.
+
+Estas comprobaciones diagnostican herramientas; no constituyen compilación, ejecución ni prueba de Android o Windows.
+
+### DOCUMENTACIÓN OFICIAL CONSULTADA
+
+- Política y descarga de .NET 10: LTS activo hasta 2028-11-14; el parche de seguridad vigente es runtime 10.0.13 con SDK 10.0.113 o 10.0.402.
+- .NET MAUI 10 y .NET for Android: API 36, JDK 21 y API 24 recomendada como mínimo.
+- Plataformas MAUI: Windows 10 1809 o posterior y Android API 24 para la línea documentada actual.
+- Android Developers: Android 16/API 36 estable y Build-Tools 36.x.
+- Compatibilidad de Visual Studio: .NET 10 requiere Visual Studio 2026 18.0 o posterior cuando se usa ese IDE.
+- Windows SDK: familia 26100 todavía compatible; el SDK 19041 está fuera de soporte, aunque el TFM puede conservar el contrato 19041 y el cliente mínimo 17763.
+- Windows App SDK: compatible hacia Windows 10 1809 y separado del SDK usado para compilar.
+
+Las URL exactas quedaron registradas en `docs/DECISIONES.md`.
+
+### COMPONENTES FALTANTES Y PREPARACIÓN PROPUESTA
+
+1. Instalar SDK .NET 10.0.113 x64 y actualizar la carga estable MAUI 10 dentro de la banda 10.0.1xx.
+2. Instalar Microsoft OpenJDK 21 x64 y definir `JAVA_HOME` a su ruta efectiva.
+3. Definir `ANDROID_HOME=C:\Users\adria\AppData\Local\Android\Sdk`; agregar `platform-tools` y `emulator` a `PATH`.
+4. Instalar Windows SDK estable 10.0.26100.x.
+5. Instalar las extensiones oficiales C#, C# Dev Kit y .NET MAUI en VS Code. Visual Studio 2026 18.0+ con carga MAUI queda como alternativa, no como duplicación obligatoria.
+6. Confirmar o habilitar Modo de desarrollador antes de desplegar Windows.
+7. Crear un AVD API 36 x64 o conectar el teléfono real únicamente cuando corresponda ejecutar Android.
+8. En E2-T02, crear la solución mínima, restaurar y compilar Android y Windows por separado; confirmar o corregir DEC-0019 con la evidencia real.
+
+Ninguno de estos pasos se ejecutó en E2-T01.
+
+### PROBLEMAS Y BLOQUEOS
+
+- El JDK 25 incluido con Android Studio no es la versión elegida y no está configurado para .NET; falta OpenJDK 21.
+- Falta el Windows SDK, por lo que la compilación Windows no se da por disponible.
+- El SDK .NET instalado contiene runtime 10.0.2, anterior al parche de seguridad vigente 10.0.13.
+- No hay dispositivo ni AVD para ejecución Android; esto no bloquea una compilación inicial.
+- Falta confirmar si Command-line Tools 12 puede mantenerse durante la preparación; solo se actualizará si la validación o restauración lo exige.
+- No se comprobó compilación mínima porque crear la solución corresponde a E2-T02.
+
+### DECISIONES
+
+- DEC-0019 registra versiones objetivo y mínimos del cliente.
+- DEC-0020 registra el diagnóstico, faltantes y preparación exacta.
+- No se instalaron herramientas, no se creó código y no se inició E2-T02.
+
+### PRUEBA MANUAL PROPUESTA
+
+Después de autorizar y preparar el entorno, E2-T02 deberá registrar `dotnet --info`, `dotnet workload list`, versiones del JDK y SDK Android, restauración y una compilación mínima independiente para Android y Windows. No se considerará confirmada la combinación si solo compila uno de los dos destinos.
+
+### SIGUIENTE TAREA
+
+E2-T02: preparar los componentes faltantes autorizados, crear la solución mínima y confirmar la combinación candidata mediante compilaciones separadas. Dependencia: E2-T01 completada y autorización explícita. Criterio de cierre: solución mínima con reglas separadas de interfaz y resultados reales de compilación para Android y Windows, o bloqueos documentados. No iniciada en este encargo.
