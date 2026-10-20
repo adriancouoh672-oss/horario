@@ -4,60 +4,66 @@ using System.Windows.Input;
 using TiempoEnOrden.App.Infrastructure;
 using TiempoEnOrden.App.Models;
 using TiempoEnOrden.App.Services;
+using TiempoEnOrden.Core.Data;
+using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.ViewModels;
 
 public sealed class HomeViewModel : BaseViewModel
 {
-    private readonly IDemoScheduleStore _store;
+    private readonly ILocalDataRepository _repository;
     private readonly INavigationService _navigation;
 
-    public HomeViewModel(IDemoScheduleStore store, INavigationService navigation)
+    public HomeViewModel(ILocalDataRepository repository, INavigationService navigation)
     {
-        _store = store;
+        _repository = repository;
         _navigation = navigation;
         OpenAppointmentCommand = new AsyncRelayCommand(() => _navigation.GoToAsync("new-appointment"));
         OpenPersonalTimeCommand = new AsyncRelayCommand(() => _navigation.GoToAsync("personal-time"));
         OpenAgendaCommand = new AsyncRelayCommand(() => _navigation.GoToAsync(NavigationRoutes.Agenda));
-        Refresh();
     }
 
-    public string Greeting => "Buenos días";
-    public string DemoDateText => DemoScheduleStore.DemoNow.ToString("dddd d 'de' MMMM 'de' yyyy · HH:mm", new CultureInfo("es-MX"));
-    public string DemoNotice => "Datos ficticios · Los cambios de esta demostración se borran al reiniciar.";
-    public string UpcomingCountText { get; private set; } = "";
+    public string Greeting => DateTime.Now.Hour < 12 ? "Buenos días" : DateTime.Now.Hour < 19 ? "Buenas tardes" : "Buenas noches";
+    public string CurrentDateText => DateTime.Now.ToString("dddd d 'de' MMMM 'de' yyyy · HH:mm", CultureInfo.GetCultureInfo("es-MX"));
+    public string UpcomingCountText { get; private set; } = "0 compromisos pendientes";
     public HomeCommitmentViewModel? NextAppointment { get; private set; }
+    public bool HasNextAppointment => NextAppointment is not null;
+    public bool HasNoAppointments => NextAppointment is null;
     public ObservableCollection<HomeCommitmentViewModel> TodayItems { get; } = [];
     public ObservableCollection<string> Tasks { get; } = [];
     public ICommand OpenAppointmentCommand { get; }
     public ICommand OpenPersonalTimeCommand { get; }
     public ICommand OpenAgendaCommand { get; }
 
-    public override void Refresh()
+    public override async Task LoadAsync()
     {
-        var today = _store.Commitments
-            .Where(item => item.OccupationStart.Date == DemoScheduleStore.DemoNow.Date && !item.IsCancelled)
-            .OrderBy(item => item.OccupationStart)
-            .ToList();
+        var now = DateTime.Now;
+        var appointments = await _repository.GetAppointmentsAsync(now.Date, now.Date.AddDays(1));
+        var commitments = appointments.Select(ToCommitment).OrderBy(item => item.OccupationStart).ToList();
 
         TodayItems.Clear();
-        foreach (var item in today)
-        {
-            TodayItems.Add(DemoPresentation.ToHome(item, DemoScheduleStore.DemoNow));
-        }
+        foreach (var item in commitments) TodayItems.Add(DemoPresentation.ToHome(item, now));
 
-        var upcoming = today.Where(item => item.OccupationEnd > DemoScheduleStore.DemoNow).ToList();
-        UpcomingCountText = $"{upcoming.Count} compromisos pendientes";
-        var next = upcoming.FirstOrDefault(item => item.Kind == DemoCommitmentKind.Business);
-        NextAppointment = next is null ? null : DemoPresentation.ToHome(next, DemoScheduleStore.DemoNow);
+        var upcoming = commitments.Where(item => item.OccupationEnd > now).ToList();
+        UpcomingCountText = upcoming.Count == 1 ? "1 compromiso pendiente" : $"{upcoming.Count} compromisos pendientes";
+        var next = upcoming.FirstOrDefault();
+        NextAppointment = next is null ? null : DemoPresentation.ToHome(next, now);
 
-        Tasks.Clear();
-        foreach (var task in _store.Tasks)
-        {
-            Tasks.Add(task);
-        }
-
+        OnPropertyChanged(nameof(Greeting));
+        OnPropertyChanged(nameof(CurrentDateText));
         OnPropertyChanged(nameof(UpcomingCountText));
         OnPropertyChanged(nameof(NextAppointment));
+        OnPropertyChanged(nameof(HasNextAppointment));
+        OnPropertyChanged(nameof(HasNoAppointments));
     }
+
+    private static DemoCommitment ToCommitment(AppointmentRecord item) => new(
+        item.Id.ToString("D"),
+        item.ClientName == "Sin cliente" ? item.ServiceName : $"{item.ServiceName} con {item.ClientName}",
+        $"{item.ServiceName} · Negocio",
+        item.OccupiedStart,
+        item.OccupiedEnd,
+        DemoCommitmentKind.Business,
+        item.Start,
+        item.ServiceEnd);
 }

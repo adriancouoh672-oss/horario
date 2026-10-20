@@ -62,7 +62,7 @@ public sealed class ServicesViewModel : BaseViewModel
 
         var service = new ServiceRecord(Guid.NewGuid(), NewName.Trim(), Duration, Preparation, Cleanup, Price, "MXN");
         await _repository.SaveServiceAsync(service);
-        _draft.Service = new DemoService(service.Name, service.DurationMinutes, service.PreparationMinutes, service.CleanupMinutes, service.Price, service.Currency);
+        _draft.Service = service;
         NewName = "";
         await LoadAsync();
         Message = "Servicio guardado localmente.";

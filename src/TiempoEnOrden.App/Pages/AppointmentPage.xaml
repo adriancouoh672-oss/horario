@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="TiempoEnOrden.App.Pages.AppointmentPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" Title="Nueva cita">
+<ContentPage x:Class="TiempoEnOrden.App.Pages.AppointmentPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="{Binding PageTitle}">
     <ScrollView>
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="1100" HorizontalOptions="Fill">
-            <views:DemoBannerView />
             <VerticalStackLayout Spacing="4">
-                <Label Text="Nueva cita" Style="{StaticResource PageTitle}" />
-                <Label Text="{Binding PersistenceNotice}" Style="{StaticResource Caption}" />
+                <Label Text="{Binding PageTitle}" Style="{StaticResource PageTitle}" />
+                <Label Text="Los datos se guardan localmente en este dispositivo." Style="{StaticResource Caption}" />
             </VerticalStackLayout>
 
             <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='1.2*,0.8*'}" RowDefinitions="Auto,Auto" ColumnSpacing="20" RowSpacing="16">
@@ -13,7 +12,7 @@
                     <VerticalStackLayout Spacing="14">
                         <Label Text="Datos de la cita" Style="{StaticResource SectionTitle}" />
                         <Label Text="Cliente (opcional)" />
-                        <Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" Title="Sin cliente" /></Border>
+                        <Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Clients}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClient}" Title="Sin cliente" /></Border>
                         <Button Text="Crear cliente sin perder este borrador" Command="{Binding OpenClientCreationCommand}" Style="{StaticResource TextButton}" HorizontalOptions="Start" />
                         <Label Text="Servicio (obligatorio)" />
                         <Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Services}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedService}" Title="Selecciona un servicio" /></Border>
@@ -35,9 +34,10 @@
                         <Label Text="Zona horaria: Ciudad de México" />
                         <Label Text="Identificador interno: America/Mexico_City · propuesta del dispositivo y confirmada para esta muestra." Style="{StaticResource Caption}" />
                         <Border IsVisible="{Binding HasMessage}" Padding="12" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 10"><Label Text="{Binding Message}" TextColor="{StaticResource Primary}" /></Border>
-                        <Button Text="Revisar borrador" Command="{Binding ReviewDraftCommand}" />
+                        <Button Text="{Binding SaveButtonText}" Command="{Binding SaveCommand}" />
+                        <Button Text="Cancelar cita" Command="{Binding CancelAppointmentCommand}" IsVisible="{Binding IsEditing}" BackgroundColor="#A33A3A" />
                         <Button Text="Descartar cambios" Command="{Binding DiscardCommand}" Style="{StaticResource SecondaryButton}" />
-                        <Label Text="El guardado real y la detección de conflictos todavía no están implementados." Style="{StaticResource Caption}" />
+                        <Label Text="La detección de conflictos se incorporará después de comprobar el guardado local." Style="{StaticResource Caption}" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>

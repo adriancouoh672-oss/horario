@@ -59,7 +59,7 @@ public sealed class ClientsViewModel : BaseViewModel
 
         var client = new ClientRecord(Guid.NewGuid(), NewName.Trim(), NewPhone.Trim(), NewNotes.Trim());
         await _repository.SaveClientAsync(client);
-        _draft.ClientName = client.Name;
+        _draft.Client = client;
         NewName = NewPhone = NewNotes = "";
         await LoadAsync();
         Message = "Cliente guardado localmente.";

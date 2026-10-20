@@ -1,4 +1,5 @@
 using TiempoEnOrden.App.Services;
+using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.Models;
 
@@ -41,19 +42,26 @@ public sealed record DemoService(
 
 public sealed class AppointmentDraft : Infrastructure.ObservableObject
 {
-    private string? _clientName = "Ana López";
-    private DemoService? _service;
+    private Guid? _appointmentId;
+    private ClientRecord? _client;
+    private ServiceRecord? _service;
     private DateTime _date = DemoScheduleStore.DemoNow.Date;
     private TimeSpan _time = new(10, 0, 0);
     private string _notes = "";
 
-    public string? ClientName
+    public Guid? AppointmentId
     {
-        get => _clientName;
-        set => SetProperty(ref _clientName, value);
+        get => _appointmentId;
+        set => SetProperty(ref _appointmentId, value);
     }
 
-    public DemoService? Service
+    public ClientRecord? Client
+    {
+        get => _client;
+        set => SetProperty(ref _client, value);
+    }
+
+    public ServiceRecord? Service
     {
         get => _service;
         set => SetProperty(ref _service, value);

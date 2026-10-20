@@ -9,6 +9,7 @@ public partial class AgendaPage : ContentPage
     private AgendaViewModel ViewModel => (AgendaViewModel)BindingContext;
     public ICommand SelectFilterCommand => ViewModel.SelectFilterCommand;
     public ICommand SelectDayCommand => ViewModel.SelectDayCommand;
+    public ICommand EditAppointmentCommand => ViewModel.EditAppointmentCommand;
 
     public AgendaPage()
     {
@@ -19,6 +20,6 @@ public partial class AgendaPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        ViewModel.Refresh();
+        _ = ViewModel.LoadAsync();
     }
 }

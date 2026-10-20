@@ -2,7 +2,7 @@
 <ContentPage x:Class="TiempoEnOrden.App.Pages.AgendaPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="Agenda">
     <Grid Padding="{OnPlatform Android='20,16,20,16', WinUI='32,24,32,24'}" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="14" MaximumWidthRequest="1440" HorizontalOptions="Fill">
         <VerticalStackLayout Spacing="10">
-            <views:DemoBannerView />
+            <Label Text="Datos locales de este dispositivo." Style="{StaticResource Caption}" />
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                 <VerticalStackLayout Spacing="2">
                     <Label Text="Agenda" Style="{StaticResource PageTitle}" />
@@ -63,7 +63,7 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <Border Padding="12" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 10" SemanticProperties.Description="{Binding AccessibleText}">
-                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="10">
                                         <Label Text="{Binding Icon}" FontSize="20" VerticalOptions="Center" />
                                         <VerticalStackLayout Grid.Column="1" Spacing="2">
                                             <Label Text="{Binding SegmentLabel}" FontFamily="OpenSansSemibold" TextColor="#18282D" />
@@ -71,6 +71,7 @@
                                             <Label Text="{Binding Subtitle}" FontSize="13" TextColor="#52666D" />
                                         </VerticalStackLayout>
                                         <Label Grid.Column="2" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" TextColor="#18282D" VerticalOptions="Center" />
+                                        <Button Grid.Column="3" Text="Editar" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>

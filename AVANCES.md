@@ -784,3 +784,13 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Verificación: el ejecutable de comprobación guardó cliente y servicio, cerró SQLite, reabrió la base y recuperó ambos registros. Android y Windows compilaron con 0 advertencias y 0 errores.
 - Pendientes de plataforma: Windows manual y teléfono Android real continúan sin aprobar.
 - Siguiente bloque: citas reales con creación, consulta, edición, cancelación e hito de reinicio.
+
+### Bloque 3 — Citas reales y primer hito obligatorio
+
+- Resultado: completado. Nueva cita, Agenda e Inicio ya leen y escriben citas reales en SQLite; una cita conserva la copia histórica de nombre, duración, márgenes, precio y moneda del servicio.
+- Ciclo disponible: crear, consultar, editar y cancelar. Cancelar conserva el historial y la oculta por defecto; el filtro `Mostrar canceladas` permite consultarla.
+- Verificación automatizada: `dotnet run --project tests/TiempoEnOrden.Verification` creó cliente, servicio y cita; cerró la conexión; reabrió y recuperó los tres; editó la misma cita; cambió el catálogo sin alterar la cita histórica; canceló y comprobó ocultamiento normal e historial.
+- AVD Android: se creó el cliente `C`, el servicio `S` y una cita asociada; se ejecutó `am force-stop`, se reabrió la aplicación y se observaron `1 compromiso pendiente`, `S con C` y sus tres segmentos. Se editó la nota a `E`, se guardó, se canceló y Agenda pasó a `0 compromisos`; al activar `Mostrar canceladas` volvió a mostrarse como `Cancelada`.
+- Compilación: Android y Windows correctos. Android emitió una advertencia de enlace XAML de rendimiento para el comando Editar; no afecta la función y se eliminará al tipar esa plantilla.
+- Pendientes conservados: recorrido manual de Windows y validación en teléfono Android real.
+- Siguiente bloque: tiempo personal, horario laboral y descansos persistentes e integrados en Inicio/Agenda.
