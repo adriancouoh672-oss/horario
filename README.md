@@ -1,98 +1,74 @@
 # Tiempo en Orden
 
-Aplicación .NET MAUI de una agenda personal y de negocio para Android y Windows. E2-T04 validó la demostración en un emulador Android y confirmó el arranque de Windows; todavía no implementa persistencia, motor de disponibilidad, servidor, sincronización ni recordatorios.
+Agenda local para Android y Windows creada con .NET MAUI. La entrega actual guarda datos en SQLite en el dispositivo: clientes, servicios, citas, tiempo personal y horario laboral. No tiene nube, cuentas, pagos, servidor, sincronización ni recordatorios coordinados.
 
-## Estructura
+## Funciones disponibles
 
-- `src/TiempoEnOrden.App`: aplicación .NET MAUI con XAML para Android y Windows.
-- `src/TiempoEnOrden.Core`: biblioteca C# compartida e independiente de MAUI.
+- Crear clientes y servicios; los servicios conservan duración, precio y márgenes para futuras citas.
+- Crear, consultar, editar y cancelar citas. Cancelar conserva el historial y libera disponibilidad.
+- Consultar Agenda diaria y semanal, con filtros de negocio, personal y canceladas.
+- Proteger tiempo personal, configurar jornada, descanso y días laborales.
+- Detectar cruces considerando preparación, servicio y limpieza; no compara una cita consigo misma al editar.
+- Proponer hasta tres horarios alternativos en intervalos de 15 minutos y un horizonte de 14 días. Elegir una opción solo modifica el borrador: la persona debe guardar la cita.
+- Crear y restaurar el último respaldo local, tras confirmación.
 
-La aplicación depende de `Core`; `Core` no depende de la aplicación.
-
-## Pantallas disponibles en la demostración
-
-- Inicio con próxima cita, compromisos del día y tarea sin horario.
-- Agenda diaria y semanal con navegación por fecha, filtros y canceladas.
-- Nueva cita como borrador visual; no guarda ni comprueba conflictos.
-- Tiempo personal con altas únicamente en memoria.
-- Clientes y Servicios con creación contextual que conserva el borrador de cita.
-- Ajustes de demostración.
-
-La muestra usa el viernes 6 de noviembre de 2026 a las 09:20 como fecha y hora ficticias. Todas las pantallas señalan que los datos pueden desaparecer al reiniciar.
+Los datos son locales a cada dispositivo. Cambiar un servicio no modifica las citas existentes y ningún compromiso se mueve de forma automática.
 
 ## Requisitos de compilación
 
 - .NET SDK 10.0.113, fijado por `global.json`.
-- Carga de trabajo MAUI 10.0.110.
+- Carga MAUI 10.0.110.
 - Microsoft OpenJDK 21.0.12.1.
 - Android SDK Platform 36, Build Tools 36.0.0 y Platform Tools.
-- Microsoft.Windows.SDK.BuildTools 10.0.26100.8249, restaurado de forma transitiva por la versión elegida de MAUI.
+- Para Windows: `net10.0-windows10.0.19041.0`; las herramientas SDK se restauran transitivamente.
 
-Variables de usuario esperadas en Windows:
+La información de entorno y las decisiones están en `docs/DECISIONES.md`.
 
-```powershell
-$env:DOTNET_ROOT = "$env:USERPROFILE\.dotnet"
-$env:JAVA_HOME = "$env:USERPROFILE\.jdks\jdk-21.0.12.1+1"
-$env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"
-$env:ANDROID_SDK_ROOT = $env:ANDROID_HOME
-```
+## Compilar y verificar
 
-Después de una instalación nueva, abrir otra terminal para que se refleje el `PATH`. Si `dotnet` todavía apunta a otro SDK, se puede usar temporalmente `& "$env:USERPROFILE\.dotnet\dotnet.exe"` en los comandos siguientes.
-
-## Preparación reproducible
+En una terminal donde `dotnet --version` resuelva 10.0.113:
 
 ```powershell
-dotnet workload install maui
-dotnet workload update
-dotnet --info
-dotnet workload list
-java -version
-```
-
-## Restaurar y compilar
-
-Biblioteca compartida:
-
-```powershell
-dotnet restore .\src\TiempoEnOrden.Core\TiempoEnOrden.Core.csproj
-dotnet build .\src\TiempoEnOrden.Core\TiempoEnOrden.Core.csproj -c Debug --no-restore
-```
-
-Android:
-
-```powershell
-dotnet restore .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj
+dotnet restore .\TiempoEnOrden.sln
+dotnet run --project .\tests\TiempoEnOrden.Verification\TiempoEnOrden.Verification.csproj
 dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-android -c Debug --no-restore
+dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 -c Debug --no-restore
 ```
+
+El verificador ejercita persistencia tras reabrir, edición/cancelación, historial, horario, tiempo personal, conflictos, sugerencias y respaldo/restauración. No sustituye las pruebas manuales de interfaz ni un teléfono real.
+
+Si la terminal usa el SDK global anterior, usar temporalmente:
+
+```powershell
+& "$env:USERPROFILE\.dotnet\dotnet.exe" --version
+```
+
+## Ejecutar
 
 Windows:
 
 ```powershell
-dotnet restore .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj
-dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 -c Debug --no-restore
+dotnet run --project .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 --no-launch-profile
 ```
 
-Estos comandos solo restauran y compilan. No ejecutan la aplicación ni sustituyen las pruebas posteriores en un teléfono Android o en una sesión de Windows.
-
-## Ejecutar en Windows
-
-```powershell
-dotnet run --project .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 --no-build --no-launch-profile
-```
-
-E2-T04 volvió a confirmar que el proceso crea una ventana receptiva titulada `Tiempo en Orden`. La herramienta de captura no expuso esa ventana WinUI como seleccionable, por lo que el recorrido de Windows continúa pendiente de comprobación manual. La lista exacta está en `docs/PRUEBAS-E2.md`.
-
-## Ejecutar en Android con el AVD preparado
-
-E2-T04 creó un único AVD reutilizable llamado `TiempoEnOrden_API_36` con Google APIs, API 36 y x86_64. No hay que crear otro para repetir la prueba.
+Android con el AVD existente `TiempoEnOrden_API_36`:
 
 ```powershell
 & "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd TiempoEnOrden_API_36
 & "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" devices -l
-dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-android -c Debug --no-restore `
-  -p:EmbedAssembliesIntoApk=true
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r `
-  .\src\TiempoEnOrden.App\bin\Debug\net10.0-android\mx.tiempoenorden.app-Signed.apk
+& "$env:USERPROFILE\.dotnet\dotnet.exe" build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-android -c Debug -p:EmbedAssembliesIntoApk=true
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r .\src\TiempoEnOrden.App\bin\Debug\net10.0-android\mx.tiempoenorden.app-Signed.apk
 ```
 
-La instalación directa necesita `EmbedAssembliesIntoApk=true`; un APK de depuración preparado para Fast Deployment no contiene por sí solo los ensamblados auxiliares. Las capturas y resultados están en `docs/PRUEBAS-E2.md`. La ejecución en AVD no sustituye la validación pendiente en un teléfono real.
+Una APK con ensamblados incluidos es necesaria para la instalación directa por ADB. El AVD no reemplaza un teléfono real.
+
+## Entrega y documentación
+
+- [Manual breve](docs/MANUAL.md)
+- [Guía técnica](docs/GUIA-TECNICA.md)
+- [Guion de exposición](docs/GUION-EXPOSICION.md)
+- [Matriz de pruebas de entrega](docs/PRUEBAS-ENTREGA.md)
+- [Paquete de entrega](docs/PAQUETE-ENTREGA.md)
+- [Pruebas originales de E2](docs/PRUEBAS-E2.md)
+
+Los paquetes generados se colocan en `artifacts/release/` y se excluyen del control de versiones. Las instrucciones de instalación y sus límites están en el manual.

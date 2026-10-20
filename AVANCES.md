@@ -832,3 +832,13 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Decisión: DEC-0025 documenta que restaurar reemplaza los datos locales actuales y no tiene deshacer dentro de la aplicación.
 - Pendientes conservados: recorrido manual de Windows y teléfono Android real.
 - Siguiente bloque: generar paquetes reproducibles y documentación de instalación, manual y exposición basada exclusivamente en funciones verificadas.
+
+### Bloque 8 — Paquete y documentación de exposición
+
+- Resultado: completado. Se generó un APK Release local y una publicación Windows x64 sin empaquetar bajo `artifacts/release/`; los binarios permanecen fuera de Git conforme a las reglas del repositorio.
+- Android: `mx.tiempoenorden.app-Signed.apk`, 31,995,039 bytes, SHA-256 `4E669D0BCBD9F7C497026ED2527A472FA7239FFA1670F92F14DACFF4B2642399`. Se produjo con ensamblados incluidos y firma de desarrollo local.
+- Windows: publicación framework-dependent x64 sin empaquetar, 155,960,412 bytes; `TiempoEnOrden.App.exe` SHA-256 `31C00BB3D39F4BEB020E27730FDEE33FBCC7CAA79EED20C4BE87C9DAA48982E4`. Fue necesario desactivar ReadyToRun porque el runtime de publicación compatible no estaba disponible; la publicación concluyó correctamente.
+- Evidencia: `docs/PAQUETE-ENTREGA.md`, `docs/MANUAL.md`, `docs/GUIA-TECNICA.md`, `docs/GUION-EXPOSICION.md` y `docs/PRUEBAS-ENTREGA.md`.
+- AVD: se intentó instalar la APK Release reutilizando `TiempoEnOrden_API_36`, pero ADB mantuvo `emulator-5554` en estado `offline` tras 90 segundos. No se repitió. La instalación/recorrido previo y el primer hito en AVD siguen documentados, pero la ejecución Release final queda bloqueada hasta que el AVD o un teléfono autorizado estén disponibles.
+- Pendientes conservados sin aprobar: recorrido manual de Windows; prueba en teléfono Android real; recorridos Release de conflicto, sugerencias y respaldo; clave de firma de producción si se distribuye públicamente.
+- Siguiente tarea: validar manualmente Windows y un teléfono Android real con el paquete de entrega, registrar resultados en `docs/PRUEBAS-ENTREGA.md`, y solo después decidir si se inicia una etapa futura.
