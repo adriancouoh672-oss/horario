@@ -14,6 +14,7 @@ public sealed class AppointmentViewModel : BaseViewModel
     private readonly INavigationService _navigation;
     private readonly IUserDialogService _dialogs;
     private bool _hasChanges;
+    private bool _isInitialized;
 
     public AppointmentViewModel(IDemoScheduleStore store, AppointmentDraft draft, INavigationService navigation, IUserDialogService dialogs)
     {
@@ -140,7 +141,11 @@ public sealed class AppointmentViewModel : BaseViewModel
         OnPropertyChanged(nameof(SelectedClient));
         OnPropertyChanged(nameof(SelectedService));
         NotifyCalculated();
-        _hasChanges = false;
+        if (!_isInitialized)
+        {
+            _hasChanges = false;
+            _isInitialized = true;
+        }
     }
 
     private void ReviewDraft()

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using System.Globalization;
+
 namespace TiempoEnOrden.App;
 
 public partial class App : Application
@@ -8,6 +10,9 @@ public partial class App : Application
 
 	public App(AppShell shell)
 	{
+		var presentationCulture = CultureInfo.GetCultureInfo("es-MX");
+		CultureInfo.DefaultThreadCurrentCulture = presentationCulture;
+		CultureInfo.DefaultThreadCurrentUICulture = presentationCulture;
 		InitializeComponent();
 		_shell = shell;
 	}

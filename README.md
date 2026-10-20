@@ -1,6 +1,6 @@
 # Tiempo en Orden
 
-Aplicación .NET MAUI de una agenda personal y de negocio para Android y Windows. E2-T03 incorpora navegación y pantallas XAML de la entrega A con datos ficticios en memoria; todavía no implementa persistencia, motor de disponibilidad, servidor, sincronización ni recordatorios.
+Aplicación .NET MAUI de una agenda personal y de negocio para Android y Windows. E2-T04 validó la demostración en un emulador Android y confirmó el arranque de Windows; todavía no implementa persistencia, motor de disponibilidad, servidor, sincronización ni recordatorios.
 
 ## Estructura
 
@@ -80,4 +80,19 @@ Estos comandos solo restauran y compilan. No ejecutan la aplicación ni sustituy
 dotnet run --project .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-windows10.0.19041.0 --no-build --no-launch-profile
 ```
 
-E2-T03 confirmó que el proceso crea una ventana principal titulada `Tiempo en Orden`. La inspección automatizada de su contenido quedó pendiente porque la herramienta de captura no expuso esa ventana como seleccionable. Android no se ejecutó: se preparará en E2-T04 sin instalar un emulador durante E2-T03.
+E2-T04 volvió a confirmar que el proceso crea una ventana receptiva titulada `Tiempo en Orden`. La herramienta de captura no expuso esa ventana WinUI como seleccionable, por lo que el recorrido de Windows continúa pendiente de comprobación manual. La lista exacta está en `docs/PRUEBAS-E2.md`.
+
+## Ejecutar en Android con el AVD preparado
+
+E2-T04 creó un único AVD reutilizable llamado `TiempoEnOrden_API_36` con Google APIs, API 36 y x86_64. No hay que crear otro para repetir la prueba.
+
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd TiempoEnOrden_API_36
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" devices -l
+dotnet build .\src\TiempoEnOrden.App\TiempoEnOrden.App.csproj -f net10.0-android -c Debug --no-restore `
+  -p:EmbedAssembliesIntoApk=true
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r `
+  .\src\TiempoEnOrden.App\bin\Debug\net10.0-android\mx.tiempoenorden.app-Signed.apk
+```
+
+La instalación directa necesita `EmbedAssembliesIntoApk=true`; un APK de depuración preparado para Fast Deployment no contiene por sí solo los ensamblados auxiliares. Las capturas y resultados están en `docs/PRUEBAS-E2.md`. La ejecución en AVD no sustituye la validación pendiente en un teléfono real.

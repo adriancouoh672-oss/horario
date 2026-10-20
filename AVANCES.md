@@ -692,3 +692,68 @@ En Windows, ejecutar el comando del README y comprobar: navegación lateral comp
 ### SIGUIENTE TAREA
 
 E2-T04: ejecutar y documentar cada destino disponible, incluyendo Android mediante AVD o teléfono cuando se autorice. Dependencia: E2-T03 completada. Criterio de cierre propuesto: arranque y recorrido manual registrado por plataforma, capturas reales y pendientes físicos diferenciados. E2-T04 no se inició.
+
+## 2026-10-19 — E2-T04: ejecución y validación por plataforma
+
+### ETAPA Y TAREA
+
+Etapa 2, tarea E2-T04. Se ejecutó únicamente la aplicación MAUI de demostración en Windows y Android. No se inició la etapa 3 ni se implementaron persistencia, disponibilidad, conflictos, servidor, sincronización o recordatorios.
+
+### RESULTADO
+
+E2-T04 fue ejecutada con resultados diferenciados:
+
+- Windows: compilación y arranque aprobados. El proceso final `TiempoEnOrden.App` respondió, mostró título `Tiempo en Orden` y un manejador principal no nulo. El recorrido interactivo sigue bloqueado porque la herramienta devolvió `windows: []` para el proceso WinUI y atribuyó el manejador a otra aplicación instalada; se detuvo sin interactuar con la aplicación ajena.
+- Android: compilación, instalación, arranque y recorrido de demostración aprobados en el único AVD `TiempoEnOrden_API_36`, Android 16/API 36, Google APIs x86_64 y WHPX.
+- Teléfono Android real: no ejecutado porque `adb devices -l` no encontró un teléfono conectado o autorizado. Esta validación continúa pendiente.
+
+La etapa 2 permanece en curso por la validación interactiva de Windows y la prueba en teléfono real.
+
+### PREPARACIÓN Y ENTORNO
+
+- Se confirmó primero que `system-images;android-36;google_apis;x86_64` existía en el repositorio oficial del Android SDK.
+- Se descargó solamente esa imagen y se creó un único AVD Pixel 5 llamado `TiempoEnOrden_API_36`.
+- `emulator -accel-check` confirmó WHPX utilizable. El AVD completó `sys.boot_completed=1` y ADB lo reportó como `device`.
+- La primera instalación directa de un APK de depuración falló al arrancar porque Fast Deployment esperaba ensamblados en `.__override__`. Se recompiló con `EmbedAssembliesIntoApk=true`; la instalación posterior devolvió `Success` y la actividad MAUI quedó enfocada con PID activo.
+
+### RECORRIDOS Y EVIDENCIA
+
+- Inicio: 3 compromisos pendientes, próxima cita y datos ficticios coherentes.
+- Agenda: cambio Día/Semana, día siguiente, semana siguiente y filtros Todo/Negocio/Personal; contadores actualizados con la fuente mostrada.
+- Navegación: Inicio, Agenda, Más, Clientes, Servicios, Tiempo personal y Ajustes.
+- Nueva cita: modificación de notas; creación contextual de cliente y servicio; conservación de fecha, hora y borrador al regresar.
+- Descarte: confirmación visible después de regresar de una creación contextual.
+- Tiempo personal: alta de demostración y mensaje explícito de memoria volátil.
+- Android: teclado abierto confirmado, botón Atrás para teclado y pantallas secundarias, desplazamiento vertical, escala de fuente 1.3 y recorrido de foco mediante Tab.
+- Reinicio: tras detener y arrancar en frío, Inicio volvió a 3 pendientes y el día siguiente con filtro Personal volvió a 0.
+
+La matriz completa y las capturas MAUI reales están en `docs/PRUEBAS-E2.md` y `docs/pruebas-e2/`. No se usaron imágenes del prototipo HTML.
+
+### FALLOS CORREGIDOS
+
+1. `AppointmentViewModel.Refresh` reiniciaba el indicador de cambios cada vez que Nueva cita reaparecía. Los datos se conservaban, pero `Descartar cambios` omitía la confirmación después de crear un cliente o servicio contextual. Ahora el indicador solo se inicializa una vez y la confirmación se comprobó en Android.
+2. Con el dispositivo en inglés, la vista previa mostraba `Friday`. La aplicación fija la cultura de presentación `es-MX`; se comprobó `vie 6 nov 2026`. La zona horaria no se deduce ni se cambió.
+
+### ARCHIVOS CREADOS O MODIFICADOS
+
+- `docs/PRUEBAS-E2.md`: matriz de resultados y recorrido manual pendiente.
+- `docs/pruebas-e2/*.png`: siete capturas reales de la aplicación MAUI en el AVD.
+- `src/TiempoEnOrden.App/ViewModels/AppointmentViewModel.cs`: conservación del indicador de cambios.
+- `src/TiempoEnOrden.App/App.xaml.cs`: cultura de presentación española.
+- `README.md`, `TAREAS.md` y `AVANCES.md`: ejecución reproducible, estado y pendientes.
+
+### VALIDACIONES FINALES
+
+- Android `net10.0-android`, JDK 21 y API 36: compilación correcta, 0 advertencias y 0 errores.
+- Android: `adb install -r` correcto; actividad `mx.tiempoenorden.app/...MainActivity` arrancada y enfocada; recorridos aprobados en emulador.
+- Windows `net10.0-windows10.0.19041.0`: compilación correcta, 0 advertencias y 0 errores.
+- Windows: proceso y ventana creados; contenido y navegación no comprobados.
+- Escala del AVD restaurada a `1.0` y aplicación detenida al terminar. El AVD permanece instalado para reutilización.
+
+### PRUEBA MANUAL PROPUESTA
+
+El responsable debe ejecutar en Windows los ocho pasos de `docs/PRUEBAS-E2.md`, registrar cada resultado y adjuntar capturas MAUI reales. Para el teléfono, debe habilitar depuración USB, conectar el equipo, aceptar la huella del ordenador, confirmar `device` en `adb devices -l`, instalar la misma compilación y repetir los recorridos Android. Ninguna de estas pruebas pendientes se marca como aprobada.
+
+### SIGUIENTE TAREA
+
+Completar la evidencia pendiente de E2-T04: recorrido manual de Windows y validación en teléfono Android real. Dependencias: disponibilidad del responsable para Windows y de un teléfono autorizado para Android. Criterio de cierre: matriz actualizada con resultados observados y capturas reales por plataforma. No iniciar E3-T01 hasta recibir autorización explícita.

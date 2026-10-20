@@ -64,7 +64,7 @@ Estado: completada el 2026-10-19. E1-T01, E1-T02 y E1-T03 cerradas; el diseño y
 
 ## Etapa 2: base ejecutable
 
-Estado: en curso. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 no iniciada. Depende de la etapa 1, aprobada el 2026-10-19.
+Estado: en curso. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 ejecutada con la validación interactiva de Windows y la validación en teléfono real pendientes. Depende de la etapa 1, aprobada el 2026-10-19.
 
 ### E2-T01. Elegir versiones objetivo y requisitos del entorno
 
@@ -93,7 +93,14 @@ Estado: en curso. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 no iniciada. Depen
 - Evidencia: código bajo `src/TiempoEnOrden.App`, README y entrada E2-T03 en `AVANCES.md`; compilaciones separadas Android/Windows y arranque de proceso con ventana principal en Windows.
 - Criterio de cierre: cumplido para implementación y compilación. La herramienta de revisión no pudo seleccionar la ventana WinUI, por lo que capturas y recorrido visual automatizado quedan pendientes y no se sustituyen por el prototipo HTML.
 
-- E2-T04: compilar y ejecutar en cada destino disponible, documentando los pendientes.
+### E2-T04. Ejecutar y validar Windows y Android
+
+- Estado: ejecutada el 2026-10-19 con pendientes de plataforma; la etapa 2 permanece en curso.
+- Requisitos relacionados: REQ-A-001 a REQ-A-009, solo para la demostración navegable implementada en E2-T03.
+- Dependencia: E2-T03 completada.
+- Resultado: Windows compiló y abrió una ventana receptiva, pero su recorrido quedó bloqueado porque la herramienta no expuso la ventana WinUI de forma seleccionable. Android compiló, se instaló y completó los recorridos en un AVD API 36. Se corrigieron la confirmación al descartar después de una creación contextual y la presentación de fechas en español.
+- Evidencia: `docs/PRUEBAS-E2.md` y capturas MAUI reales bajo `docs/pruebas-e2/`.
+- Criterio de cierre: parcialmente cumplido. Android en emulador está aprobado; Windows requiere el recorrido manual del responsable y Android requiere validación en teléfono real. No se inició la etapa 3.
 
 ## Etapa 3: datos y agenda local
 
