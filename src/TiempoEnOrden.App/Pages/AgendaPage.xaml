@@ -71,7 +71,7 @@
                                             <Label Text="{Binding Subtitle}" FontSize="13" TextColor="#52666D" />
                                         </VerticalStackLayout>
                                         <Label Grid.Column="2" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" TextColor="#18282D" VerticalOptions="Center" />
-                                        <Button Grid.Column="3" Text="Editar" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" />
+                                        <Button Grid.Column="3" Text="Editar" IsVisible="{Binding IsEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>

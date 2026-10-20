@@ -39,14 +39,25 @@ public sealed class HomeViewModel : BaseViewModel
     {
         var now = DateTime.Now;
         var appointments = await _repository.GetAppointmentsAsync(now.Date, now.Date.AddDays(1));
-        var commitments = appointments.Select(ToCommitment).OrderBy(item => item.OccupationStart).ToList();
+        var personalTimes = await _repository.GetPersonalTimesAsync(now.Date, now.Date.AddDays(1));
+        var schedule = await _repository.GetWorkScheduleAsync();
+        var commitments = appointments.Select(ToCommitment)
+            .Concat(personalTimes.Select(ToCommitment))
+            .ToList();
+        if (schedule.WorkingDays.Contains(now.DayOfWeek))
+        {
+            commitments.Add(new DemoCommitment(
+                $"break-{now:yyyyMMdd}", "Descanso", "Horario laboral",
+                now.Date.Add(schedule.BreakStart), now.Date.Add(schedule.BreakEnd), DemoCommitmentKind.Break));
+        }
+        commitments = commitments.OrderBy(item => item.OccupationStart).ToList();
 
         TodayItems.Clear();
         foreach (var item in commitments) TodayItems.Add(DemoPresentation.ToHome(item, now));
 
         var upcoming = commitments.Where(item => item.OccupationEnd > now).ToList();
         UpcomingCountText = upcoming.Count == 1 ? "1 compromiso pendiente" : $"{upcoming.Count} compromisos pendientes";
-        var next = upcoming.FirstOrDefault();
+        var next = upcoming.FirstOrDefault(item => item.Kind == DemoCommitmentKind.Business);
         NextAppointment = next is null ? null : DemoPresentation.ToHome(next, now);
 
         OnPropertyChanged(nameof(Greeting));
@@ -66,4 +77,9 @@ public sealed class HomeViewModel : BaseViewModel
         DemoCommitmentKind.Business,
         item.Start,
         item.ServiceEnd);
+
+    private static DemoCommitment ToCommitment(PersonalTimeRecord item) => new(
+        item.Id.ToString("D"), item.Title,
+        item.Kind == PersonalTimeKind.Block ? "Bloqueo personal" : "Actividad personal",
+        item.Start, item.End, DemoCommitmentKind.Personal);
 }

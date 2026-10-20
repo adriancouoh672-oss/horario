@@ -1,25 +1,26 @@
 using System.Windows.Input;
 using TiempoEnOrden.App.Infrastructure;
-using TiempoEnOrden.App.Models;
 using TiempoEnOrden.App.Services;
+using TiempoEnOrden.Core.Data;
+using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.ViewModels;
 
 public sealed class PersonalTimeViewModel : BaseViewModel
 {
-    private readonly IDemoScheduleStore _store;
+    private readonly ILocalDataRepository _repository;
     private readonly INavigationService _navigation;
     private string _title = "Cita médica";
     private string _type = "Actividad personal";
-    private DateTime _date = DemoScheduleStore.DemoNow.Date.AddDays(1);
+    private DateTime _date = DateTime.Today;
     private TimeSpan _startTime = new(12, 0, 0);
     private TimeSpan _endTime = new(13, 0, 0);
 
-    public PersonalTimeViewModel(IDemoScheduleStore store, INavigationService navigation)
+    public PersonalTimeViewModel(ILocalDataRepository repository, INavigationService navigation)
     {
-        _store = store;
+        _repository = repository;
         _navigation = navigation;
-        AddCommand = new RelayCommand(AddToDemo);
+        AddCommand = new AsyncRelayCommand(AddAsync);
         BackCommand = new AsyncRelayCommand(() => _navigation.GoBackAsync());
     }
 
@@ -32,7 +33,7 @@ public sealed class PersonalTimeViewModel : BaseViewModel
     public ICommand AddCommand { get; }
     public ICommand BackCommand { get; }
 
-    private void AddToDemo()
+    private async Task AddAsync()
     {
         if (string.IsNullOrWhiteSpace(Title) || EndTime <= StartTime)
         {
@@ -40,9 +41,11 @@ public sealed class PersonalTimeViewModel : BaseViewModel
             return;
         }
 
-        var start = Date.Date.Add(StartTime);
-        var end = Date.Date.Add(EndTime);
-        _store.AddPersonalTime(new DemoCommitment($"demo-{Guid.NewGuid():N}", Title.Trim(), $"{Type} · Demostración", start, end, DemoCommitmentKind.Personal));
-        Message = "Agregado solo a los datos ficticios en memoria. Se perderá al reiniciar.";
+        var record = new PersonalTimeRecord(
+            Guid.NewGuid(), Title.Trim(),
+            Type == "Bloqueo" ? PersonalTimeKind.Block : PersonalTimeKind.Activity,
+            Date.Date.Add(StartTime), Date.Date.Add(EndTime));
+        await _repository.SavePersonalTimeAsync(record);
+        Message = "Tiempo personal guardado localmente.";
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="TiempoEnOrden.App.Pages.PersonalTimePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" Title="Tiempo personal">
+<ContentPage x:Class="TiempoEnOrden.App.Pages.PersonalTimePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Tiempo personal">
     <ScrollView>
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="760" HorizontalOptions="Center">
-            <views:DemoBannerView />
+            <Label Text="Datos guardados localmente en este dispositivo." Style="{StaticResource Caption}" />
             <Label Text="Tiempo personal" Style="{StaticResource PageTitle}" />
-            <Label Text="Agrega una actividad o bloqueo a la fuente ficticia compartida de Inicio y Agenda." Style="{StaticResource Caption}" />
+            <Label Text="Protege actividades y bloqueos personales dentro de la agenda." Style="{StaticResource Caption}" />
             <Border Style="{StaticResource Card}">
                 <VerticalStackLayout Spacing="14">
                     <Label Text="Tipo" /><Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Types}" SelectedItem="{Binding Type}" /></Border>
@@ -15,7 +15,7 @@
                         <VerticalStackLayout Grid.Column="1" Spacing="6"><Label Text="Fin" /><Border Style="{StaticResource FieldBorder}"><TimePicker Time="{Binding EndTime}" Format="HH:mm" /></Border></VerticalStackLayout>
                     </Grid>
                     <Border IsVisible="{Binding HasMessage}" Padding="12" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 10"><Label Text="{Binding Message}" TextColor="{StaticResource Primary}" /></Border>
-                    <Button Text="Agregar a la demostración" Command="{Binding AddCommand}" />
+                    <Button Text="Guardar tiempo personal" Command="{Binding AddCommand}" />
                     <Button Text="Volver" Command="{Binding BackCommand}" Style="{StaticResource SecondaryButton}" />
                 </VerticalStackLayout>
             </Border>

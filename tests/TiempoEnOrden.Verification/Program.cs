@@ -47,12 +47,33 @@ try
         "Una cita cancelada no debe aparecer por defecto.");
     Assert((await reopenedRepository.GetAppointmentsAsync(includeCancelled: true)).Single(item => item.Id == appointment.Id).Status == AppointmentStatus.Cancelled,
         "Una cita cancelada debe conservarse en el historial.");
+
+    var personalTime = new PersonalTimeRecord(
+        Guid.NewGuid(), "Actividad persistente", PersonalTimeKind.Activity,
+        new DateTime(2026, 10, 20, 12, 0, 0), new DateTime(2026, 10, 20, 13, 0, 0));
+    var schedule = new WorkScheduleSettings(
+        new TimeSpan(8, 30, 0), new TimeSpan(17, 30, 0),
+        new TimeSpan(13, 30, 0), new TimeSpan(14, 15, 0),
+        new HashSet<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday });
+    await reopenedRepository.SavePersonalTimeAsync(personalTime);
+    await reopenedRepository.SaveWorkScheduleAsync(schedule);
     await reopenedRepository.CloseAsync();
+
+    var thirdRepository = new SqliteLocalDataRepository(databasePath);
+    Assert((await thirdRepository.GetPersonalTimesAsync()).Single() == personalTime,
+        "El tiempo personal debe permanecer después de reabrir SQLite.");
+    var loadedSchedule = await thirdRepository.GetWorkScheduleAsync();
+    Assert(loadedSchedule.WorkStart == schedule.WorkStart && loadedSchedule.WorkEnd == schedule.WorkEnd &&
+           loadedSchedule.BreakStart == schedule.BreakStart && loadedSchedule.BreakEnd == schedule.BreakEnd &&
+           loadedSchedule.WorkingDays.SetEquals(schedule.WorkingDays),
+        "El horario laboral y el descanso deben permanecer después de reabrir SQLite.");
+    await thirdRepository.CloseAsync();
 
     Console.WriteLine("BLOQUE-1 APROBADO: SQLite conserva datos después de reabrir la conexión.");
     Console.WriteLine("BLOQUE-2 APROBADO: clientes y servicios se guardan y consultan desde SQLite.");
     Console.WriteLine("PRIMER HITO APROBADO: cliente, servicio y cita permanecen tras reabrir; la cita se editó y canceló.");
     Console.WriteLine("BLOQUE-3 APROBADO: altas, consulta, edición y cancelación de citas usan SQLite.");
+    Console.WriteLine("BLOQUE-4 APROBADO: tiempo personal, horario laboral y descanso permanecen tras reabrir SQLite.");
 }
 finally
 {

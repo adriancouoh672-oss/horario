@@ -109,8 +109,8 @@ Estado: autorizada con prioridad de entrega; depende de la base compilable de E2
 - E3-T01/E3-T02 — bloque 1: completado el 2026-10-19. Modelo persistente, proyecto Infrastructure, SQLite e inicialización separada de la demostración. Evidencia: verificación de escritura/lectura tras reabrir conexión y compilaciones Android/Windows sin errores.
 - E3-T03A — bloque 2: completado el 2026-10-19. Clientes y servicios con guardado real. Evidencia: crear, consultar y conservar tras reabrir SQLite; interfaz conectada al repositorio local.
 - E3-T03B — bloque 3: completado el 2026-10-20. Crear, consultar, editar y cancelar citas con valores históricos del servicio. Evidencia: verificador SQLite y recorrido real en el AVD tras cierre forzado y reapertura.
-- E3-T03C — bloque 4: tiempo personal, horario laboral y descansos persistentes. Evidencia: alta/configuración, reinicio y consulta.
-- E3-T04: agenda diaria/semanal alimentada por registros reales y pruebas de persistencia integradas.
+- E3-T03C — bloque 4: completado el 2026-10-20. Tiempo personal, horario laboral y descansos persistentes e integrados en Inicio/Agenda. Evidencia: alta/configuración, cierre, reapertura y consulta automatizada.
+- E3-T04: completado el 2026-10-20. Agenda diaria/semanal alimentada por citas, tiempo personal y descansos reales; filtros y contadores usan esa misma fuente.
 
 ## Etapa 4: motor de disponibilidad
 

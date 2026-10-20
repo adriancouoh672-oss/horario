@@ -794,3 +794,13 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Compilación: Android y Windows correctos. Android emitió una advertencia de enlace XAML de rendimiento para el comando Editar; no afecta la función y se eliminará al tipar esa plantilla.
 - Pendientes conservados: recorrido manual de Windows y validación en teléfono Android real.
 - Siguiente bloque: tiempo personal, horario laboral y descansos persistentes e integrados en Inicio/Agenda.
+
+### Bloque 4 — Tiempo personal, horario laboral y descansos
+
+- Resultado: completado. Tiempo personal guarda actividades o bloqueos en SQLite. Ajustes permite guardar inicio/fin laboral, inicio/fin del descanso y días laborables.
+- Integración: Inicio y Agenda consultan citas, tiempo personal y el descanso derivado del horario persistente. Los filtros `Todo`, `Negocio` y `Personal` operan sobre esa fuente; el descanso aparece identificado y no ofrece una acción de editar cita.
+- Limpieza de demostración: se retiraron el repositorio ficticio, sus modelos de cliente/servicio y los avisos de memoria volátil. No se migraron datos ficticios a SQLite.
+- Verificación: el ejecutable guardó tiempo personal y un horario distinto del inicial, cerró SQLite, reabrió y recuperó fechas, horas, descanso y conjunto de días laborales.
+- Compilación Windows: correcta, 0 advertencias y 0 errores. La primera ejecución concurrente del verificador informó un reintento de copia porque Windows compilaba Core al mismo tiempo; la comprobación funcional terminó aprobada y se repite en serie para la evidencia final.
+- Pendientes conservados: recorrido manual de Windows y teléfono Android real.
+- Siguiente bloque: motor de cruces en Core con horario, descanso, tiempo personal, citas activas, márgenes y exclusión de la propia cita.

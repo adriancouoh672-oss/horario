@@ -52,6 +52,7 @@ public sealed record AgendaEntryViewModel(
 {
     public string TimeText => $"{Start:HH:mm}–{End:HH:mm}";
     public string AccessibleText => $"{SegmentLabel}. {Title}. {TimeText}. {Subtitle}";
+    public bool IsEditable => Kind == DemoCommitmentKind.Business && !IsCancelled;
 }
 
 public static class DemoPresentation

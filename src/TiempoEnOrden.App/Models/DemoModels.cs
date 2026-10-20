@@ -1,4 +1,3 @@
-using TiempoEnOrden.App.Services;
 using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.Models;
@@ -21,31 +20,12 @@ public sealed record DemoCommitment(
     DateTime? ServiceEnd = null,
     bool IsCancelled = false);
 
-public sealed record DemoClient(string Name, string Phone, string Notes = "", bool IsArchived = false)
-{
-    public string StatusText => IsArchived ? "Archivado" : "Activo";
-}
-
-public sealed record DemoService(
-    string Name,
-    int DurationMinutes,
-    int PreparationMinutes,
-    int CleanupMinutes,
-    decimal Price,
-    string Currency,
-    bool IsArchived = false)
-{
-    public string Summary => $"{DurationMinutes} min · {Currency} {Price:0}";
-    public string OccupationSummary => $"{PreparationMinutes} min preparación + {DurationMinutes} min servicio + {CleanupMinutes} min limpieza";
-    public string StatusText => IsArchived ? "Archivado" : "Activo";
-}
-
 public sealed class AppointmentDraft : Infrastructure.ObservableObject
 {
     private Guid? _appointmentId;
     private ClientRecord? _client;
     private ServiceRecord? _service;
-    private DateTime _date = DemoScheduleStore.DemoNow.Date;
+    private DateTime _date = DateTime.Today;
     private TimeSpan _time = new(10, 0, 0);
     private string _notes = "";
 

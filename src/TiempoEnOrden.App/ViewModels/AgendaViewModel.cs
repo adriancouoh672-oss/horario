@@ -78,7 +78,12 @@ public sealed class AgendaViewModel : BaseViewModel
     {
         var weekStart = StartOfWeek(SelectedDate);
         var appointments = await _repository.GetAppointmentsAsync(weekStart, weekStart.AddDays(7), true);
-        var commitments = appointments.Select(ToCommitment).ToList();
+        var personalTimes = await _repository.GetPersonalTimesAsync(weekStart, weekStart.AddDays(7));
+        var schedule = await _repository.GetWorkScheduleAsync();
+        var commitments = appointments.Select(ToCommitment)
+            .Concat(personalTimes.Select(ToCommitment))
+            .Concat(CreateBreaks(schedule, weekStart))
+            .ToList();
 
         WeekDays.Clear();
         for (var index = 0; index < 7; index++)
@@ -100,7 +105,12 @@ public sealed class AgendaViewModel : BaseViewModel
 
     private IEnumerable<DemoCommitment> Filter(IEnumerable<DemoCommitment> source) => source
         .Where(item => ShowCancelled || !item.IsCancelled)
-        .Where(item => SelectedFilter != "Personal");
+        .Where(item => SelectedFilter switch
+        {
+            "Negocio" => item.Kind == DemoCommitmentKind.Business,
+            "Personal" => item.Kind is DemoCommitmentKind.Personal or DemoCommitmentKind.Break,
+            _ => true
+        });
 
     private static DemoCommitment ToCommitment(AppointmentRecord item) => new(
         item.Id.ToString("D"),
@@ -112,6 +122,23 @@ public sealed class AgendaViewModel : BaseViewModel
         item.Start,
         item.ServiceEnd,
         item.Status == AppointmentStatus.Cancelled);
+
+    private static DemoCommitment ToCommitment(PersonalTimeRecord item) => new(
+        item.Id.ToString("D"), item.Title,
+        item.Kind == PersonalTimeKind.Block ? "Bloqueo personal" : "Actividad personal",
+        item.Start, item.End, DemoCommitmentKind.Personal);
+
+    private static IEnumerable<DemoCommitment> CreateBreaks(WorkScheduleSettings settings, DateTime weekStart)
+    {
+        for (var offset = 0; offset < 7; offset++)
+        {
+            var date = weekStart.AddDays(offset);
+            if (!settings.WorkingDays.Contains(date.DayOfWeek)) continue;
+            yield return new DemoCommitment(
+                $"break-{date:yyyyMMdd}", "Descanso", "Horario laboral",
+                date.Add(settings.BreakStart), date.Add(settings.BreakEnd), DemoCommitmentKind.Break);
+        }
+    }
 
     private static DateTime StartOfWeek(DateTime date)
     {
