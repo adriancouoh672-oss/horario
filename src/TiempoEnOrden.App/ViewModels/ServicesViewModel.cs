@@ -3,12 +3,14 @@ using System.Windows.Input;
 using TiempoEnOrden.App.Infrastructure;
 using TiempoEnOrden.App.Models;
 using TiempoEnOrden.App.Services;
+using TiempoEnOrden.Core.Data;
+using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.ViewModels;
 
 public sealed class ServicesViewModel : BaseViewModel
 {
-    private readonly IDemoScheduleStore _store;
+    private readonly ILocalDataRepository _repository;
     private readonly AppointmentDraft _draft;
     private readonly INavigationService _navigation;
     private bool _showArchived;
@@ -19,18 +21,17 @@ public sealed class ServicesViewModel : BaseViewModel
     private int _cleanup = 5;
     private decimal _price = 250;
 
-    public ServicesViewModel(IDemoScheduleStore store, AppointmentDraft draft, INavigationService navigation)
+    public ServicesViewModel(ILocalDataRepository repository, AppointmentDraft draft, INavigationService navigation)
     {
-        _store = store;
+        _repository = repository;
         _draft = draft;
         _navigation = navigation;
         AddCommand = new AsyncRelayCommand(AddAsync);
         BackCommand = new AsyncRelayCommand(() => _navigation.GoBackAsync());
-        Refresh();
     }
 
-    public ObservableCollection<DemoService> VisibleServices { get; } = [];
-    public bool ShowArchived { get => _showArchived; set { if (SetProperty(ref _showArchived, value)) Refresh(); } }
+    public ObservableCollection<ServiceListItemViewModel> VisibleServices { get; } = [];
+    public bool ShowArchived { get => _showArchived; set { if (SetProperty(ref _showArchived, value)) _ = LoadAsync(); } }
     public bool IsContextMode { get => _isContextMode; set => SetProperty(ref _isContextMode, value); }
     public string NewName { get => _newName; set => SetProperty(ref _newName, value); }
     public int Duration { get => _duration; set { if (SetProperty(ref _duration, value)) OnPropertyChanged(nameof(Preview)); } }
@@ -41,12 +42,13 @@ public sealed class ServicesViewModel : BaseViewModel
     public ICommand AddCommand { get; }
     public ICommand BackCommand { get; }
 
-    public override void Refresh()
+    public override async Task LoadAsync()
     {
+        var services = await _repository.GetServicesAsync(ShowArchived);
         VisibleServices.Clear();
-        foreach (var service in _store.Services.Where(item => ShowArchived || !item.IsArchived))
+        foreach (var service in services)
         {
-            VisibleServices.Add(service);
+            VisibleServices.Add(new ServiceListItemViewModel(service));
         }
     }
 
@@ -58,15 +60,16 @@ public sealed class ServicesViewModel : BaseViewModel
             return;
         }
 
-        var service = new DemoService(NewName.Trim(), Duration, Preparation, Cleanup, Price, "MXN");
-        _store.AddService(service);
-        _draft.Service = service;
+        var service = new ServiceRecord(Guid.NewGuid(), NewName.Trim(), Duration, Preparation, Cleanup, Price, "MXN");
+        await _repository.SaveServiceAsync(service);
+        _draft.Service = new DemoService(service.Name, service.DurationMinutes, service.PreparationMinutes, service.CleanupMinutes, service.Price, service.Currency);
         NewName = "";
-        Refresh();
-        Message = "Servicio agregado solo a la demostración en memoria.";
+        await LoadAsync();
+        Message = "Servicio guardado localmente.";
         if (IsContextMode)
         {
             await _navigation.GoBackAsync();
         }
     }
 }
+

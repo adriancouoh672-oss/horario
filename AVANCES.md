@@ -775,3 +775,12 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Plataformas: Android y Windows compilaron con 0 advertencias y 0 errores después de agregar Infrastructure.
 - Pendientes conservados: recorrido manual de Windows y teléfono Android real no ejecutados.
 - Siguiente bloque: clientes y servicios con guardado real y consulta desde la interfaz.
+
+### Bloque 2 — Clientes y servicios reales
+
+- Resultado: completado. Las pantallas Clientes y Servicios ya leen y escriben `ILocalDataRepository`; se retiraron sus avisos y acciones de demostración.
+- Validaciones: nombre obligatorio para cliente; nombre, duración positiva, márgenes no negativos y precio no negativo para servicio.
+- Historial: los identificadores son GUID persistentes y el filtro de archivados se conserva en el modelo, aunque las acciones de archivar/reactivar todavía no forman parte del recorrido mínimo.
+- Verificación: el ejecutable de comprobación guardó cliente y servicio, cerró SQLite, reabrió la base y recuperó ambos registros. Android y Windows compilaron con 0 advertencias y 0 errores.
+- Pendientes de plataforma: Windows manual y teléfono Android real continúan sin aprobar.
+- Siguiente bloque: citas reales con creación, consulta, edición, cancelación e hito de reinicio.

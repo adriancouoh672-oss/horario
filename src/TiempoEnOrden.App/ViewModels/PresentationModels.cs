@@ -1,6 +1,27 @@
 using TiempoEnOrden.App.Models;
+using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.ViewModels;
+
+public sealed record ClientListItemViewModel(ClientRecord Record)
+{
+    public Guid Id => Record.Id;
+    public string Name => Record.Name;
+    public string Phone => Record.Phone;
+    public string Notes => Record.Notes;
+    public string StatusText => Record.IsArchived ? "Archivado" : "Activo";
+    public override string ToString() => Name;
+}
+
+public sealed record ServiceListItemViewModel(ServiceRecord Record)
+{
+    public Guid Id => Record.Id;
+    public string Name => Record.Name;
+    public string Summary => $"{Record.DurationMinutes} min · {Record.Currency} {Record.Price:0.##}";
+    public string OccupationSummary => $"{Record.PreparationMinutes} min preparación + {Record.DurationMinutes} min servicio + {Record.CleanupMinutes} min limpieza";
+    public string StatusText => Record.IsArchived ? "Archivado" : "Activo";
+    public override string ToString() => Name;
+}
 
 public sealed record HomeCommitmentViewModel(
     string Icon,

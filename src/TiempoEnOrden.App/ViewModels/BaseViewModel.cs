@@ -23,4 +23,10 @@ public abstract class BaseViewModel : ObservableObject
     public virtual void Refresh()
     {
     }
+
+    public virtual Task LoadAsync()
+    {
+        Refresh();
+        return Task.CompletedTask;
+    }
 }

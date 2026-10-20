@@ -2,7 +2,6 @@
 <ContentPage x:Class="TiempoEnOrden.App.Pages.ClientsPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" Title="Clientes">
     <ScrollView>
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="1100" HorizontalOptions="Fill">
-            <views:DemoBannerView />
             <VerticalStackLayout Spacing="4"><Label Text="Clientes" Style="{StaticResource PageTitle}" /><Label Text="Nombre obligatorio; teléfono y notas opcionales." Style="{StaticResource Caption}" /></VerticalStackLayout>
             <Border IsVisible="{Binding IsContextMode}" Padding="12" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 10"><Label Text="Creación contextual: al agregar, volverás a Nueva cita con el borrador conservado." TextColor="{StaticResource Primary}" /></Border>
             <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='1.1*,0.9*'}" RowDefinitions="Auto,Auto" ColumnSpacing="20" RowSpacing="16">
@@ -17,12 +16,12 @@
                 </Border>
                 <Border Grid.Column="{OnPlatform Android=0, WinUI=1}" Grid.Row="{OnPlatform Android=1, WinUI=0}" Style="{StaticResource Card}" VerticalOptions="Start">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="Agregar cliente ficticio" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Agregar cliente" Style="{StaticResource SectionTitle}" />
                         <Label Text="Nombre" /><Border Style="{StaticResource FieldBorder}"><Entry Text="{Binding NewName}" Placeholder="Nombre obligatorio" /></Border>
                         <Label Text="Teléfono" /><Border Style="{StaticResource FieldBorder}"><Entry Text="{Binding NewPhone}" Placeholder="Opcional" Keyboard="Telephone" /></Border>
                         <Label Text="Notas" /><Border Style="{StaticResource FieldBorder}"><Editor Text="{Binding NewNotes}" Placeholder="Opcional" AutoSize="TextChanges" /></Border>
                         <Border IsVisible="{Binding HasMessage}" Padding="10" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 8"><Label Text="{Binding Message}" TextColor="{StaticResource Primary}" /></Border>
-                        <Button Text="Agregar a la demostración" Command="{Binding AddCommand}" />
+                        <Button Text="Guardar cliente" Command="{Binding AddCommand}" />
                         <Button IsVisible="{Binding IsContextMode}" Text="Volver sin agregar" Command="{Binding BackCommand}" Style="{StaticResource SecondaryButton}" />
                     </VerticalStackLayout>
                 </Border>

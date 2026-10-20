@@ -16,9 +16,9 @@ public partial class ServicesPage : ContentPage, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query) =>
         ViewModel.IsContextMode = query.TryGetValue("context", out var value) && value?.ToString() == "appointment";
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        ViewModel.Refresh();
+        await ViewModel.LoadAsync();
     }
 }

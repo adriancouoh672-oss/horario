@@ -3,12 +3,14 @@ using System.Windows.Input;
 using TiempoEnOrden.App.Infrastructure;
 using TiempoEnOrden.App.Models;
 using TiempoEnOrden.App.Services;
+using TiempoEnOrden.Core.Data;
+using TiempoEnOrden.Core.Models;
 
 namespace TiempoEnOrden.App.ViewModels;
 
 public sealed class ClientsViewModel : BaseViewModel
 {
-    private readonly IDemoScheduleStore _store;
+    private readonly ILocalDataRepository _repository;
     private readonly AppointmentDraft _draft;
     private readonly INavigationService _navigation;
     private string _searchText = "";
@@ -18,19 +20,18 @@ public sealed class ClientsViewModel : BaseViewModel
     private string _newPhone = "";
     private string _newNotes = "";
 
-    public ClientsViewModel(IDemoScheduleStore store, AppointmentDraft draft, INavigationService navigation)
+    public ClientsViewModel(ILocalDataRepository repository, AppointmentDraft draft, INavigationService navigation)
     {
-        _store = store;
+        _repository = repository;
         _draft = draft;
         _navigation = navigation;
         AddCommand = new AsyncRelayCommand(AddAsync);
         BackCommand = new AsyncRelayCommand(() => _navigation.GoBackAsync());
-        Refresh();
     }
 
-    public ObservableCollection<DemoClient> VisibleClients { get; } = [];
-    public string SearchText { get => _searchText; set { if (SetProperty(ref _searchText, value)) Refresh(); } }
-    public bool ShowArchived { get => _showArchived; set { if (SetProperty(ref _showArchived, value)) Refresh(); } }
+    public ObservableCollection<ClientListItemViewModel> VisibleClients { get; } = [];
+    public string SearchText { get => _searchText; set { if (SetProperty(ref _searchText, value)) _ = LoadAsync(); } }
+    public bool ShowArchived { get => _showArchived; set { if (SetProperty(ref _showArchived, value)) _ = LoadAsync(); } }
     public bool IsContextMode { get => _isContextMode; set => SetProperty(ref _isContextMode, value); }
     public string NewName { get => _newName; set => SetProperty(ref _newName, value); }
     public string NewPhone { get => _newPhone; set => SetProperty(ref _newPhone, value); }
@@ -38,14 +39,13 @@ public sealed class ClientsViewModel : BaseViewModel
     public ICommand AddCommand { get; }
     public ICommand BackCommand { get; }
 
-    public override void Refresh()
+    public override async Task LoadAsync()
     {
+        var clients = await _repository.GetClientsAsync(ShowArchived);
         VisibleClients.Clear();
-        foreach (var client in _store.Clients
-                     .Where(item => ShowArchived || !item.IsArchived)
-                     .Where(item => string.IsNullOrWhiteSpace(SearchText) || item.Name.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase)))
+        foreach (var client in clients.Where(item => string.IsNullOrWhiteSpace(SearchText) || item.Name.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase)))
         {
-            VisibleClients.Add(client);
+            VisibleClients.Add(new ClientListItemViewModel(client));
         }
     }
 
@@ -57,15 +57,16 @@ public sealed class ClientsViewModel : BaseViewModel
             return;
         }
 
-        var client = new DemoClient(NewName.Trim(), NewPhone.Trim(), NewNotes.Trim());
-        _store.AddClient(client);
+        var client = new ClientRecord(Guid.NewGuid(), NewName.Trim(), NewPhone.Trim(), NewNotes.Trim());
+        await _repository.SaveClientAsync(client);
         _draft.ClientName = client.Name;
         NewName = NewPhone = NewNotes = "";
-        Refresh();
-        Message = "Cliente agregado solo a la demostración en memoria.";
+        await LoadAsync();
+        Message = "Cliente guardado localmente.";
         if (IsContextMode)
         {
             await _navigation.GoBackAsync();
         }
     }
 }
+
