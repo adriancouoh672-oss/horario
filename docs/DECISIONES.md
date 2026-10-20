@@ -218,6 +218,14 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Motivo: hacer comprobables REQ-A-006, REQ-A-007 y REQ-A-008 y evitar diferencias entre guardado y sugerencias.
 - Consecuencia: el guardado rechaza un cruce y no mueve ningún compromiso. Las sugerencias del bloque siguiente deben invocar este mismo servicio, no duplicar sus reglas.
 
+## DEC-0025. Respaldo local controlado por la persona
+
+- Fecha: 2026-10-19
+- Estado: aceptada para la versión local
+- Decisión: crear copias de SQLite dentro del almacenamiento privado de la aplicación y permitir restaurar únicamente el respaldo local más reciente, tras confirmación explícita.
+- Motivo: ofrecer recuperación verificable para la entrega sin introducir nube, cuentas, permisos de almacenamiento compartido o sincronización.
+- Consecuencia: la restauración reemplaza los datos locales actuales y recarga Ajustes. No es una exportación transferible entre dispositivos ni una copia de seguridad en la nube.
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0

@@ -823,3 +823,12 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Verificación: el ejecutable obtuvo tres opciones, comprobó alineación a 15 minutos, horizonte estricto y volvió a validar cada opción con la regla de guardado. Windows compiló con 0 advertencias y 0 errores.
 - Pendientes conservados: recorrido manual de Windows y teléfono Android real.
 - Siguiente bloque: respaldo y restauración local con prueba de modificación intermedia y recuperación.
+
+### Bloque 7 — Respaldo y restauración
+
+- Resultado: completado. Ajustes permite crear un respaldo en el almacenamiento privado de la aplicación y restaurar el último respaldo disponible tras una confirmación explícita.
+- Alcance: el respaldo es local al dispositivo. No incorpora nube, cuentas, permisos de almacenamiento compartido ni transferencia entre equipos.
+- Verificación: `TiempoEnOrden.Verification` creó una copia, agregó un cliente después de crearla, restauró la copia y comprobó que ese cliente posterior desapareció mientras el cliente original seguía disponible. Windows compiló con 0 advertencias y 0 errores.
+- Decisión: DEC-0025 documenta que restaurar reemplaza los datos locales actuales y no tiene deshacer dentro de la aplicación.
+- Pendientes conservados: recorrido manual de Windows y teléfono Android real.
+- Siguiente bloque: generar paquetes reproducibles y documentación de instalación, manual y exposición basada exclusivamente en funciones verificadas.

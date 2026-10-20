@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using TiempoEnOrden.App.Infrastructure;
+using TiempoEnOrden.App.Services;
 using TiempoEnOrden.Core.Data;
 using TiempoEnOrden.Core.Models;
 
@@ -8,6 +9,7 @@ namespace TiempoEnOrden.App.ViewModels;
 public sealed class SettingsViewModel : BaseViewModel
 {
     private readonly ILocalDataRepository _repository;
+    private readonly IUserDialogService _dialogs;
     private TimeSpan _workStart;
     private TimeSpan _workEnd;
     private TimeSpan _breakStart;
@@ -20,10 +22,13 @@ public sealed class SettingsViewModel : BaseViewModel
     private bool _saturday;
     private bool _sunday;
 
-    public SettingsViewModel(ILocalDataRepository repository)
+    public SettingsViewModel(ILocalDataRepository repository, IUserDialogService dialogs)
     {
         _repository = repository;
+        _dialogs = dialogs;
         SaveCommand = new AsyncRelayCommand(SaveAsync);
+        CreateBackupCommand = new AsyncRelayCommand(CreateBackupAsync);
+        RestoreBackupCommand = new AsyncRelayCommand(RestoreBackupAsync);
     }
 
     public TimeSpan WorkStart { get => _workStart; set => SetProperty(ref _workStart, value); }
@@ -40,6 +45,8 @@ public sealed class SettingsViewModel : BaseViewModel
     public string TimeZoneName => "Ciudad de México";
     public string TimeZoneId => "America/Mexico_City";
     public ICommand SaveCommand { get; }
+    public ICommand CreateBackupCommand { get; }
+    public ICommand RestoreBackupCommand { get; }
 
     public override async Task LoadAsync()
     {
@@ -76,5 +83,43 @@ public sealed class SettingsViewModel : BaseViewModel
 
         await _repository.SaveWorkScheduleAsync(new WorkScheduleSettings(WorkStart, WorkEnd, BreakStart, BreakEnd, days));
         Message = "Horario laboral y descanso guardados localmente.";
+    }
+
+    private async Task CreateBackupAsync()
+    {
+        var directory = GetBackupDirectory();
+        var path = Path.Combine(directory, $"tiempo-en-orden-{DateTime.Now:yyyyMMdd-HHmmss}.db3");
+        await _repository.CreateBackupAsync(path);
+        Message = $"Respaldo local creado: {Path.GetFileName(path)}.";
+    }
+
+    private async Task RestoreBackupAsync()
+    {
+        var directory = GetBackupDirectory();
+        var backup = new DirectoryInfo(directory)
+            .GetFiles("tiempo-en-orden-*.db3")
+            .OrderByDescending(item => item.LastWriteTimeUtc)
+            .FirstOrDefault();
+        if (backup is null)
+        {
+            Message = "Aún no hay un respaldo local para restaurar.";
+            return;
+        }
+
+        if (!await _dialogs.ConfirmAsync(
+                "¿Restaurar el respaldo?",
+                "Los datos locales actuales se reemplazarán por el último respaldo. Esta acción no se puede deshacer desde la aplicación.",
+                "Restaurar", "Volver")) return;
+
+        await _repository.RestoreBackupAsync(backup.FullName);
+        await LoadAsync();
+        Message = $"Respaldo restaurado: {backup.Name}.";
+    }
+
+    private static string GetBackupDirectory()
+    {
+        var directory = Path.Combine(FileSystem.AppDataDirectory, "respaldos");
+        Directory.CreateDirectory(directory);
+        return directory;
     }
 }

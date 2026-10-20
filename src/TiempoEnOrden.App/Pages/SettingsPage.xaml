@@ -38,6 +38,10 @@
                         <Label Text="{Binding TimeZoneName}" FontFamily="OpenSansSemibold" />
                         <Label Text="{Binding TimeZoneId}" Style="{StaticResource Caption}" />
                         <Label Text="Configuración confirmada para este dispositivo; no se deduce para todas las personas de México." Style="{StaticResource Caption}" />
+                        <Label Text="Respaldo local" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Crea una copia local de la agenda o restaura el respaldo más reciente de este dispositivo." Style="{StaticResource Caption}" />
+                        <Button Text="Crear respaldo local" Command="{Binding CreateBackupCommand}" Style="{StaticResource SecondaryButton}" />
+                        <Button Text="Restaurar último respaldo" Command="{Binding RestoreBackupCommand}" Style="{StaticResource SecondaryButton}" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>

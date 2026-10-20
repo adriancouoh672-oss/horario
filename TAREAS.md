@@ -142,7 +142,7 @@ Estado: no iniciada; depende de sincronización estable.
 Estado: bloque de entrega local autorizado; las pruebas de usuarios y piloto real siguen sin inventarse.
 
 - E7-T01: revisar accesibilidad, navegación y estados.
-- E7-T02 — bloque 7: implementar y comprobar respaldo/restauración de la base local.
+- E7-T02 — bloque 7: completado el 2026-10-19. Respaldo/restauración de la base local comprobados mediante modificación posterior y recuperación.
 - E7-T03: revisar seguridad y medir rendimiento con volumen registrado.
 - E7-T04: preparar y registrar piloto real en `docs/PILOTO.md`.
 

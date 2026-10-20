@@ -68,6 +68,18 @@ try
            loadedSchedule.BreakStart == schedule.BreakStart && loadedSchedule.BreakEnd == schedule.BreakEnd &&
            loadedSchedule.WorkingDays.SetEquals(schedule.WorkingDays),
         "El horario laboral y el descanso deben permanecer después de reabrir SQLite.");
+    var backupPath = Path.Combine(verificationRoot, "respaldos", "verificacion.db3");
+    await thirdRepository.CreateBackupAsync(backupPath);
+    Assert(File.Exists(backupPath), "El respaldo debe crear un archivo de base de datos.");
+    var recordAfterBackup = new ClientRecord(Guid.NewGuid(), "Cliente posterior", "", "");
+    await thirdRepository.SaveClientAsync(recordAfterBackup);
+    Assert(await thirdRepository.GetClientAsync(recordAfterBackup.Id) is not null,
+        "El cambio posterior debe existir antes de restaurar.");
+    await thirdRepository.RestoreBackupAsync(backupPath);
+    Assert(await thirdRepository.GetClientAsync(recordAfterBackup.Id) is null,
+        "Restaurar debe descartar los cambios posteriores al respaldo.");
+    Assert(await thirdRepository.GetClientAsync(client.Id) == client,
+        "Restaurar debe recuperar los datos existentes al crear el respaldo.");
     await thirdRepository.CloseAsync();
 
     var availability = new AvailabilityService();
@@ -132,6 +144,7 @@ try
     Console.WriteLine("BLOQUE-4 APROBADO: tiempo personal, horario laboral y descanso permanecen tras reabrir SQLite.");
     Console.WriteLine("BLOQUE-5 APROBADO: cruces, márgenes, descanso, horario, cancelación y autoexclusión verificados en Core.");
     Console.WriteLine("BLOQUE-6 APROBADO: tres sugerencias de 15 minutos y 14 días reutilizan las reglas del guardado.");
+    Console.WriteLine("BLOQUE-7 APROBADO: respaldo y restauración recuperan la base local comprobada.");
 }
 finally
 {
