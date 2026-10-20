@@ -72,6 +72,7 @@
                                         </VerticalStackLayout>
                                         <Label Grid.Column="2" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" TextColor="#18282D" VerticalOptions="Center" />
                                         <Button Grid.Column="3" Text="Abrir cita" IsVisible="{Binding IsEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" SemanticProperties.Hint="Abre esta cita para editarla o cancelarla" />
+                                        <Button Grid.Column="3" Text="Abrir actividad" IsVisible="{Binding IsPersonalEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditPersonalTimeCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" SemanticProperties.Hint="Abre esta actividad para editarla o eliminarla" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>

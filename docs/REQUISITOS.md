@@ -120,6 +120,8 @@ Evidencia disponible en E1-T03: revisión documental realizada, diseño revisado
 
 ### REQ-A-003. Gestionar clientes con datos mínimos
 
+> **Ajuste M2 (2026-10-20):** Clientes permite editar nombre, teléfono y notas; la acción equivalente a eliminar es archivar, para conservar historial y ocultarlo de nuevas citas.
+
 **Usuario y necesidad:** trabajador independiente que necesita reconocer a quién atenderá sin almacenar información innecesaria.
 
 **Historia:** Como trabajador independiente, quiero registrar datos mínimos de clientes y asociarlos opcionalmente con citas, para identificar mis compromisos sin duplicar información.
@@ -144,6 +146,8 @@ Evidencia disponible en E1-T03: revisión documental realizada, diseño revisado
 **Dudas o decisiones pendientes:** normalización de teléfono, búsqueda, confirmación de duplicados y posibilidad de reactivar clientes archivados.
 
 ### REQ-A-004. Registrar tiempo personal
+
+> **Ajuste M2 (2026-10-20):** una actividad o bloqueo se abre desde Agenda para editar fecha, horas y datos. Eliminarlo requiere confirmación y libera el intervalo.
 
 **Usuario y necesidad:** persona que combina trabajo y vida personal y necesita impedir que una cita ocupe un compromiso personal.
 

@@ -29,6 +29,7 @@ public sealed class AgendaViewModel : BaseViewModel
         SelectFilterCommand = new RelayCommand<string>(filter => SelectedFilter = filter ?? "Todo");
         OpenAppointmentCommand = new AsyncRelayCommand(() => navigation.GoToAsync("new-appointment"));
         EditAppointmentCommand = new AsyncRelayCommand<string>(id => navigation.GoToAsync($"new-appointment?appointmentId={Uri.EscapeDataString(id ?? "")}"));
+        EditPersonalTimeCommand = new AsyncRelayCommand<string>(id => navigation.GoToAsync($"personal-time?personalTimeId={Uri.EscapeDataString(id ?? "")}"));
         OpenPersonalTimeCommand = new AsyncRelayCommand(() => navigation.GoToAsync("personal-time"));
     }
 
@@ -74,6 +75,7 @@ public sealed class AgendaViewModel : BaseViewModel
     public ICommand SelectFilterCommand { get; }
     public ICommand OpenAppointmentCommand { get; }
     public ICommand EditAppointmentCommand { get; }
+    public ICommand EditPersonalTimeCommand { get; }
     public ICommand OpenPersonalTimeCommand { get; }
 
     public override async Task LoadAsync()

@@ -896,3 +896,10 @@ El responsable ejecuta el recorrido Release de 10 minutos y comunica resultados 
 
 - DEC-0028 registra el patrón de una acción por cita y los textos aclaratorios.
 - Siguiente tarea: ejecutar el recorrido Release manual ya documentado, creando varias citas y comprobando que **Abrir cita** permite editar o cancelar cualquiera. Dependencia: paquete Release disponible y una plataforma autorizada. Criterio de cierre: resultados y evidencia real en `docs/PRUEBAS-ENTREGA.md`.
+
+## 2026-10-20 — M2: clientes y tiempo personal editables
+
+- Se implementó edición de nombre, teléfono y notas de clientes; **Archivar / reactivar** reemplaza el borrado físico y conserva las referencias históricas.
+- Tiempo personal ahora se abre desde Agenda, permite cambiar tipo, título, fecha y horas, y se elimina tras confirmación para liberar el intervalo.
+- Las citas conservan el flujo ya implementado de **Abrir cita**, edición y **Cancelar cita**; cancelar preserva historial, por lo que no se introdujo borrado físico.
+- Validación: `TiempoEnOrden.Verification` aprobó edición/archivo de cliente y edición/eliminación de tiempo personal; Windows Debug compiló con 0 advertencias y 0 errores. El recorrido visual de Windows y Android sigue pendiente.

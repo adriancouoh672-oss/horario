@@ -21,7 +21,9 @@ public interface ILocalDataRepository
     Task SaveAppointmentAsync(AppointmentRecord appointment);
 
     Task<IReadOnlyList<PersonalTimeRecord>> GetPersonalTimesAsync(DateTime? from = null, DateTime? to = null);
+    Task<PersonalTimeRecord?> GetPersonalTimeAsync(Guid id);
     Task SavePersonalTimeAsync(PersonalTimeRecord personalTime);
+    Task DeletePersonalTimeAsync(Guid id);
 
     Task<WorkScheduleSettings> GetWorkScheduleAsync();
     Task SaveWorkScheduleAsync(WorkScheduleSettings settings);

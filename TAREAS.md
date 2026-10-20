@@ -123,6 +123,7 @@ Estado: autorizada después de completar y comprobar la etapa 3.
 ## Mantenimiento autorizado posterior a la entrega
 
 - M1 — completado el 2026-10-19. Acceso explícito a cualquier cita desde Agenda y aclaración entre catálogo de servicios, Nueva cita y tiempo personal. Requisitos: REQ-A-001 a REQ-A-003. Dependencia: autorización explícita del responsable. Evidencia: DEC-0028, compilaciones Android/Windows y verificador SQLite. Pendiente: recorrido manual en paquete Release.
+- M2 — completado el 2026-10-20. Edición/archivo de clientes y edición/eliminación de tiempo personal. Requisitos: REQ-A-003 y REQ-A-004. Evidencia: DEC-0029, verificador SQLite y compilación Windows. Pendiente: recorrido manual.
 
 ## Etapa 5: cuenta y sincronización
 

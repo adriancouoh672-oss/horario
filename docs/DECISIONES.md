@@ -250,6 +250,13 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Motivo: evitar que una persona interprete los tres segmentos como citas distintas y asegurar que pueda abrir, editar o cancelar cualquier cita existente, no solo la más reciente.
 - Consecuencia: abrir una cita conserva su identificador y muestra los controles de edición o cancelación de ese registro. La Agenda semanal muestra el total de compromisos de la semana y permite elegir un día para consultar sus detalles. No cambian SQLite, disponibilidad, sugerencias, cancelación ni respaldo.
 
+## DEC-0029. Corrección de clientes y tiempo personal
+
+- Fecha: 2026-10-20
+- Estado: autorizada por el responsable e implementada; recorrido manual pendiente.
+- Decisión: clientes se editan conservando su identificador y se archivan en vez de borrarse; tiempo personal se abre desde Agenda, se edita y puede eliminarse tras confirmación.
+- Consecuencia: archivar un cliente conserva su historial y lo oculta de nuevas citas. Eliminar tiempo personal libera su intervalo; las citas siguen usando cancelación para conservar historial.
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0

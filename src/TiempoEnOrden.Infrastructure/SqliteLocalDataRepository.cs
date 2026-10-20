@@ -128,11 +128,24 @@ public sealed class SqliteLocalDataRepository : ILocalDataRepository
             .ToList();
     }
 
+    public async Task<PersonalTimeRecord?> GetPersonalTimeAsync(Guid id)
+    {
+        var connection = await GetConnectionAsync();
+        var row = await connection.FindAsync<PersonalTimeEntity>(id.ToString("D"));
+        return row is null ? null : ToRecord(row);
+    }
+
     public async Task SavePersonalTimeAsync(PersonalTimeRecord personalTime)
     {
         Validate(personalTime);
         var connection = await GetConnectionAsync();
         await connection.InsertOrReplaceAsync(ToEntity(personalTime));
+    }
+
+    public async Task DeletePersonalTimeAsync(Guid id)
+    {
+        var connection = await GetConnectionAsync();
+        await connection.DeleteAsync<PersonalTimeEntity>(id.ToString("D"));
     }
 
     public async Task<WorkScheduleSettings> GetWorkScheduleAsync()

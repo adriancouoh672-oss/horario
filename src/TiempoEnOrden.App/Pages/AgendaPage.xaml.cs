@@ -10,6 +10,7 @@ public partial class AgendaPage : ContentPage
     public ICommand SelectFilterCommand => ViewModel.SelectFilterCommand;
     public ICommand SelectDayCommand => ViewModel.SelectDayCommand;
     public ICommand EditAppointmentCommand => ViewModel.EditAppointmentCommand;
+    public ICommand EditPersonalTimeCommand => ViewModel.EditPersonalTimeCommand;
 
     public AgendaPage()
     {

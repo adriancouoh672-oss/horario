@@ -60,6 +60,7 @@ public sealed record AgendaEntryViewModel(
     // Una cita se representa con preparación, servicio y limpieza. Solo el
     // segmento de servicio ofrece la acción para no repetirla tres veces.
     public bool IsEditable => Kind == DemoCommitmentKind.Business && !IsCancelled && SegmentLabel == "Servicio";
+    public bool IsPersonalEditable => Kind == DemoCommitmentKind.Personal;
 }
 
 public static class DemoPresentation

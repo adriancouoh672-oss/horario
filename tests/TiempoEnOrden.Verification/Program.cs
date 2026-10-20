@@ -137,6 +137,18 @@ try
             suggestionRequest with { ServiceStart = item }, schedule, [activeAppointment], [personalTime]).IsAvailable),
         "Cada sugerencia debe cumplir exactamente las mismas reglas del guardado.");
 
+    var editedClient = client with { Phone = "5550102000" };
+    await thirdRepository.SaveClientAsync(editedClient);
+    Assert(await thirdRepository.GetClientAsync(client.Id) == editedClient, "Editar cliente debe conservar el identificador y actualizar sus datos.");
+    await thirdRepository.SaveClientAsync(editedClient with { IsArchived = true });
+    Assert((await thirdRepository.GetClientsAsync()).All(item => item.Id != client.Id), "Archivar cliente debe ocultarlo de nuevas selecciones.");
+    Assert((await thirdRepository.GetClientsAsync(includeArchived: true)).Single(item => item.Id == client.Id).IsArchived, "Archivar cliente debe conservar el historial.");
+    var editedPersonalTime = personalTime with { Title = "Actividad editada", Start = personalTime.Start.AddHours(1), End = personalTime.End.AddHours(1) };
+    await thirdRepository.SavePersonalTimeAsync(editedPersonalTime);
+    Assert(await thirdRepository.GetPersonalTimeAsync(personalTime.Id) == editedPersonalTime, "Editar tiempo personal debe conservar el identificador.");
+    await thirdRepository.DeletePersonalTimeAsync(personalTime.Id);
+    Assert(await thirdRepository.GetPersonalTimeAsync(personalTime.Id) is null, "Eliminar tiempo personal debe liberar el intervalo.");
+
     Console.WriteLine("BLOQUE-1 APROBADO: SQLite conserva datos después de reabrir la conexión.");
     Console.WriteLine("BLOQUE-2 APROBADO: clientes y servicios se guardan y consultan desde SQLite.");
     Console.WriteLine("PRIMER HITO APROBADO: cliente, servicio y cita permanecen tras reabrir; la cita se editó y canceló.");
@@ -145,6 +157,7 @@ try
     Console.WriteLine("BLOQUE-5 APROBADO: cruces, márgenes, descanso, horario, cancelación y autoexclusión verificados en Core.");
     Console.WriteLine("BLOQUE-6 APROBADO: tres sugerencias de 15 minutos y 14 días reutilizan las reglas del guardado.");
     Console.WriteLine("BLOQUE-7 APROBADO: respaldo y restauración recuperan la base local comprobada.");
+    Console.WriteLine("M2 APROBADO: clientes se editan o archivan y el tiempo personal se edita o elimina.");
 }
 finally
 {
