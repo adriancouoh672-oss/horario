@@ -804,3 +804,13 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Compilación Windows: correcta, 0 advertencias y 0 errores. La primera ejecución concurrente del verificador informó un reintento de copia porque Windows compilaba Core al mismo tiempo; la comprobación funcional terminó aprobada y se repite en serie para la evidencia final.
 - Pendientes conservados: recorrido manual de Windows y teléfono Android real.
 - Siguiente bloque: motor de cruces en Core con horario, descanso, tiempo personal, citas activas, márgenes y exclusión de la propia cita.
+
+### Bloque 5 — Detección de cruces
+
+- Resultado: completado. `AvailabilityService` vive en Core y evalúa el intervalo total de una cita: preparación, servicio y limpieza.
+- Reglas comprobadas: jornada y día laboral; descanso; tiempo personal; citas activas; canceladas liberan disponibilidad; edición excluye la propia cita; dos intervalos que solo se tocan no se cruzan.
+- Integración: Nueva cita consulta SQLite y aplica el servicio antes de guardar. Ante un conflicto muestra el motivo y el intervalo, no guarda ni mueve compromisos.
+- Verificación: `TiempoEnOrden.Verification` aprobó cruces por margen, tiempo personal, descanso y fin de jornada, además de cancelación, autoexclusión y límites contiguos. Windows compiló con 0 advertencias y 0 errores.
+- Decisión: DEC-0024 fija una sola regla para guardado y sugerencias.
+- Pendientes conservados: recorrido manual de Windows y teléfono Android real.
+- Siguiente bloque: sugerir hasta tres espacios de 15 minutos dentro de 14 días usando exactamente `AvailabilityService`.

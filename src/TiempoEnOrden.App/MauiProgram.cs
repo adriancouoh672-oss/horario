@@ -5,6 +5,7 @@ using TiempoEnOrden.App.Models;
 using TiempoEnOrden.App.Services;
 using TiempoEnOrden.App.ViewModels;
 using TiempoEnOrden.Core.Data;
+using TiempoEnOrden.Core.Services;
 using TiempoEnOrden.Infrastructure;
 
 namespace TiempoEnOrden.App;
@@ -25,6 +26,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<AppShell>();
 		builder.Services.AddSingleton<ILocalDataRepository>(_ => new SqliteLocalDataRepository(
 			Path.Combine(FileSystem.AppDataDirectory, "tiempo-en-orden.db3")));
+		builder.Services.AddSingleton<AvailabilityService>();
 		builder.Services.AddSingleton<INavigationService, ShellNavigationService>();
 		builder.Services.AddSingleton<IUserDialogService, UserDialogService>();
 		builder.Services.AddSingleton<AppointmentDraft>();

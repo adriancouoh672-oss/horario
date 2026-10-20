@@ -37,7 +37,7 @@
                         <Button Text="{Binding SaveButtonText}" Command="{Binding SaveCommand}" />
                         <Button Text="Cancelar cita" Command="{Binding CancelAppointmentCommand}" IsVisible="{Binding IsEditing}" BackgroundColor="#A33A3A" />
                         <Button Text="Descartar cambios" Command="{Binding DiscardCommand}" Style="{StaticResource SecondaryButton}" />
-                        <Label Text="La detección de conflictos se incorporará después de comprobar el guardado local." Style="{StaticResource Caption}" />
+                        <Label Text="El guardado comprueba jornada laboral, descanso, tiempo personal y citas activas, incluidos preparación y limpieza." Style="{StaticResource Caption}" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>

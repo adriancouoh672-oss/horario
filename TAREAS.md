@@ -108,15 +108,15 @@ Estado: autorizada con prioridad de entrega; depende de la base compilable de E2
 
 - E3-T01/E3-T02 — bloque 1: completado el 2026-10-19. Modelo persistente, proyecto Infrastructure, SQLite e inicialización separada de la demostración. Evidencia: verificación de escritura/lectura tras reabrir conexión y compilaciones Android/Windows sin errores.
 - E3-T03A — bloque 2: completado el 2026-10-19. Clientes y servicios con guardado real. Evidencia: crear, consultar y conservar tras reabrir SQLite; interfaz conectada al repositorio local.
-- E3-T03B — bloque 3: completado el 2026-10-20. Crear, consultar, editar y cancelar citas con valores históricos del servicio. Evidencia: verificador SQLite y recorrido real en el AVD tras cierre forzado y reapertura.
-- E3-T03C — bloque 4: completado el 2026-10-20. Tiempo personal, horario laboral y descansos persistentes e integrados en Inicio/Agenda. Evidencia: alta/configuración, cierre, reapertura y consulta automatizada.
-- E3-T04: completado el 2026-10-20. Agenda diaria/semanal alimentada por citas, tiempo personal y descansos reales; filtros y contadores usan esa misma fuente.
+- E3-T03B — bloque 3: completado el 2026-10-19. Crear, consultar, editar y cancelar citas con valores históricos del servicio. Evidencia: verificador SQLite y recorrido real en el AVD tras cierre forzado y reapertura.
+- E3-T03C — bloque 4: completado el 2026-10-19. Tiempo personal, horario laboral y descansos persistentes e integrados en Inicio/Agenda. Evidencia: alta/configuración, cierre, reapertura y consulta automatizada.
+- E3-T04: completado el 2026-10-19. Agenda diaria/semanal alimentada por citas, tiempo personal y descansos reales; filtros y contadores usan esa misma fuente.
 
 ## Etapa 4: motor de disponibilidad
 
 Estado: autorizada después de completar y comprobar la etapa 3.
 
-- E4-T01 — bloque 5: implementar y probar intervalos y cruces en Core, incluyendo preparación, limpieza, descanso, horario, tiempo personal y exclusión de la propia cita al editar.
+- E4-T01 — bloque 5: completado el 2026-10-19. Intervalos y cruces en Core, incluyendo preparación, limpieza, descanso, horario, tiempo personal, canceladas y exclusión de la propia cita al editar.
 - E4-T02/E4-T03 — bloque 6: sugerencias deterministas de hasta tres espacios, cada 15 minutos y hasta 14 días, usando exactamente las reglas del guardado.
 - E4-T04: ejecutar pruebas de los escenarios base y límites.
 

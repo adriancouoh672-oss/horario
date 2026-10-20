@@ -1,4 +1,5 @@
 using TiempoEnOrden.Core.Models;
+using TiempoEnOrden.Core.Services;
 using TiempoEnOrden.Infrastructure;
 
 var verificationRoot = Path.Combine(Path.GetTempPath(), "TiempoEnOrdenVerification", Guid.NewGuid().ToString("N"));
@@ -69,11 +70,55 @@ try
         "El horario laboral y el descanso deben permanecer después de reabrir SQLite.");
     await thirdRepository.CloseAsync();
 
+    var availability = new AvailabilityService();
+    var activeAppointment = editedAppointment with { Status = AppointmentStatus.Active };
+    var marginConflict = availability.Check(
+        new AvailabilityRequest(new DateTime(2026, 10, 20, 11, 55, 0), 30, 10, 0),
+        schedule, [activeAppointment], []);
+    Assert(marginConflict.Conflicts.Any(item => item.Kind == AvailabilityConflictKind.Appointment),
+        "La preparación de la cita candidata debe detectar la limpieza u ocupación de otra cita.");
+
+    var selfEdit = availability.Check(
+        new AvailabilityRequest(activeAppointment.Start, activeAppointment.DurationMinutes,
+            activeAppointment.PreparationMinutes, activeAppointment.CleanupMinutes, activeAppointment.Id),
+        schedule, [activeAppointment], []);
+    Assert(selfEdit.IsAvailable, "Editar una cita no debe compararla consigo misma.");
+
+    var cancelledIsFree = availability.Check(
+        new AvailabilityRequest(cancelledAppointment.Start, cancelledAppointment.DurationMinutes,
+            cancelledAppointment.PreparationMinutes, cancelledAppointment.CleanupMinutes),
+        schedule, [cancelledAppointment], []);
+    Assert(cancelledIsFree.IsAvailable, "Una cita cancelada debe liberar disponibilidad.");
+
+    var personalConflict = availability.Check(
+        new AvailabilityRequest(new DateTime(2026, 10, 20, 12, 15, 0), 30, 0, 0),
+        schedule, [], [personalTime]);
+    Assert(personalConflict.Conflicts.Any(item => item.Kind == AvailabilityConflictKind.PersonalTime),
+        "El tiempo personal debe proteger su intervalo.");
+
+    var breakConflict = availability.Check(
+        new AvailabilityRequest(new DateTime(2026, 10, 20, 13, 45, 0), 15, 0, 0),
+        schedule, [], []);
+    Assert(breakConflict.Conflicts.Any(item => item.Kind == AvailabilityConflictKind.Break),
+        "El descanso laboral debe bloquear citas.");
+
+    var outsideSchedule = availability.Check(
+        new AvailabilityRequest(new DateTime(2026, 10, 20, 17, 15, 0), 30, 0, 5),
+        schedule, [], []);
+    Assert(outsideSchedule.Conflicts.Any(item => item.Kind == AvailabilityConflictKind.OutsideWorkSchedule),
+        "La ocupación total debe caber en el horario laboral.");
+
+    var touchingEdge = availability.Check(
+        new AvailabilityRequest(new DateTime(2026, 10, 20, 12, 0, 0), 30, 10, 0),
+        schedule, [activeAppointment], []);
+    Assert(touchingEdge.IsAvailable, "Dos intervalos que solo se tocan en el límite no deben considerarse cruce.");
+
     Console.WriteLine("BLOQUE-1 APROBADO: SQLite conserva datos después de reabrir la conexión.");
     Console.WriteLine("BLOQUE-2 APROBADO: clientes y servicios se guardan y consultan desde SQLite.");
     Console.WriteLine("PRIMER HITO APROBADO: cliente, servicio y cita permanecen tras reabrir; la cita se editó y canceló.");
     Console.WriteLine("BLOQUE-3 APROBADO: altas, consulta, edición y cancelación de citas usan SQLite.");
     Console.WriteLine("BLOQUE-4 APROBADO: tiempo personal, horario laboral y descanso permanecen tras reabrir SQLite.");
+    Console.WriteLine("BLOQUE-5 APROBADO: cruces, márgenes, descanso, horario, cancelación y autoexclusión verificados en Core.");
 }
 finally
 {

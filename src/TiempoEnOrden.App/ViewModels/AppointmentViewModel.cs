@@ -7,6 +7,7 @@ using TiempoEnOrden.App.Models;
 using TiempoEnOrden.App.Services;
 using TiempoEnOrden.Core.Data;
 using TiempoEnOrden.Core.Models;
+using TiempoEnOrden.Core.Services;
 
 namespace TiempoEnOrden.App.ViewModels;
 
@@ -16,15 +17,17 @@ public sealed class AppointmentViewModel : BaseViewModel
     private readonly AppointmentDraft _draft;
     private readonly INavigationService _navigation;
     private readonly IUserDialogService _dialogs;
+    private readonly AvailabilityService _availability;
     private bool _hasChanges;
     private bool _loading;
 
-    public AppointmentViewModel(ILocalDataRepository repository, AppointmentDraft draft, INavigationService navigation, IUserDialogService dialogs)
+    public AppointmentViewModel(ILocalDataRepository repository, AppointmentDraft draft, INavigationService navigation, IUserDialogService dialogs, AvailabilityService availability)
     {
         _repository = repository;
         _draft = draft;
         _navigation = navigation;
         _dialogs = dialogs;
+        _availability = availability;
         _draft.PropertyChanged += DraftChanged;
         OpenClientCreationCommand = new AsyncRelayCommand(() => _navigation.GoToAsync("client-context?context=appointment"));
         OpenServiceCreationCommand = new AsyncRelayCommand(() => _navigation.GoToAsync("service-context?context=appointment"));
@@ -188,6 +191,20 @@ public sealed class AppointmentViewModel : BaseViewModel
             service.Currency,
             Notes.Trim(),
             AppointmentStatus.Active);
+
+        var request = new AvailabilityRequest(
+            appointment.Start, appointment.DurationMinutes, appointment.PreparationMinutes,
+            appointment.CleanupMinutes, appointment.Id);
+        var schedule = await _repository.GetWorkScheduleAsync();
+        var appointments = await _repository.GetAppointmentsAsync(request.OccupiedStart, request.OccupiedEnd);
+        var personalTimes = await _repository.GetPersonalTimesAsync(request.OccupiedStart, request.OccupiedEnd);
+        var availability = _availability.Check(request, schedule, appointments, personalTimes);
+        if (!availability.IsAvailable)
+        {
+            var conflict = availability.Conflicts[0];
+            Message = $"No se guardó: {conflict.Description} ({conflict.Start:HH:mm}–{conflict.End:HH:mm}).";
+            return;
+        }
 
         await _repository.SaveAppointmentAsync(appointment);
         _draft.AppointmentId = appointment.Id;

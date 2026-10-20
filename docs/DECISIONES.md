@@ -209,6 +209,15 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Fuente oficial: https://learn.microsoft.com/dotnet/maui/data-cloud/database-sqlite?view=net-maui-10.0
 - Paquete estable comprobado: https://www.nuget.org/packages/sqlite-net-pcl/1.11.285
 
+## DEC-0024. Regla única de disponibilidad local
+
+- Fecha: 2026-10-19
+- Estado: aceptada para la versión local
+- Decisión: representar cada cita mediante un intervalo ocupado desde el inicio de preparación hasta el fin de limpieza y considerar cruce solo cuando dos intervalos se superponen; los extremos que únicamente se tocan son compatibles.
+- La misma comprobación valida jornada laboral, descanso, tiempo personal y citas activas. Una cita cancelada no ocupa disponibilidad y, al editar, se excluye el identificador de la propia cita.
+- Motivo: hacer comprobables REQ-A-006, REQ-A-007 y REQ-A-008 y evitar diferencias entre guardado y sugerencias.
+- Consecuencia: el guardado rechaza un cruce y no mueve ningún compromiso. Las sugerencias del bloque siguiente deben invocar este mismo servicio, no duplicar sus reglas.
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0
