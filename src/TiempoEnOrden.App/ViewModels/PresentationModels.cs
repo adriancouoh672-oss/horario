@@ -37,6 +37,11 @@ public sealed record WeekDayViewModel(DateTime Date, string DayName, string DayN
     public string DisplayText => $"{DayName}\n{DayNumber}";
 }
 
+public sealed record ScheduleSuggestionViewModel(DateTime Start)
+{
+    public string DisplayText => Start.ToString("ddd d MMM · HH:mm", System.Globalization.CultureInfo.GetCultureInfo("es-MX"));
+}
+
 public sealed record AgendaEntryViewModel(
     string Id,
     string Icon,

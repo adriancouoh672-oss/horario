@@ -117,8 +117,8 @@ Estado: autorizada con prioridad de entrega; depende de la base compilable de E2
 Estado: autorizada después de completar y comprobar la etapa 3.
 
 - E4-T01 — bloque 5: completado el 2026-10-19. Intervalos y cruces en Core, incluyendo preparación, limpieza, descanso, horario, tiempo personal, canceladas y exclusión de la propia cita al editar.
-- E4-T02/E4-T03 — bloque 6: sugerencias deterministas de hasta tres espacios, cada 15 minutos y hasta 14 días, usando exactamente las reglas del guardado.
-- E4-T04: ejecutar pruebas de los escenarios base y límites.
+- E4-T02/E4-T03 — bloque 6: completado el 2026-10-19. Sugerencias deterministas de hasta tres espacios, cada 15 minutos y hasta 14 días, usando exactamente las reglas del guardado.
+- E4-T04: completado el 2026-10-19. Pruebas de escenarios base, márgenes, límites contiguos, cancelación, autoexclusión y validez de todas las sugerencias.
 
 ## Etapa 5: cuenta y sincronización
 

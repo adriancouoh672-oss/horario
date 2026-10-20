@@ -1,11 +1,13 @@
 using TiempoEnOrden.App.Infrastructure;
 using TiempoEnOrden.App.ViewModels;
+using System.Windows.Input;
 
 namespace TiempoEnOrden.App.Pages;
 
 public partial class AppointmentPage : ContentPage, IQueryAttributable
 {
     private AppointmentViewModel ViewModel => (AppointmentViewModel)BindingContext;
+    public ICommand ApplySuggestionCommand => ViewModel.ApplySuggestionCommand;
     private bool _prepared;
 
     public AppointmentPage()

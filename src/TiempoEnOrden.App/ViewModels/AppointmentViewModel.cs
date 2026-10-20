@@ -34,10 +34,12 @@ public sealed class AppointmentViewModel : BaseViewModel
         SaveCommand = new AsyncRelayCommand(SaveAsync);
         CancelAppointmentCommand = new AsyncRelayCommand(CancelAppointmentAsync);
         DiscardCommand = new AsyncRelayCommand(DiscardAsync);
+        ApplySuggestionCommand = new RelayCommand<ScheduleSuggestionViewModel>(ApplySuggestion);
     }
 
     public ObservableCollection<ClientRecord> Clients { get; } = [];
     public ObservableCollection<ServiceRecord> Services { get; } = [];
+    public ObservableCollection<ScheduleSuggestionViewModel> Suggestions { get; } = [];
 
     public ClientRecord? SelectedClient
     {
@@ -70,6 +72,7 @@ public sealed class AppointmentViewModel : BaseViewModel
     }
 
     public bool IsEditing => _draft.AppointmentId.HasValue;
+    public bool HasSuggestions => Suggestions.Count > 0;
     public string PageTitle => IsEditing ? "Editar cita" : "Nueva cita";
     public string SaveButtonText => IsEditing ? "Guardar cambios" : "Guardar cita";
 
@@ -101,6 +104,7 @@ public sealed class AppointmentViewModel : BaseViewModel
     public ICommand SaveCommand { get; }
     public ICommand CancelAppointmentCommand { get; }
     public ICommand DiscardCommand { get; }
+    public ICommand ApplySuggestionCommand { get; }
 
     public async Task BeginAsync(Guid? appointmentId)
     {
@@ -132,6 +136,7 @@ public sealed class AppointmentViewModel : BaseViewModel
             }
 
             Message = "";
+            ClearSuggestions();
             _hasChanges = false;
             NotifyAll();
         }
@@ -202,11 +207,22 @@ public sealed class AppointmentViewModel : BaseViewModel
         if (!availability.IsAvailable)
         {
             var conflict = availability.Conflicts[0];
-            Message = $"No se guardó: {conflict.Description} ({conflict.Start:HH:mm}–{conflict.End:HH:mm}).";
+            var horizonStart = request.ServiceStart.Date;
+            var horizonEnd = horizonStart.AddDays(15);
+            var horizonAppointments = await _repository.GetAppointmentsAsync(horizonStart, horizonEnd);
+            var horizonPersonalTimes = await _repository.GetPersonalTimesAsync(horizonStart, horizonEnd);
+            var suggestions = _availability.Suggest(request, schedule, horizonAppointments, horizonPersonalTimes);
+            Suggestions.Clear();
+            foreach (var suggestion in suggestions) Suggestions.Add(new ScheduleSuggestionViewModel(suggestion));
+            OnPropertyChanged(nameof(HasSuggestions));
+            Message = suggestions.Count == 0
+                ? $"No se guardó: {conflict.Description} No se encontraron alternativas en 14 días."
+                : $"No se guardó: {conflict.Description} Elige una alternativa para cambiar el borrador.";
             return;
         }
 
         await _repository.SaveAppointmentAsync(appointment);
+        ClearSuggestions();
         _draft.AppointmentId = appointment.Id;
         _hasChanges = false;
         Message = wasEditing ? "Cita actualizada localmente." : "Cita creada localmente.";
@@ -240,6 +256,22 @@ public sealed class AppointmentViewModel : BaseViewModel
         _draft.Date = DateTime.Today;
         _draft.Time = new TimeSpan(10, 0, 0);
         _draft.Notes = "";
+        ClearSuggestions();
+    }
+
+    private void ApplySuggestion(ScheduleSuggestionViewModel? suggestion)
+    {
+        if (suggestion is null) return;
+        StartDate = suggestion.Start.Date;
+        StartTime = suggestion.Start.TimeOfDay;
+        ClearSuggestions();
+        Message = "Alternativa aplicada al borrador. Revisa y guarda la cita.";
+    }
+
+    private void ClearSuggestions()
+    {
+        Suggestions.Clear();
+        OnPropertyChanged(nameof(HasSuggestions));
     }
 
     private void DraftChanged(object? sender, PropertyChangedEventArgs e)

@@ -814,3 +814,12 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - Decisión: DEC-0024 fija una sola regla para guardado y sugerencias.
 - Pendientes conservados: recorrido manual de Windows y teléfono Android real.
 - Siguiente bloque: sugerir hasta tres espacios de 15 minutos dentro de 14 días usando exactamente `AvailabilityService`.
+
+### Bloque 6 — Sugerencias de horarios
+
+- Resultado: completado. Ante un conflicto, Nueva cita busca hasta tres alternativas en pasos de 15 minutos y dentro de los 14 días iniciados en la fecha solicitada.
+- Coherencia: `AvailabilityService.Suggest` llama a `AvailabilityService.Check` para cada candidato; jornada, descanso, citas, márgenes, tiempo personal, cancelación y autoexclusión son idénticos al guardado.
+- Control del usuario: elegir una alternativa solo cambia fecha y hora del borrador. La interfaz pide revisar y guardar; no mueve ni guarda compromisos automáticamente.
+- Verificación: el ejecutable obtuvo tres opciones, comprobó alineación a 15 minutos, horizonte estricto y volvió a validar cada opción con la regla de guardado. Windows compiló con 0 advertencias y 0 errores.
+- Pendientes conservados: recorrido manual de Windows y teléfono Android real.
+- Siguiente bloque: respaldo y restauración local con prueba de modificación intermedia y recuperación.

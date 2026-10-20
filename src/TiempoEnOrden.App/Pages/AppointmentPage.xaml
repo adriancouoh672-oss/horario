@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="TiempoEnOrden.App.Pages.AppointmentPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="{Binding PageTitle}">
+<ContentPage x:Class="TiempoEnOrden.App.Pages.AppointmentPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="{Binding PageTitle}">
     <ScrollView>
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="1100" HorizontalOptions="Fill">
             <VerticalStackLayout Spacing="4">
@@ -34,6 +34,13 @@
                         <Label Text="Zona horaria: Ciudad de México" />
                         <Label Text="Identificador interno: America/Mexico_City · propuesta del dispositivo y confirmada para esta muestra." Style="{StaticResource Caption}" />
                         <Border IsVisible="{Binding HasMessage}" Padding="12" BackgroundColor="{StaticResource PrimarySoft}" Stroke="{StaticResource Primary}" StrokeShape="RoundRectangle 10"><Label Text="{Binding Message}" TextColor="{StaticResource Primary}" /></Border>
+                        <VerticalStackLayout IsVisible="{Binding HasSuggestions}" Spacing="8" BindableLayout.ItemsSource="{Binding Suggestions}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Text="{Binding DisplayText}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AppointmentPage}}, Path=ApplySuggestionCommand}" CommandParameter="{Binding .}" Style="{StaticResource SecondaryButton}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
                         <Button Text="{Binding SaveButtonText}" Command="{Binding SaveCommand}" />
                         <Button Text="Cancelar cita" Command="{Binding CancelAppointmentCommand}" IsVisible="{Binding IsEditing}" BackgroundColor="#A33A3A" />
                         <Button Text="Descartar cambios" Command="{Binding DiscardCommand}" Style="{StaticResource SecondaryButton}" />

@@ -92,6 +92,42 @@ public sealed class AvailabilityService
         return new AvailabilityResult(conflicts);
     }
 
+    public IReadOnlyList<DateTime> Suggest(
+        AvailabilityRequest request,
+        WorkScheduleSettings schedule,
+        IEnumerable<AppointmentRecord> appointments,
+        IEnumerable<PersonalTimeRecord> personalTimes,
+        int maximumSuggestions = 3,
+        int intervalMinutes = 15,
+        int horizonDays = 14)
+    {
+        if (maximumSuggestions <= 0 || intervalMinutes <= 0 || horizonDays <= 0)
+            throw new ArgumentOutOfRangeException(nameof(maximumSuggestions), "Los límites de búsqueda deben ser positivos.");
+
+        var appointmentList = appointments.ToList();
+        var personalTimeList = personalTimes.ToList();
+        var suggestions = new List<DateTime>(maximumSuggestions);
+        var candidate = RoundUp(request.ServiceStart, intervalMinutes);
+        var endExclusive = request.ServiceStart.Date.AddDays(horizonDays);
+
+        while (candidate < endExclusive && suggestions.Count < maximumSuggestions)
+        {
+            var candidateRequest = request with { ServiceStart = candidate };
+            if (Check(candidateRequest, schedule, appointmentList, personalTimeList).IsAvailable)
+                suggestions.Add(candidate);
+            candidate = candidate.AddMinutes(intervalMinutes);
+        }
+
+        return suggestions;
+    }
+
     public static bool Overlaps(DateTime firstStart, DateTime firstEnd, DateTime secondStart, DateTime secondEnd) =>
         firstStart < secondEnd && secondStart < firstEnd;
+
+    private static DateTime RoundUp(DateTime value, int intervalMinutes)
+    {
+        var intervalTicks = TimeSpan.FromMinutes(intervalMinutes).Ticks;
+        var roundedTicks = ((value.Ticks + intervalTicks - 1) / intervalTicks) * intervalTicks;
+        return new DateTime(roundedTicks, value.Kind);
+    }
 }

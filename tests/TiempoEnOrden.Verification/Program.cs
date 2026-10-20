@@ -113,12 +113,25 @@ try
         schedule, [activeAppointment], []);
     Assert(touchingEdge.IsAvailable, "Dos intervalos que solo se tocan en el límite no deben considerarse cruce.");
 
+    var suggestionRequest = new AvailabilityRequest(
+        new DateTime(2026, 10, 20, 11, 45, 0), 30, 10, 5);
+    var suggestions = availability.Suggest(
+        suggestionRequest, schedule, [activeAppointment], [personalTime]);
+    Assert(suggestions.Count == 3, "La búsqueda debe devolver hasta tres alternativas disponibles.");
+    Assert(suggestions.All(item => item.Minute % 15 == 0), "Las alternativas deben respetar intervalos de 15 minutos.");
+    Assert(suggestions.All(item => item < suggestionRequest.ServiceStart.Date.AddDays(14)),
+        "Las alternativas deben quedar dentro del horizonte de 14 días.");
+    Assert(suggestions.All(item => availability.Check(
+            suggestionRequest with { ServiceStart = item }, schedule, [activeAppointment], [personalTime]).IsAvailable),
+        "Cada sugerencia debe cumplir exactamente las mismas reglas del guardado.");
+
     Console.WriteLine("BLOQUE-1 APROBADO: SQLite conserva datos después de reabrir la conexión.");
     Console.WriteLine("BLOQUE-2 APROBADO: clientes y servicios se guardan y consultan desde SQLite.");
     Console.WriteLine("PRIMER HITO APROBADO: cliente, servicio y cita permanecen tras reabrir; la cita se editó y canceló.");
     Console.WriteLine("BLOQUE-3 APROBADO: altas, consulta, edición y cancelación de citas usan SQLite.");
     Console.WriteLine("BLOQUE-4 APROBADO: tiempo personal, horario laboral y descanso permanecen tras reabrir SQLite.");
     Console.WriteLine("BLOQUE-5 APROBADO: cruces, márgenes, descanso, horario, cancelación y autoexclusión verificados en Core.");
+    Console.WriteLine("BLOQUE-6 APROBADO: tres sugerencias de 15 minutos y 14 días reutilizan las reglas del guardado.");
 }
 finally
 {
