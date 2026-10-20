@@ -153,4 +153,5 @@ Estado: bloque de entrega autorizado después de comprobar respaldo/restauració
 - E8-T01 — bloque 8: completado el 2026-10-19. APK Release local y publicación Windows x64 sin empaquetar generados; instalación y límites documentados.
 - E8-T02 — bloque 8: completado el 2026-10-19. Manual breve, guía técnica, trazabilidad y matriz de pruebas preparados.
 - E8-T03 — bloque 8: completado el 2026-10-19. Guion y recorrido de demostración basados solo en funciones comprobadas y pendientes declarados.
+- E8-CIERRE — completado el 2026-10-19. Documentación de `afac4de` corregida para diferenciar pruebas de desarrollo y APK Release, límites de horario, respaldo interno y dependencias Windows. El recorrido Release de 10 minutos permanece no ejecutado.
 - E8-T04: redactar propuesta comercial sin promesas ni precio no validado.

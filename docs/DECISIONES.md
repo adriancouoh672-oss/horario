@@ -226,6 +226,22 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Motivo: ofrecer recuperación verificable para la entrega sin introducir nube, cuentas, permisos de almacenamiento compartido o sincronización.
 - Consecuencia: la restauración reemplaza los datos locales actuales y recarga Ajustes. No es una exportación transferible entre dispositivos ni una copia de seguridad en la nube.
 
+## DEC-0026. Límite de citas de negocio del paquete `afac4de`
+
+- Fecha: 2026-10-19
+- Estado: limitación documentada para cierre de entrega; no reemplaza el requisito de producto pendiente.
+- Decisión: presentar el paquete Release como compatible únicamente con citas de negocio cuya ocupación completa cabe en un día laboral. No se admiten citas nocturnas que crucen medianoche.
+- Motivo: `AvailabilityService` compara la ocupación contra una única jornada fechada y rechaza preparación o limpieza que salgan de esa fecha.
+- Consecuencia: REQ-A-001 conserva la expectativa de inicio/fin con fecha, pero la capacidad de cruzar medianoche queda explícitamente pendiente y no se demuestra.
+
+## DEC-0027. Dependencias de la publicación Windows sin empaquetar
+
+- Fecha: 2026-10-19
+- Estado: comprobada mediante configuración y contenido de publicación; instalación en otro equipo pendiente.
+- Decisión: la carpeta Windows se distribuye completa como publicación x64 framework-dependent. Además de .NET Desktop Runtime 10 x64, requiere Windows App Runtime 1.8 estable x64 compatible con `Microsoft.WindowsAppSDK 1.8.260529003` y Visual C++ Redistributable x64.
+- Evidencia: `WindowsPackageType=None`, `TiempoEnOrden.App.runtimeconfig.json`, `TiempoEnOrden.App.deps.json` y los binarios bootstrapper incluidos.
+- Consecuencia: no afirmar que basta instalar .NET Desktop ni que la carpeta es autosuficiente. La verificación de dependencias e instalación es parte del recorrido manual Release.
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0

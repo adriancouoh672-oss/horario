@@ -842,3 +842,23 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 - AVD: se intentó instalar la APK Release reutilizando `TiempoEnOrden_API_36`, pero ADB mantuvo `emulator-5554` en estado `offline` tras 90 segundos. No se repitió. La instalación/recorrido previo y el primer hito en AVD siguen documentados, pero la ejecución Release final queda bloqueada hasta que el AVD o un teléfono autorizado estén disponibles.
 - Pendientes conservados sin aprobar: recorrido manual de Windows; prueba en teléfono Android real; recorridos Release de conflicto, sugerencias y respaldo; clave de firma de producción si se distribuye públicamente.
 - Siguiente tarea: validar manualmente Windows y un teléfono Android real con el paquete de entrega, registrar resultados en `docs/PRUEBAS-ENTREGA.md`, y solo después decidir si se inicia una etapa futura.
+
+## 2026-10-19 — Cierre documental de entrega `afac4de`
+
+### RESULTADO
+
+- Se corrigió el manual para separar las pruebas anteriores de desarrollo en AVD de la APK Release final, cuya instalación permanece bloqueada por ADB `offline`.
+- Se detectó una diferencia entre el requisito de producto que contempla fechas cruzando medianoche y la implementación actual. DEC-0026 y REQ-A-001 registran que `afac4de` solo admite citas de negocio dentro de una jornada del mismo día; no se cambió código ni se presentó esa capacidad como disponible.
+- Se precisó que el respaldo es interno al almacenamiento privado del dispositivo, restaura solo el último respaldo local y reemplaza los datos actuales; no es nube, exportación, sincronización ni mecanismo entre dispositivos.
+- Se inspeccionó la publicación Windows: `WindowsPackageType=None`, `Microsoft.WindowsAppSDK 1.8.260529003`, bootstrapper incluido y publicación framework-dependent x64. DEC-0027 documenta .NET Desktop Runtime 10 x64, Windows App Runtime 1.8 estable x64 y Visual C++ Redistributable x64 como dependencias de destino.
+- Se creó la copia `artifacts/entrega-afac4de-20261019.zip` (120,159,876 bytes; SHA-256 `F8C0507A93C11159A1A45B4A76BD7B93311C4E791595B327D42F986E3D1CF78F`). Está fuera de Git junto con los binarios, conforme a `AGENTS.md`.
+
+### VALIDACIONES Y PENDIENTES
+
+- Se comprobó configuración de proyecto, `runtimeconfig.json`, `deps.json`, binarios bootstrapper y Windows App Runtime 1.8 x64 presente en el equipo de empaquetado. No se infiere la presencia de esas dependencias en otro equipo.
+- Se preparó el recorrido manual Release de 10 minutos en `docs/MANUAL.md`. Su estado es **no ejecutado** y no se marca aprobado.
+- Continúan pendientes: instalación y recorrido Release en Android; teléfono Android real; recorrido manual de Windows y comprobación de dependencias en el equipo destino.
+
+### SIGUIENTE TAREA
+
+El responsable ejecuta el recorrido Release de 10 minutos y comunica resultados o fallos. Dependencia: un Windows x64 con las dependencias indicadas o un teléfono Android autorizado. Criterio de cierre: matriz actualizada con evidencia real, sin iniciar nuevas funciones.

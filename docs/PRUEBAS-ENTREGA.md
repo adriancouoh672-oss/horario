@@ -11,8 +11,12 @@ Fecha: 2026-10-19. Los resultados distinguen evidencia automatizada, emulador y 
 | Respaldo/restauración | Verificador .NET | aprobado | Crea copia, agrega dato posterior, restaura y verifica recuperación | Recuperación manual en teléfono real |
 | Compilación Android | .NET 10/MAUI 10, API 36 | aprobado | `dotnet build -f net10.0-android`: 0 advertencias, 0 errores | Teléfono real |
 | Compilación Windows | .NET 10/MAUI 10, Windows x64 | aprobado | `dotnet build -f net10.0-windows10.0.19041.0`: 0 advertencias, 0 errores | Recorrido manual de interfaz |
-| Ejecución Android | AVD `TiempoEnOrden_API_36` | aprobado para la demostración E2 y primer hito local; Release final bloqueada | Instalación, arranque, creación/persistencia tras cierre, edición y cancelación observadas. La pasada Release del 19-oct dejó ADB `offline` tras 90 s | Recorridos nuevos de conflicto y respaldo; teléfono real |
-| Ejecución Windows | Windows 25H2 | bloqueado para interacción | Proceso y ventana arrancaron; la herramienta no expuso WinUI seleccionable | Responsable debe seguir el recorrido de README y registrar resultado |
+| Ejecución Android | AVD `TiempoEnOrden_API_36` | pruebas anteriores aprobadas para compilación de desarrollo y primer hito; APK Release final bloqueada | Instalación, arranque, creación/persistencia tras cierre, edición y cancelación observadas antes con desarrollo. La pasada Release del 19-oct dejó ADB `offline` tras 90 s | Instalar y recorrer el APK Release; conflicto, sugerencia y respaldo; teléfono real |
+| Ejecución Windows | Windows 25H2 | bloqueado para interacción | Proceso y ventana arrancaron; la herramienta no expuso WinUI seleccionable | Responsable debe seguir el recorrido Release de MANUAL.md y registrar resultado |
 | Teléfono Android real | Teléfono autorizado | no ejecutado | No había teléfono conectado | Conectar, autorizar ADB, instalar APK y repetir el manual |
 
 No se presentan pruebas del prototipo HTML como evidencia de la aplicación MAUI.
+
+## Recorrido Release manual pendiente
+
+El recorrido exacto de 10 minutos está en [MANUAL.md](MANUAL.md). Su estado es **no ejecutado** hasta recibir los resultados del responsable; no se debe cambiar a aprobado con la evidencia de compilación, el verificador o el AVD anterior.

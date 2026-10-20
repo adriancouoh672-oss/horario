@@ -71,4 +71,4 @@ Una APK con ensamblados incluidos es necesaria para la instalación directa por 
 - [Paquete de entrega](docs/PAQUETE-ENTREGA.md)
 - [Pruebas originales de E2](docs/PRUEBAS-E2.md)
 
-Los paquetes generados se colocan en `artifacts/release/` y se excluyen del control de versiones. Las instrucciones de instalación y sus límites están en el manual.
+Los paquetes generados se colocan en `artifacts/release/` y se excluyen del control de versiones. Para abrir el paquete Release de Windows y comprobar sus dependencias efectivas (incluidos Windows App Runtime y Visual C++), seguir las instrucciones exactas de [MANUAL.md](docs/MANUAL.md). El APK Release final se generó, pero su instalación en el AVD quedó bloqueada; no se presenta como probado. La versión actual admite citas de negocio dentro de una jornada del mismo día, no citas que crucen medianoche.
