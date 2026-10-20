@@ -242,6 +242,14 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Evidencia: `WindowsPackageType=None`, `TiempoEnOrden.App.runtimeconfig.json`, `TiempoEnOrden.App.deps.json` y los binarios bootstrapper incluidos.
 - Consecuencia: no afirmar que basta instalar .NET Desktop ni que la carpeta es autosuficiente. La verificación de dependencias e instalación es parte del recorrido manual Release.
 
+## DEC-0028. Acceso explícito a cada cita desde Agenda
+
+- Fecha: 2026-10-19
+- Estado: autorizada por el responsable e implementada; pendiente de recorrido manual en un dispositivo.
+- Decisión: representar preparación, servicio y limpieza como detalles de una sola cita. La acción **Abrir cita** se presenta una vez, en el segmento de servicio, tanto en Agenda diaria como en el detalle de día de Agenda semanal para Android y Windows.
+- Motivo: evitar que una persona interprete los tres segmentos como citas distintas y asegurar que pueda abrir, editar o cancelar cualquier cita existente, no solo la más reciente.
+- Consecuencia: abrir una cita conserva su identificador y muestra los controles de edición o cancelación de ese registro. La Agenda semanal muestra el total de compromisos de la semana y permite elegir un día para consultar sus detalles. No cambian SQLite, disponibilidad, sugerencias, cancelación ni respaldo.
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0

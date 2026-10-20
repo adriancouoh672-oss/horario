@@ -862,3 +862,37 @@ Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable d
 ### SIGUIENTE TAREA
 
 El responsable ejecuta el recorrido Release de 10 minutos y comunica resultados o fallos. Dependencia: un Windows x64 con las dependencias indicadas o un teléfono Android autorizado. Criterio de cierre: matriz actualizada con evidencia real, sin iniciar nuevas funciones.
+
+## 2026-10-19 — M1: acceso a cualquier cita y aclaración de pantallas
+
+### RESULTADO
+
+- Por autorización explícita del responsable se corrigió la navegación de Agenda sin cambiar persistencia, reglas de disponibilidad, sugerencias, respaldo ni datos existentes.
+- La Agenda diaria y el detalle del día en la Agenda semanal ahora muestran **Abrir cita** solo en el segmento Servicio. Preparación, servicio y limpieza siguen siendo tres intervalos visibles de una misma cita, por lo que la acción no se repite tres veces.
+- Al elegir **Abrir cita**, se abre el registro identificado de esa cita; desde ahí se conservan los controles existentes para guardar cambios o cancelar esa cita concreta tras confirmación.
+- El contador semanal usa los compromisos de toda la semana. El usuario elige un día para revisar sus detalles y abrir cualquiera de sus citas.
+- Se aclararon los textos: Servicios es un catálogo que no reserva horario; Nueva cita vincula servicio, fecha/hora y cliente opcional; Tiempo personal protege un intervalo y no crea una cita.
+
+### ARCHIVOS
+
+- `src/TiempoEnOrden.App/Pages/AgendaPage.xaml`
+- `src/TiempoEnOrden.App/Pages/AppointmentPage.xaml`
+- `src/TiempoEnOrden.App/Pages/ServicesPage.xaml`
+- `src/TiempoEnOrden.App/Pages/PersonalTimePage.xaml`
+- `src/TiempoEnOrden.App/ViewModels/AgendaViewModel.cs`
+- `src/TiempoEnOrden.App/ViewModels/PresentationModels.cs`
+- `README.md`, `docs/REQUISITOS.md`, `docs/DECISIONES.md`, `docs/MANUAL.md` y `TAREAS.md`
+
+### VALIDACIONES Y PENDIENTES
+
+- `TiempoEnOrden.Verification`: aprobado; conserva las comprobaciones de SQLite, edición, cancelación, conflictos, sugerencias y respaldo/restauración.
+- Windows Debug: compilación correcta, 0 advertencias y 0 errores.
+- Android Debug: compilación correcta, 0 advertencias y 0 errores con `--disable-build-servers`.
+- Se generó una nueva publicación Windows M1 en `artifacts/m1-20261019/windows/` sin sobrescribir `afac4de`; se verificaron ejecutable, contenido y SHA-256. La publicación Android Release de M1 falló con `XAGNM7009` al generar código nativo Arm64, por lo que no se entrega un APK nuevo ni se sustituye el APK histórico.
+- El primer intento de validación usó el SDK global 10.0.102, incompatible con `global.json` 10.0.113; se corrigió usando el SDK del proyecto en `%USERPROFILE%\.dotnet`, sin cambiar instalaciones.
+- Se inició una vez el AVD existente `TiempoEnOrden_API_36`; ADB lo informó como `offline` tras 25 segundos y se cerró. No se repitió el intento. Tampoco había teléfono conectado, por lo que no se declara recorrido visual Android ni Windows como aprobado. Los pendientes Release de Windows y teléfono real se mantienen.
+
+### DECISIÓN Y SIGUIENTE TAREA
+
+- DEC-0028 registra el patrón de una acción por cita y los textos aclaratorios.
+- Siguiente tarea: ejecutar el recorrido Release manual ya documentado, creando varias citas y comprobando que **Abrir cita** permite editar o cancelar cualquiera. Dependencia: paquete Release disponible y una plataforma autorizada. Criterio de cierre: resultados y evidencia real en `docs/PRUEBAS-ENTREGA.md`.

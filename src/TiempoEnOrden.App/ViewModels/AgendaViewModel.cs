@@ -58,10 +58,12 @@ public sealed class AgendaViewModel : BaseViewModel
     {
         get
         {
-            var count = VisibleEntries.Select(item => item.Id).Distinct().Count();
+            var entries = IsWeek ? WeekEntries : VisibleEntries;
+            var count = entries.Select(item => item.Id).Distinct().Count();
             return $"{count} {(count == 1 ? "compromiso" : "compromisos")}";
         }
     }
+    public string SelectedDayDetailText => $"Detalle del {SelectedDate.ToString("dddd d 'de' MMMM", CultureInfo.GetCultureInfo("es-MX"))}";
     public DateTime WeekStart => StartOfWeek(SelectedDate);
     public ICommand ShowDayCommand { get; }
     public ICommand ShowWeekCommand { get; }
@@ -100,6 +102,7 @@ public sealed class AgendaViewModel : BaseViewModel
 
         OnPropertyChanged(nameof(DateHeader));
         OnPropertyChanged(nameof(EntryCountText));
+        OnPropertyChanged(nameof(SelectedDayDetailText));
         OnPropertyChanged(nameof(WeekStart));
     }
 
@@ -115,7 +118,7 @@ public sealed class AgendaViewModel : BaseViewModel
     private static DemoCommitment ToCommitment(AppointmentRecord item) => new(
         item.Id.ToString("D"),
         item.ClientName == "Sin cliente" ? item.ServiceName : $"{item.ServiceName} con {item.ClientName}",
-        $"{item.ServiceName} · {(item.Status == AppointmentStatus.Cancelled ? "Cancelada" : "Negocio")}",
+        $"{item.ServiceName} · {item.Currency} {item.Price:0.##} · {(item.Status == AppointmentStatus.Cancelled ? "Cancelada" : "Negocio")}",
         item.OccupiedStart,
         item.OccupiedEnd,
         DemoCommitmentKind.Business,

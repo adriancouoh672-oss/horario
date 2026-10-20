@@ -57,7 +57,9 @@ public sealed record AgendaEntryViewModel(
 {
     public string TimeText => $"{Start:HH:mm}–{End:HH:mm}";
     public string AccessibleText => $"{SegmentLabel}. {Title}. {TimeText}. {Subtitle}";
-    public bool IsEditable => Kind == DemoCommitmentKind.Business && !IsCancelled;
+    // Una cita se representa con preparación, servicio y limpieza. Solo el
+    // segmento de servicio ofrece la acción para no repetirla tres veces.
+    public bool IsEditable => Kind == DemoCommitmentKind.Business && !IsCancelled && SegmentLabel == "Servicio";
 }
 
 public static class DemoPresentation

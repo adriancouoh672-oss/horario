@@ -120,6 +120,10 @@ Estado: autorizada después de completar y comprobar la etapa 3.
 - E4-T02/E4-T03 — bloque 6: completado el 2026-10-19. Sugerencias deterministas de hasta tres espacios, cada 15 minutos y hasta 14 días, usando exactamente las reglas del guardado.
 - E4-T04: completado el 2026-10-19. Pruebas de escenarios base, márgenes, límites contiguos, cancelación, autoexclusión y validez de todas las sugerencias.
 
+## Mantenimiento autorizado posterior a la entrega
+
+- M1 — completado el 2026-10-19. Acceso explícito a cualquier cita desde Agenda y aclaración entre catálogo de servicios, Nueva cita y tiempo personal. Requisitos: REQ-A-001 a REQ-A-003. Dependencia: autorización explícita del responsable. Evidencia: DEC-0028, compilaciones Android/Windows y verificador SQLite. Pendiente: recorrido manual en paquete Release.
+
 ## Etapa 5: cuenta y sincronización
 
 Estado: no iniciada; depende de entrega A comprobada y decisión de alojamiento.

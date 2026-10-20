@@ -4,6 +4,12 @@ Generado el 2026-10-19. Los binarios no se versionan porque el repositorio exclu
 
 La copia conservada del cierre es `artifacts/entrega-afac4de-20261019.zip`, con SHA-256 `F8C0507A93C11159A1A45B4A76BD7B93311C4E791595B327D42F986E3D1CF78F` y 120,159,876 bytes.
 
+## Corrección M1 posterior al cierre
+
+Se generó una nueva publicación Windows x64 sin empaquetar en `artifacts/m1-20261019/windows/`. Conserva el paquete `afac4de` sin sobrescribir. El ejecutable `TiempoEnOrden.App.exe` mide 290,816 bytes y su SHA-256 es `20065FDC90AE2668C200FFA66E75A19806EB46B54198B4B73E8EEBFC42DD2671`; la carpeta completa suma 151,606,373 bytes.
+
+Android compila en Debug con M1, pero su publicación Release no se generó: el empaquetador .NET for Android devolvió `XAGNM7009` al preparar Arm64. El APK de `afac4de` se mantiene como artefacto histórico y no se presenta como si incluyera esta corrección.
+
 | Plataforma | Archivo o carpeta | Tipo | Comprobación |
 | --- | --- | --- | --- |
 | Android | `android/mx.tiempoenorden.app-Signed.apk` | APK Release local, 31,995,039 bytes | SHA-256 `4E669D0BCBD9F7C497026ED2527A472FA7239FFA1670F92F14DACFF4B2642399` |

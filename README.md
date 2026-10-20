@@ -5,8 +5,9 @@ Agenda local para Android y Windows creada con .NET MAUI. La entrega actual guar
 ## Funciones disponibles
 
 - Crear clientes y servicios; los servicios conservan duración, precio y márgenes para futuras citas.
-- Crear, consultar, editar y cancelar citas. Cancelar conserva el historial y libera disponibilidad.
-- Consultar Agenda diaria y semanal, con filtros de negocio, personal y canceladas.
+- Crear, consultar, editar y cancelar citas. Cada cita activa se abre desde Agenda con **Abrir cita**; cancelar conserva el historial y libera disponibilidad.
+- Consultar Agenda diaria y semanal, con filtros de negocio, personal y canceladas. Preparación, servicio y limpieza se muestran como detalles de una sola cita.
+- Definir servicios en un catálogo reutilizable; crear o guardar un servicio no reserva una hora hasta que se use en Nueva cita.
 - Proteger tiempo personal, configurar jornada, descanso y días laborales.
 - Detectar cruces considerando preparación, servicio y limpieza; no compara una cita consigo misma al editar.
 - Proponer hasta tres horarios alternativos en intervalos de 15 minutos y un horizonte de 14 días. Elegir una opción solo modifica el borrador: la persona debe guardar la cita.
@@ -71,4 +72,4 @@ Una APK con ensamblados incluidos es necesaria para la instalación directa por 
 - [Paquete de entrega](docs/PAQUETE-ENTREGA.md)
 - [Pruebas originales de E2](docs/PRUEBAS-E2.md)
 
-Los paquetes generados se colocan en `artifacts/release/` y se excluyen del control de versiones. Para abrir el paquete Release de Windows y comprobar sus dependencias efectivas (incluidos Windows App Runtime y Visual C++), seguir las instrucciones exactas de [MANUAL.md](docs/MANUAL.md). El APK Release final se generó, pero su instalación en el AVD quedó bloqueada; no se presenta como probado. La versión actual admite citas de negocio dentro de una jornada del mismo día, no citas que crucen medianoche.
+Los paquetes generados se excluyen del control de versiones. La publicación Windows que incluye M1 está en `artifacts/m1-20261019/windows/`; el paquete histórico se conserva en `artifacts/release/`. Para abrir Windows y comprobar sus dependencias efectivas (incluidos Windows App Runtime y Visual C++), seguir las instrucciones exactas de [MANUAL.md](docs/MANUAL.md). El APK Release histórico no incluye M1 y su instalación en el AVD quedó bloqueada; no se presenta como probado. La versión actual admite citas de negocio dentro de una jornada del mismo día, no citas que crucen medianoche.

@@ -4,7 +4,7 @@
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="760" HorizontalOptions="Center">
             <Label Text="Datos guardados localmente en este dispositivo." Style="{StaticResource Caption}" />
             <Label Text="Tiempo personal" Style="{StaticResource PageTitle}" />
-            <Label Text="Protege actividades y bloqueos personales dentro de la agenda." Style="{StaticResource Caption}" />
+            <Label Text="Protege actividades y bloqueos personales. No crea una cita con cliente o servicio." Style="{StaticResource Caption}" />
             <Border Style="{StaticResource Card}">
                 <VerticalStackLayout Spacing="14">
                     <Label Text="Tipo" /><Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Types}" SelectedItem="{Binding Type}" /></Border>

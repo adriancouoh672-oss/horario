@@ -4,17 +4,17 @@
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="18" MaximumWidthRequest="1100" HorizontalOptions="Fill">
             <VerticalStackLayout Spacing="4">
                 <Label Text="{Binding PageTitle}" Style="{StaticResource PageTitle}" />
-                <Label Text="Los datos se guardan localmente en este dispositivo." Style="{StaticResource Caption}" />
+                <Label Text="Una cita une un servicio, fecha y hora; el cliente es opcional. Los datos se guardan localmente." Style="{StaticResource Caption}" />
             </VerticalStackLayout>
 
             <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='1.2*,0.8*'}" RowDefinitions="Auto,Auto" ColumnSpacing="20" RowSpacing="16">
                 <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="0">
                     <VerticalStackLayout Spacing="14">
-                        <Label Text="Datos de la cita" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Agenda una cita" Style="{StaticResource SectionTitle}" />
                         <Label Text="Cliente (opcional)" />
                         <Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Clients}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClient}" Title="Sin cliente" /></Border>
                         <Button Text="Crear cliente sin perder este borrador" Command="{Binding OpenClientCreationCommand}" Style="{StaticResource TextButton}" HorizontalOptions="Start" />
-                        <Label Text="Servicio (obligatorio)" />
+                        <Label Text="Servicio del catálogo (obligatorio)" />
                         <Border Style="{StaticResource FieldBorder}"><Picker ItemsSource="{Binding Services}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedService}" Title="Selecciona un servicio" /></Border>
                         <Button Text="Crear servicio sin perder este borrador" Command="{Binding OpenServiceCreationCommand}" Style="{StaticResource TextButton}" HorizontalOptions="Start" />
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
@@ -29,6 +29,7 @@
                 <Border Style="{StaticResource Card}" Grid.Column="{OnPlatform Android=0, WinUI=1}" Grid.Row="{OnPlatform Android=1, WinUI=0}" VerticalOptions="Start">
                     <VerticalStackLayout Spacing="14">
                         <Label Text="Vista previa" Style="{StaticResource SectionTitle}" />
+                        <Label Text="El servicio aporta precio, duración, preparación y limpieza; se copian a esta cita al guardarla." Style="{StaticResource Caption}" />
                         <Label Text="{Binding EndText}" FontFamily="OpenSansSemibold" />
                         <Border Padding="12" BackgroundColor="{StaticResource PreparationSoft}" Stroke="{StaticResource Preparation}" StrokeShape="RoundRectangle 10"><Label Text="{Binding OccupationText}" TextColor="#18282D" /></Border>
                         <Label Text="Zona horaria: Ciudad de México" />

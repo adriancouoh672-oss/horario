@@ -2,7 +2,7 @@
 <ContentPage x:Class="TiempoEnOrden.App.Pages.AgendaPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="Agenda">
     <Grid Padding="{OnPlatform Android='20,16,20,16', WinUI='32,24,32,24'}" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="14" MaximumWidthRequest="1440" HorizontalOptions="Fill">
         <VerticalStackLayout Spacing="10">
-            <Label Text="Datos locales de este dispositivo." Style="{StaticResource Caption}" />
+            <Label Text="Datos locales de este dispositivo. Abre la cita que quieras modificar o cancelar." Style="{StaticResource Caption}" />
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                 <VerticalStackLayout Spacing="2">
                     <Label Text="Agenda" Style="{StaticResource PageTitle}" />
@@ -71,7 +71,7 @@
                                             <Label Text="{Binding Subtitle}" FontSize="13" TextColor="#52666D" />
                                         </VerticalStackLayout>
                                         <Label Grid.Column="2" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" TextColor="#18282D" VerticalOptions="Center" />
-                                        <Button Grid.Column="3" Text="Editar" IsVisible="{Binding IsEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" />
+                                        <Button Grid.Column="3" Text="Abrir cita" IsVisible="{Binding IsEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" SemanticProperties.Hint="Abre esta cita para editarla o cancelarla" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -94,12 +94,12 @@
                 <Grid Grid.Row="1">
                     <ScrollView IsVisible="{OnPlatform Android=True, WinUI=False}">
                         <VerticalStackLayout Spacing="8">
-                            <Label Text="En móvil, elige un día y consulta su detalle." Style="{StaticResource Caption}" />
+                            <Label Text="Elige un día y abre la cita que quieras editar o cancelar." Style="{StaticResource Caption}" />
                             <VerticalStackLayout BindableLayout.ItemsSource="{Binding VisibleEntries}" Spacing="8">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Padding="12" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 10">
-                                            <Grid ColumnDefinitions="*,Auto"><VerticalStackLayout><Label Text="{Binding SegmentLabel}" FontFamily="OpenSansSemibold" /><Label Text="{Binding Title}" FontSize="14" /></VerticalStackLayout><Label Grid.Column="1" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" /></Grid>
+                                        <Border Padding="12" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 10" SemanticProperties.Description="{Binding AccessibleText}">
+                                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8"><VerticalStackLayout><Label Text="{Binding SegmentLabel}" FontFamily="OpenSansSemibold" /><Label Text="{Binding Title}" FontSize="14" /></VerticalStackLayout><Label Grid.Column="1" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" /><Button Grid.Column="2" Text="Abrir cita" IsVisible="{Binding IsEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" SemanticProperties.Hint="Abre esta cita para editarla o cancelarla" /></Grid>
                                         </Border>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -118,8 +118,18 @@
                             <Label Grid.Column="7" Text="Dom" HorizontalTextAlignment="Center" FontFamily="OpenSansSemibold" />
                         </Grid>
                         <views:WeekTimelineView Grid.Row="1" ItemsSource="{Binding WeekEntries}" WeekStart="{Binding WeekStart}" />
-                        <VerticalStackLayout Grid.Row="2" Spacing="4" BindableLayout.ItemsSource="{Binding WeekEntries}">
-                            <BindableLayout.ItemTemplate><DataTemplate><Label Text="{Binding AccessibleText}" FontSize="12" /></DataTemplate></BindableLayout.ItemTemplate>
+                        <VerticalStackLayout Grid.Row="2" Spacing="8">
+                            <Label Text="{Binding SelectedDayDetailText}" Style="{StaticResource SectionTitle}" />
+                            <Label Text="Elige otro día arriba para consultar y abrir cualquiera de sus citas." Style="{StaticResource Caption}" />
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding VisibleEntries}" Spacing="6">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10" BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding StrokeColor}" StrokeShape="RoundRectangle 8" SemanticProperties.Description="{Binding AccessibleText}">
+                                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8"><VerticalStackLayout><Label Text="{Binding SegmentLabel}" FontFamily="OpenSansSemibold" /><Label Text="{Binding Title}" FontSize="13" /></VerticalStackLayout><Label Grid.Column="1" Text="{Binding TimeText}" FontFamily="OpenSansSemibold" /><Button Grid.Column="2" Text="Abrir cita" IsVisible="{Binding IsEditable}" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:AgendaPage}}, Path=EditAppointmentCommand}" CommandParameter="{Binding Id}" Style="{StaticResource TextButton}" SemanticProperties.Hint="Abre esta cita para editarla o cancelarla" /></Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Grid>
                 </Grid>
