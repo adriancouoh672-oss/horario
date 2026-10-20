@@ -757,3 +757,21 @@ El responsable debe ejecutar en Windows los ocho pasos de `docs/PRUEBAS-E2.md`, 
 ### SIGUIENTE TAREA
 
 Completar la evidencia pendiente de E2-T04: recorrido manual de Windows y validación en teléfono Android real. Dependencias: disponibilidad del responsable para Windows y de un teléfono autorizado para Android. Criterio de cierre: matriz actualizada con resultados observados y capturas reales por plataforma. No iniciar E3-T01 hasta recibir autorización explícita.
+
+## 2026-10-19 — Excepción de prioridad y apertura de la versión local
+
+El responsable autorizó avanzar por la entrega del 20 de octubre aunque continúen pendientes el recorrido manual de Windows y la validación en teléfono Android real. DEC-0022 registra la excepción sin convertir esos pendientes en aprobados.
+
+La ruta autorizada comprende ocho bloques en orden: SQLite, catálogos, citas, tiempo y configuración, conflictos, sugerencias, respaldo/restauración y paquete/documentación. Nube, cuentas, pagos y recordatorios coordinados permanecen fuera del alcance.
+
+Se consultó la guía vigente de bases locales de .NET MAUI y la ficha estable de NuGet. DEC-0023 fija `sqlite-net-pcl 1.11.285` y una nueva capa Infrastructure dependiente de Core. El primer criterio obligatorio es crear cliente, servicio y cita, cerrar por completo, reabrir y comprobar permanencia; después editar y cancelar la cita.
+
+### Bloque 1 — Persistencia SQLite
+
+- Resultado: completado. Se crearon modelos persistentes e interfaz de repositorio en Core, `TiempoEnOrden.Infrastructure` con SQLite y una verificación ejecutable independiente.
+- Separación: Core no referencia MAUI ni SQLite; Infrastructure referencia Core; App suministra la ruta `FileSystem.AppDataDirectory/tiempo-en-orden.db3`. La colección ficticia de E2 no se migró a la base.
+- Incidencia corregida: `wal_checkpoint` devolvía `not an error` porque la conexión no usaba WAL. Se retiró; `CloseAsync` completa el cierre antes de reabrir o copiar.
+- Validación: `dotnet run --project tests/TiempoEnOrden.Verification` devolvió `BLOQUE-1 APROBADO`; un cliente permaneció después de cerrar y reabrir SQLite y el horario inicial fue recuperado.
+- Plataformas: Android y Windows compilaron con 0 advertencias y 0 errores después de agregar Infrastructure.
+- Pendientes conservados: recorrido manual de Windows y teléfono Android real no ejecutados.
+- Siguiente bloque: clientes y servicios con guardado real y consulta desde la interfaz.

@@ -64,7 +64,7 @@ Estado: completada el 2026-10-19. E1-T01, E1-T02 y E1-T03 cerradas; el diseño y
 
 ## Etapa 2: base ejecutable
 
-Estado: en curso. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 ejecutada con la validación interactiva de Windows y la validación en teléfono real pendientes. Depende de la etapa 1, aprobada el 2026-10-19.
+Estado: cierre de plataforma pendiente. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 ejecutada con la validación interactiva de Windows y la validación en teléfono real pendientes. DEC-0022 autoriza continuar la versión local sin considerar aprobados esos pendientes.
 
 ### E2-T01. Elegir versiones objetivo y requisitos del entorno
 
@@ -104,20 +104,20 @@ Estado: en curso. E2-T01, E2-T02 y E2-T03 completadas; E2-T04 ejecutada con la v
 
 ## Etapa 3: datos y agenda local
 
-Estado: no iniciada; depende de base ejecutable.
+Estado: autorizada con prioridad de entrega; depende de la base compilable de E2 y conserva pendientes de plataforma.
 
-- E3-T01: diseñar modelo y migraciones.
-- E3-T02: implementar persistencia SQLite.
-- E3-T03: implementar operaciones locales de clientes, servicios, citas y tiempo personal.
-- E3-T04: completar agenda diaria/semanal y pruebas de persistencia.
+- E3-T01/E3-T02 — bloque 1: completado el 2026-10-19. Modelo persistente, proyecto Infrastructure, SQLite e inicialización separada de la demostración. Evidencia: verificación de escritura/lectura tras reabrir conexión y compilaciones Android/Windows sin errores.
+- E3-T03A — bloque 2: clientes y servicios con guardado real. Evidencia: crear, consultar y conservar tras reinicio.
+- E3-T03B — bloque 3: crear, consultar, editar y cancelar citas con valores históricos del servicio. Evidencia: primer hito obligatorio completo tras reinicio.
+- E3-T03C — bloque 4: tiempo personal, horario laboral y descansos persistentes. Evidencia: alta/configuración, reinicio y consulta.
+- E3-T04: agenda diaria/semanal alimentada por registros reales y pruebas de persistencia integradas.
 
 ## Etapa 4: motor de disponibilidad
 
-Estado: no iniciada; depende de datos locales estables.
+Estado: autorizada después de completar y comprobar la etapa 3.
 
-- E4-T01: implementar intervalos y cruces en lógica independiente.
-- E4-T02: implementar sugerencias deterministas.
-- E4-T03: integrar conflicto y búsqueda en Nueva cita.
+- E4-T01 — bloque 5: implementar y probar intervalos y cruces en Core, incluyendo preparación, limpieza, descanso, horario, tiempo personal y exclusión de la propia cita al editar.
+- E4-T02/E4-T03 — bloque 6: sugerencias deterministas de hasta tres espacios, cada 15 minutos y hasta 14 días, usando exactamente las reglas del guardado.
 - E4-T04: ejecutar pruebas de los escenarios base y límites.
 
 ## Etapa 5: cuenta y sincronización
@@ -139,18 +139,18 @@ Estado: no iniciada; depende de sincronización estable.
 
 ## Etapa 7: calidad y piloto
 
-Estado: no iniciada; depende de funciones centrales verificadas.
+Estado: bloque de entrega local autorizado; las pruebas de usuarios y piloto real siguen sin inventarse.
 
 - E7-T01: revisar accesibilidad, navegación y estados.
-- E7-T02: implementar y comprobar respaldo/restauración.
+- E7-T02 — bloque 7: implementar y comprobar respaldo/restauración de la base local.
 - E7-T03: revisar seguridad y medir rendimiento con volumen registrado.
 - E7-T04: preparar y registrar piloto real en `docs/PILOTO.md`.
 
 ## Etapa 8: entrega y propuesta comercial
 
-Estado: no iniciada; depende del piloto y correcciones prioritarias.
+Estado: bloque de entrega autorizado después de comprobar respaldo/restauración; no depende de inventar un piloto.
 
-- E8-T01: generar paquetes posibles y documentar instalación.
-- E8-T02: preparar manual, guía técnica y trazabilidad.
-- E8-T03: preparar demostración de cinco minutos basada en funciones reales.
+- E8-T01 — bloque 8: generar los paquetes posibles y documentar instalación.
+- E8-T02 — bloque 8: preparar manual breve, guía técnica y trazabilidad.
+- E8-T03 — bloque 8: preparar guion y recorrido de demostración basados solo en funciones comprobadas.
 - E8-T04: redactar propuesta comercial sin promesas ni precio no validado.

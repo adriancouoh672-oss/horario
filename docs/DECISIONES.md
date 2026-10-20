@@ -189,6 +189,26 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Alcance actual: la única pantalla muestra el nombre del producto y la leyenda `Base de desarrollo`. `ProductInfo` contiene solo la identidad compartida del producto; no implementa reglas de negocio.
 - Consecuencia: persistencia, disponibilidad, conflictos, navegación completa, servidor, sincronización y recordatorios continúan fuera de E2-T02.
 
+## DEC-0022. Excepción de prioridad por entrega del 20 de octubre
+
+- Fecha: 2026-10-19
+- Estado: autorizada por el responsable
+- Decisión: avanzar con la versión local funcional aunque la revisión manual de Windows y la validación en teléfono Android real de E2-T04 continúen pendientes.
+- Motivo: priorizar una entrega local comprobable para el 20 de octubre.
+- Condiciones: los pendientes de plataforma permanecen visibles y no se consideran aprobados; Android se comprueba en el AVD existente; Windows no recibe nuevos intentos repetidos de automatización y se entrega un recorrido manual.
+- Secuencia autorizada: persistencia SQLite; clientes y servicios; citas; tiempo personal y configuración laboral; cruces; sugerencias; respaldo/restauración; paquete y documentación.
+- Límites: no incluir nube, cuentas, pagos ni recordatorios coordinados; no presentar simulaciones como funciones reales.
+
+## DEC-0023. Persistencia SQLite local
+
+- Fecha: 2026-10-19
+- Estado: aceptada para la versión local
+- Decisión: crear `TiempoEnOrden.Infrastructure`, dependiente de Core y no de MAUI, y usar `sqlite-net-pcl` estable `1.11.285`. La aplicación suministra la ruta de datos de cada plataforma e Infrastructure implementa repositorios, inicialización y respaldo.
+- Motivo: mantener SQLite separada de la presentación y de los datos ficticios, conservar Core independiente y seguir la guía vigente de .NET MAUI para bases locales.
+- Consecuencia: App referencia Infrastructure; Infrastructure referencia Core; Core no referencia ninguna de las dos. Los datos persistentes usan identificadores estables y las citas copian los valores históricos del servicio.
+- Fuente oficial: https://learn.microsoft.com/dotnet/maui/data-cloud/database-sqlite?view=net-maui-10.0
+- Paquete estable comprobado: https://www.nuget.org/packages/sqlite-net-pcl/1.11.285
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0
