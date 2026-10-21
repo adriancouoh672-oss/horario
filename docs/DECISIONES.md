@@ -257,6 +257,14 @@ Las decisiones se registran antes de convertirse en dependencias difíciles de c
 - Decisión: clientes se editan conservando su identificador y se archivan en vez de borrarse; tiempo personal se abre desde Agenda, se edita y puede eliminarse tras confirmación.
 - Consecuencia: archivar un cliente conserva su historial y lo oculta de nuevas citas. Eliminar tiempo personal libera su intervalo; las citas siguen usando cancelación para conservar historial.
 
+## DEC-0030. Navegación directa a Agenda y una tarjeta por cita
+
+- Fecha: 2026-10-21
+- Estado: autorizada e implementada; recorrido manual pendiente.
+- Decisión: **Ver agenda** selecciona explícitamente la sección Agenda correspondiente a Windows o Android. En listas y detalles se presenta una sola tarjeta por cita, con el horario del servicio y un resumen textual de preparación, servicio y limpieza. La cuadrícula semanal de Windows conserva los tramos temporales separados y proporcionales.
+- Motivo: la ruta indirecta no llevó a Agenda en el recorrido reportado y las tres filas visuales hacían parecer que limpieza era otro compromiso agregado.
+- Consecuencia: no cambian los datos ni las reglas de disponibilidad. Preparación y limpieza siguen ocupando tiempo, intervienen en conflictos y sugerencias, y no se guardan como citas independientes. Esta decisión corrige la presentación descrita en DEC-0028; **Abrir cita** sigue apareciendo una sola vez por registro.
+
 ## Referencias oficiales consultadas
 
 - Política y descargas de .NET 10: https://dotnet.microsoft.com/platform/support/policy y https://dotnet.microsoft.com/download/dotnet/10.0

@@ -54,6 +54,8 @@ Evidencia disponible en E1-T03: revisión documental realizada, diseño revisado
 > **Estado de la implementación `afac4de`:** este paquete valida citas de negocio cuya preparación, servicio y limpieza quedan dentro de una jornada del mismo día. El requisito de admitir cruces de medianoche se mantiene como comportamiento de producto pendiente; no está disponible ni debe prometerse en esta entrega.
 >
 > **Ajuste de interfaz autorizado el 2026-10-19:** Agenda presenta preparación, servicio y limpieza como detalles de una misma cita. El segmento de servicio ofrece **Abrir cita** en las vistas diaria y semanal, desde donde el usuario puede editar o cancelar exactamente el registro elegido.
+>
+> **Corrección M3 (2026-10-21):** la lista diaria y el detalle del día muestran una sola tarjeta por cita con **Abrir cita**. Su hora principal corresponde al servicio; preparación y limpieza se conservan dentro del detalle de ocupación y continúan bloqueando disponibilidad. La cuadrícula temporal semanal mantiene los tramos proporcionales para representar sus horas reales sin convertirlos en citas independientes.
 
 **Usuario y necesidad:** trabajador independiente que atiende por citas y necesita registrar y corregir compromisos de negocio sin perder control de su disponibilidad.
 

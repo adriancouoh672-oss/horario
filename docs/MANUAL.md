@@ -1,11 +1,11 @@
 # Manual breve — paquete Release `afac4de`
 
-## Localizar la corrección M1 y el paquete conservado
+## Localizar la corrección vigente y el paquete conservado
 
-- Paquete Windows actualizado con M1: `artifacts/m1-20261019/windows/`.
+- Paquete Windows actualizado con M1, M2 y M3: `artifacts/m3-20261021/windows/`.
 - Paquete histórico `afac4de`: `artifacts/release/android/` y `artifacts/release/windows/`.
 - Copia conservada de `afac4de`: `artifacts/entrega-afac4de-20261019.zip`.
-- El APK histórico `android/mx.tiempoenorden.app-Signed.apk` no incluye M1; no sustituirlo por la corrección Windows.
+- El APK histórico `android/mx.tiempoenorden.app-Signed.apk` no incluye M1, M2 ni M3; no sustituirlo por la corrección Windows.
 - En Windows, ejecutar desde la carpeta completa correspondiente; no copiar solo el `.exe`.
 
 Los binarios están fuera de Git por la regla del repositorio que excluye resultados de compilación. La copia ZIP contiene las carpetas `android` y `windows` de esta entrega.
@@ -22,7 +22,7 @@ Las pruebas anteriores en el AVD comprobaron una compilación de desarrollo y el
 Esta publicación es x64, sin MSIX y framework-dependent (`WindowsPackageType=None`). Requiere Windows 10 1809/x64 o posterior y se abre así desde PowerShell:
 
 ```powershell
-$packageRoot = 'C:\Users\adria\OneDrive\Documents\ChatGPT\Tiempo en orden\artifacts\m1-20261019\windows'
+$packageRoot = 'C:\Users\adria\OneDrive\Documents\ChatGPT\Tiempo en orden\artifacts\m3-20261021\windows'
 Set-Location -LiteralPath $packageRoot
 .\TiempoEnOrden.App.exe
 ```
@@ -61,7 +61,7 @@ Usa una fecha futura `D` entre lunes y sábado. En Ajustes conserva o define jor
 | --- | --- |
 | 0–1 | Abre el paquete Release. En **Clientes**, crea `Ana Release` y confirma que aparece en la lista. |
 | 1–2 | En **Servicios**, crea `Corte Release`: 30 min, preparación 5 min, limpieza 5 min, MXN 250. |
-| 2–3 | Crea una cita para `D` a las 10:00 con Ana y Corte. En Agenda confirma preparación 09:55–10:00, servicio 10:00–10:30 y limpieza 10:30–10:35. Usa **Abrir cita** en el segmento Servicio para entrar a esa cita concreta. |
+| 2–3 | Crea una cita para `D` a las 10:00 con Ana y Corte. Pulsa **Ver agenda** y confirma que abre Agenda. Debe aparecer una sola tarjeta de cita, con servicio 10:00–10:30 y el detalle de ocupación preparación 09:55–10:00 y limpieza 10:30–10:35. Usa **Abrir cita** para entrar a ese registro. |
 | 3–4 | Cierra completamente la aplicación, ábrela de nuevo y confirma cliente, servicio y cita. |
 | 4–5 | Edita la cita abierta, agrega la nota `editada Release` y guarda. Confirma que conserva la cita. Si hay varias, usa **Abrir cita** en la que quieras modificar; no depende de cuál se creó al final. |
 | 5–6 | Inicia otra cita del mismo servicio a las 10:15. Confirma que no se guarda por cruce con la ocupación existente. |

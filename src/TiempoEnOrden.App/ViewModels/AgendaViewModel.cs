@@ -100,7 +100,7 @@ public sealed class AgendaViewModel : BaseViewModel
         foreach (var entry in Filter(commitments).SelectMany(DemoPresentation.Expand).OrderBy(item => item.Start)) WeekEntries.Add(entry);
 
         VisibleEntries.Clear();
-        foreach (var entry in Filter(commitments.Where(item => item.OccupationStart.Date == SelectedDate)).SelectMany(DemoPresentation.Expand).OrderBy(item => item.Start)) VisibleEntries.Add(entry);
+        foreach (var entry in Filter(commitments.Where(item => item.OccupationStart.Date == SelectedDate)).Select(DemoPresentation.Summarize).OrderBy(item => item.Start)) VisibleEntries.Add(entry);
 
         OnPropertyChanged(nameof(DateHeader));
         OnPropertyChanged(nameof(EntryCountText));

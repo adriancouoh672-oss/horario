@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="TiempoEnOrden.App.Pages.HomePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" xmlns:pages="clr-namespace:TiempoEnOrden.App.Pages" Title="Inicio">
+<ContentPage x:Class="TiempoEnOrden.App.Pages.HomePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:TiempoEnOrden.App.Views" Title="Inicio">
     <ScrollView>
         <VerticalStackLayout Padding="{OnPlatform Android='20,16,20,28', WinUI='32,24,32,32'}" Spacing="20" MaximumWidthRequest="1280" HorizontalOptions="Fill">
             <Label Text="Datos guardados localmente en este dispositivo." Style="{StaticResource Caption}" />
@@ -21,13 +21,13 @@
 
             <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='0.9*,1.1*'}" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="20" RowSpacing="20">
                 <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="0" VerticalOptions="Start" IsVisible="{Binding HasNextAppointment}">
-                    <VerticalStackLayout Spacing="12" BindingContext="{Binding NextAppointment}">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="Próxima cita" Style="{StaticResource SectionTitle}" />
-                        <Label Text="{Binding Title}" FontSize="22" FontFamily="OpenSansSemibold" />
-                        <Label Text="{Binding Subtitle}" />
-                        <Label Text="{Binding TimeText}" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource Business}" />
+                        <Label Text="{Binding NextAppointment.Title}" FontSize="22" FontFamily="OpenSansSemibold" />
+                        <Label Text="{Binding NextAppointment.Subtitle}" />
+                        <Label Text="{Binding NextAppointment.TimeText}" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource Business}" />
                         <Label Text="Ocupación total: preparación, servicio y limpieza" Style="{StaticResource Caption}" />
-                        <Button Text="Ver agenda" Command="{Binding Source={RelativeSource AncestorType={x:Type pages:HomePage}}, Path=OpenAgendaCommand}" Style="{StaticResource SecondaryButton}" HorizontalOptions="Start" />
+                        <Button Text="Ver agenda" Command="{Binding OpenAgendaCommand}" Style="{StaticResource SecondaryButton}" HorizontalOptions="Start" />
                     </VerticalStackLayout>
                 </Border>
                 <Border Style="{StaticResource Card}" Grid.Column="0" Grid.Row="0" VerticalOptions="Start" IsVisible="{Binding HasNoAppointments}">

@@ -10,6 +10,10 @@ Se generó una nueva publicación Windows x64 sin empaquetar en `artifacts/m1-20
 
 Android compila en Debug con M1, pero su publicación Release no se generó: el empaquetador .NET for Android devolvió `XAGNM7009` al preparar Arm64. El APK de `afac4de` se mantiene como artefacto histórico y no se presenta como si incluyera esta corrección.
 
+## Corrección M3 vigente
+
+La publicación Windows vigente está en `artifacts/m3-20261021/windows/` e incluye M1, M2 y M3. M3 corrige **Ver agenda** y evita presentar preparación y limpieza como citas adicionales. La carpeta contiene 444 archivos y suma 155,993,544 bytes; `TiempoEnOrden.App.exe` mide 290,816 bytes y su SHA-256 es `75AC6F1C0B4CCE0D316E5CCBAADBFAE0070EBF8322EED29E8280A22D04F60A6E`. No sobrescribe el paquete histórico ni se incluye en Git.
+
 | Plataforma | Archivo o carpeta | Tipo | Comprobación |
 | --- | --- | --- | --- |
 | Android | `android/mx.tiempoenorden.app-Signed.apk` | APK Release local, 31,995,039 bytes | SHA-256 `4E669D0BCBD9F7C497026ED2527A472FA7239FFA1670F92F14DACFF4B2642399` |

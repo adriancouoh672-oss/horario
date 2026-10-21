@@ -124,6 +124,7 @@ Estado: autorizada después de completar y comprobar la etapa 3.
 
 - M1 — completado el 2026-10-19. Acceso explícito a cualquier cita desde Agenda y aclaración entre catálogo de servicios, Nueva cita y tiempo personal. Requisitos: REQ-A-001 a REQ-A-003. Dependencia: autorización explícita del responsable. Evidencia: DEC-0028, compilaciones Android/Windows y verificador SQLite. Pendiente: recorrido manual en paquete Release.
 - M2 — completado el 2026-10-20. Edición/archivo de clientes y edición/eliminación de tiempo personal. Requisitos: REQ-A-003 y REQ-A-004. Evidencia: DEC-0029, verificador SQLite y compilación Windows. Pendiente: recorrido manual.
+- M3 — completado el 2026-10-21. Corrección de **Ver agenda** y presentación de una sola tarjeta por cita, conservando preparación y limpieza como ocupación. Requisitos: REQ-A-001, REQ-A-006 y REQ-A-008. Dependencia: versión local funcional y reporte del responsable. Evidencia: DEC-0030, verificador, compilaciones Android/Windows y publicación Windows M3. Pendiente: recorrido manual en la interfaz.
 
 ## Etapa 5: cuenta y sincronización
 

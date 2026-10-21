@@ -57,14 +57,46 @@ public sealed record AgendaEntryViewModel(
 {
     public string TimeText => $"{Start:HH:mm}–{End:HH:mm}";
     public string AccessibleText => $"{SegmentLabel}. {Title}. {TimeText}. {Subtitle}";
-    // Una cita se representa con preparación, servicio y limpieza. Solo el
-    // segmento de servicio ofrece la acción para no repetirla tres veces.
-    public bool IsEditable => Kind == DemoCommitmentKind.Business && !IsCancelled && SegmentLabel == "Servicio";
+    public bool IsEditable => Kind == DemoCommitmentKind.Business && !IsCancelled && SegmentLabel is "Servicio" or "Cita";
     public bool IsPersonalEditable => Kind == DemoCommitmentKind.Personal;
 }
 
 public static class DemoPresentation
 {
+    public static AgendaEntryViewModel Summarize(DemoCommitment item)
+    {
+        if (item.Kind == DemoCommitmentKind.Business && item.ServiceStart is not null && item.ServiceEnd is not null)
+        {
+            var occupationParts = new List<string>();
+            if (item.OccupationStart < item.ServiceStart)
+            {
+                occupationParts.Add($"preparación {item.OccupationStart:HH:mm}–{item.ServiceStart:HH:mm}");
+            }
+
+            occupationParts.Add($"servicio {item.ServiceStart:HH:mm}–{item.ServiceEnd:HH:mm}");
+
+            if (item.ServiceEnd < item.OccupationEnd)
+            {
+                occupationParts.Add($"limpieza {item.ServiceEnd:HH:mm}–{item.OccupationEnd:HH:mm}");
+            }
+
+            return new AgendaEntryViewModel(
+                item.Id,
+                "💼",
+                item.Title,
+                $"{item.Subtitle} · Ocupación: {string.Join(" · ", occupationParts)}",
+                item.IsCancelled ? "Cita cancelada" : "Cita",
+                item.ServiceStart.Value,
+                item.ServiceEnd.Value,
+                item.Kind,
+                item.IsCancelled,
+                item.IsCancelled ? "#F2F4F5" : "#DCEEFF",
+                item.IsCancelled ? "#76838A" : "#176B87");
+        }
+
+        return Expand(item).Single();
+    }
+
     public static IEnumerable<AgendaEntryViewModel> Expand(DemoCommitment item)
     {
         if (item.Kind == DemoCommitmentKind.Business && item.ServiceStart is not null && item.ServiceEnd is not null)

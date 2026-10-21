@@ -903,3 +903,32 @@ El responsable ejecuta el recorrido Release de 10 minutos y comunica resultados 
 - Tiempo personal ahora se abre desde Agenda, permite cambiar tipo, título, fecha y horas, y se elimina tras confirmación para liberar el intervalo.
 - Las citas conservan el flujo ya implementado de **Abrir cita**, edición y **Cancelar cita**; cancelar preserva historial, por lo que no se introdujo borrado físico.
 - Validación: `TiempoEnOrden.Verification` aprobó edición/archivo de cliente y edición/eliminación de tiempo personal; Windows Debug compiló con 0 advertencias y 0 errores. El recorrido visual de Windows y Android sigue pendiente.
+
+## 2026-10-21 — M3: Ver agenda y presentación de citas
+
+### RESULTADO
+
+- **Ver agenda** dejó de depender del contexto interno de la tarjeta de Inicio. El comando permanece en el `HomeViewModel` y el servicio de navegación selecciona directamente el elemento Agenda en Windows o la pestaña Agenda en Android, con la ruta anterior solo como respaldo.
+- Agenda diaria y el detalle del día semanal muestran una sola tarjeta por cita. La hora principal es la del servicio y el texto de ocupación indica por separado preparación, servicio y limpieza.
+- La cuadrícula semanal de Windows conserva preparación, servicio y limpieza como tramos temporales proporcionales; son partes de una ocupación, no registros de cita adicionales.
+- SQLite, conflictos, sugerencias y datos históricos no cambiaron. Preparación y limpieza siguen reservando disponibilidad.
+
+### ARCHIVOS
+
+- `src/TiempoEnOrden.App/Services/INavigationService.cs`
+- `src/TiempoEnOrden.App/Pages/HomePage.xaml` y `HomePage.xaml.cs`
+- `src/TiempoEnOrden.App/ViewModels/HomeViewModel.cs`, `AgendaViewModel.cs` y `PresentationModels.cs`
+- `src/TiempoEnOrden.App/Pages/AgendaPage.xaml`
+- `README.md`, `TAREAS.md`, `docs/REQUISITOS.md`, `docs/DECISIONES.md`, `docs/MANUAL.md`, `docs/PAQUETE-ENTREGA.md`, `docs/PRUEBAS-ENTREGA.md` y `docs/GUION-EXPOSICION.md`
+
+### VALIDACIONES Y PENDIENTES
+
+- `TiempoEnOrden.Verification`: aprobado. La primera ejecución coincidió con otra compilación y registró un reintento de copia de `TiempoEnOrden.Core.dll`, pero concluyó correctamente.
+- Windows Debug: compilación correcta, 0 advertencias y 0 errores.
+- Android Debug: compilación correcta, 0 advertencias y 0 errores usando el JDK efectivo en `%USERPROFILE%\.jdks\jdk-21.0.12.1+1`.
+- Windows Release: publicación correcta en `artifacts/m3-20261021/windows/`; 444 archivos, 155,993,544 bytes. Ejecutable SHA-256 `75AC6F1C0B4CCE0D316E5CCBAADBFAE0070EBF8322EED29E8280A22D04F60A6E`.
+- No se repitió automatización de la ventana WinUI y no se usó el prototipo HTML como evidencia. Queda pendiente que el responsable compruebe **Ver agenda** y la tarjeta única en la aplicación real. La validación en teléfono Android real también permanece pendiente.
+
+### SIGUIENTE TAREA
+
+Ejecutar manualmente la publicación M3, pulsar **Ver agenda** desde una próxima cita y confirmar que cada cita aparece una sola vez con sus márgenes en el detalle. Dependencia: responsable y paquete local. Criterio de cierre: resultado observado registrado sin inferirlo de la compilación.

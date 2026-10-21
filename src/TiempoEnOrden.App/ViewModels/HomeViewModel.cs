@@ -20,7 +20,7 @@ public sealed class HomeViewModel : BaseViewModel
         _navigation = navigation;
         OpenAppointmentCommand = new AsyncRelayCommand(() => _navigation.GoToAsync("new-appointment"));
         OpenPersonalTimeCommand = new AsyncRelayCommand(() => _navigation.GoToAsync("personal-time"));
-        OpenAgendaCommand = new AsyncRelayCommand(() => _navigation.GoToAsync(NavigationRoutes.Agenda));
+        OpenAgendaCommand = new AsyncRelayCommand(_navigation.GoToAgendaAsync);
     }
 
     public string Greeting => DateTime.Now.Hour < 12 ? "Buenos días" : DateTime.Now.Hour < 19 ? "Buenas tardes" : "Buenas noches";
